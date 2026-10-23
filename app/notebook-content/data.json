@@ -1,0 +1,1252 @@
+{
+  "missions": [
+    {
+      "id": 1,
+      "title": "스푸트니크 1호",
+      "year": 1957,
+      "agency": "소련",
+      "destination": "지구 궤도",
+      "destinationCategory": "지구 궤도",
+      "method": "인공위성",
+      "methodBasis": "임무 계획",
+      "result": "인공위성 궤도 진입",
+      "description": "인류 최초의 인공위성. 우주 시대를 열었다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M01"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "아폴로 11호",
+      "year": 1969,
+      "agency": "미국",
+      "destination": "달",
+      "destinationCategory": "달",
+      "method": "유인 착륙",
+      "methodBasis": "임무 계획",
+      "result": "유인 달 착륙·귀환",
+      "description": "인류 최초로 달에 착륙하고 월석을 가져왔다.",
+      "limitations": null,
+      "evidenceIds": [
+        "E01"
+      ],
+      "sourceIds": [
+        "M02",
+        "M03"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "아폴로 13호",
+      "year": 1970,
+      "agency": "미국",
+      "destination": "달",
+      "destinationCategory": "달",
+      "method": "유인 착륙(계획)",
+      "methodBasis": "임무 계획",
+      "result": "착륙 중단·승무원 전원 귀환",
+      "description": "산소 탱크 사고로 달 착륙을 중단하고 달을 돌아 승무원 3명 모두 지구로 귀환했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M04"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "루나 16호",
+      "year": 1970,
+      "agency": "소련",
+      "destination": "달",
+      "destinationCategory": "달",
+      "method": "표본 귀환",
+      "methodBasis": "임무 계획",
+      "result": "달 시료 귀환",
+      "description": "최초로 사람 없이 달 흙을 지구로 가져왔다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M05"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "파이어니어 10호",
+      "year": 1972,
+      "agency": "미국",
+      "destination": "목성",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "근접 통과",
+      "methodBasis": "임무 계획",
+      "result": "목성 근접 관측",
+      "description": "최초로 소행성대를 통과해 목성을 가까이서 관측했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M06"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "바이킹 1호",
+      "year": 1975,
+      "agency": "미국",
+      "destination": "화성",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "궤도선·착륙선",
+      "methodBasis": "임무 계획",
+      "result": "화성 궤도 관측·착륙",
+      "description": "1976년 화성 표면에 착륙해 사진을 보내고 생명 탐사 실험을 했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M07",
+        "M08"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "보이저 1호",
+      "year": 1977,
+      "agency": "미국",
+      "destination": "목성·토성(초기 임무)",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "근접 통과",
+      "methodBasis": "임무 계획",
+      "result": "목성·토성 근접 관측",
+      "description": "목성·토성을 근접 관측했다. 연장 임무에서 태양권을 탐사했고 2012년 태양권 경계를 넘어 성간 공간에 진입했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M09",
+        "M10"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "허블 우주망원경",
+      "year": 1990,
+      "agency": "미국·유럽",
+      "destination": "지구 궤도",
+      "destinationCategory": "지구 궤도",
+      "method": "우주 망원경",
+      "methodBasis": "임무 계획",
+      "result": "우주 관측·광학 보정",
+      "description": "1993년 보정 광학장치를 설치해 거울 결함의 영향을 보완했고, 우주 팽창 속도 측정 등에 기여했다.",
+      "limitations": null,
+      "evidenceIds": [
+        "E02"
+      ],
+      "sourceIds": [
+        "M11",
+        "M12"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "카시니–호이겐스",
+      "year": 1997,
+      "agency": "미국·유럽",
+      "destination": "토성·위성 타이탄",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "궤도선·착륙 탐사선",
+      "methodBasis": "임무 계획",
+      "result": "토성 궤도 관측·타이탄 착륙",
+      "description": "카시니는 2004~2017년 토성과 고리·위성을 관측했다. 함께 간 호이겐스는 2005년 타이탄 표면에 착륙했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M13"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "국제우주정거장(ISS)",
+      "year": 1998,
+      "agency": "다국적(15개국)",
+      "destination": "지구 저궤도",
+      "destinationCategory": "지구 궤도",
+      "method": "유인 우주정거장",
+      "methodBasis": "임무 계획",
+      "result": "정거장 조립·지속 체류",
+      "description": "1998년 첫 모듈을 발사했고, 2000년부터 사람이 계속 머물며 미세중력 환경의 과학 실험을 수행해 왔다.",
+      "limitations": null,
+      "evidenceIds": [
+        "E03"
+      ],
+      "sourceIds": [
+        "M14",
+        "M15"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "마스 클라이미트 오비터",
+      "year": 1998,
+      "agency": "미국",
+      "destination": "화성",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "궤도선(계획)",
+      "methodBasis": "임무 계획",
+      "result": "화성 궤도 진입 실패",
+      "description": "1999년 화성 도착 과정에서 단위 체계가 다른 정보를 제대로 변환하지 않아 항법 오류가 발생했고 탐사선을 잃었다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M16",
+        "M17"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "하야부사",
+      "year": 2003,
+      "agency": "일본",
+      "destination": "소행성 이토카와",
+      "destinationCategory": "소행성",
+      "method": "표본 귀환",
+      "methodBasis": "임무 계획",
+      "result": "소행성 시료 귀환",
+      "description": "2010년 최초로 소행성의 물질을 지구로 가져왔다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M18",
+        "M19",
+        "M20"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "뉴호라이즌스",
+      "year": 2006,
+      "agency": "미국",
+      "destination": "명왕성",
+      "destinationCategory": "왜소행성",
+      "method": "근접 통과",
+      "methodBasis": "임무 계획",
+      "result": "명왕성 근접 관측",
+      "description": "2015년 명왕성 표면을 처음으로 가까이서 촬영했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M21",
+        "M22"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "큐리오시티",
+      "year": 2011,
+      "agency": "미국",
+      "destination": "화성",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "착륙선·로버",
+      "methodBasis": "임무 계획",
+      "result": "화성 착륙·표면 탐사",
+      "description": "2012년 화성의 고대 하천 흔적을 관측해 과거 물이 흘렀다는 증거를 제시했다. 2026년 10월 기준 탐사 활동을 이어가고 있다.",
+      "limitations": null,
+      "evidenceIds": [
+        "E04"
+      ],
+      "sourceIds": [
+        "M23",
+        "M24"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "하야부사2",
+      "year": 2014,
+      "agency": "일본",
+      "destination": "소행성 류구",
+      "destinationCategory": "소행성",
+      "method": "표본 귀환",
+      "methodBasis": "임무 계획",
+      "result": "소행성 시료 귀환",
+      "description": "2020년 소행성 류구의 표면 물질 시료를 지구로 가져왔다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M25"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "오시리스-렉스",
+      "year": 2016,
+      "agency": "미국",
+      "destination": "소행성 베누",
+      "destinationCategory": "소행성",
+      "method": "표본 귀환",
+      "methodBasis": "임무 계획",
+      "result": "소행성 시료 귀환",
+      "description": "2023년 소행성 베누에서 채집한 암석 조각과 먼지 시료를 지구로 가져왔다.",
+      "limitations": null,
+      "evidenceIds": [
+        "E05"
+      ],
+      "sourceIds": [
+        "M26",
+        "M27"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "창어 4호",
+      "year": 2018,
+      "agency": "중국",
+      "destination": "달 뒷면",
+      "destinationCategory": "달",
+      "method": "착륙선·로버",
+      "methodBasis": "임무 계획",
+      "result": "달 뒷면 연착륙·로버 탐사",
+      "description": "2019년 무인 탐사선이 인류 최초로 달 뒷면에 연착륙하고 로버로 탐사를 시작했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M28",
+        "M29"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "퍼서비어런스",
+      "year": 2020,
+      "agency": "미국",
+      "destination": "화성",
+      "destinationCategory": "다른 행성·그 위성",
+      "method": "착륙선·로버",
+      "methodBasis": "임무 계획",
+      "result": "화성 착륙·시료 채집과 보관",
+      "description": "2021년 화성에 착륙해 암석과 토양 시료를 채집·보관해 왔다. 함께 간 헬기 인저뉴어티는 화성에서 첫 동력 제어 비행에 성공했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M30",
+        "M31",
+        "M32"
+      ]
+    },
+    {
+      "id": 19,
+      "title": "창어 5호",
+      "year": 2020,
+      "agency": "중국",
+      "destination": "달",
+      "destinationCategory": "달",
+      "method": "표본 귀환",
+      "methodBasis": "임무 계획",
+      "result": "달 시료 귀환",
+      "description": "44년 만에 달 흙을 지구로 가져왔다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M33",
+        "M34"
+      ]
+    },
+    {
+      "id": 20,
+      "title": "누리호 1차",
+      "year": 2021,
+      "agency": "한국",
+      "destination": "지구 궤도",
+      "destinationCategory": "지구 궤도",
+      "method": "발사체",
+      "methodBasis": "임무 계획",
+      "result": "위성모사체 궤도 진입 실패",
+      "description": "2021년 1·2단과 위성모사체 분리는 수행했으나, 3단 엔진의 조기 연소 종료로 목표 속도에 미치지 못해 모사체를 궤도에 올리지 못했다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M35"
+      ]
+    },
+    {
+      "id": 21,
+      "title": "제임스 웹 우주망원경",
+      "year": 2021,
+      "agency": "미국·유럽·캐나다",
+      "destination": "태양–지구 L2 주변",
+      "destinationCategory": "태양–지구 L2",
+      "method": "우주 망원경",
+      "methodBasis": "임무 계획",
+      "result": "우주망원경 배치·과학 관측",
+      "description": "적외선으로 초기 우주와 외계행성 대기를 관측 중.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M37",
+        "M38",
+        "M39"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "다누리",
+      "year": 2022,
+      "agency": "한국",
+      "destination": "달",
+      "destinationCategory": "달",
+      "method": "궤도선",
+      "methodBasis": "임무 계획",
+      "result": "달 궤도 관측",
+      "description": "한국 최초의 달 궤도선으로, 달 전면 지도와 착륙 후보 지역의 고해상도 영상을 확보했다(2025년 공식 성과 발표).",
+      "limitations": null,
+      "evidenceIds": [
+        "E06"
+      ],
+      "sourceIds": [
+        "M40"
+      ]
+    },
+    {
+      "id": 23,
+      "title": "누리호 4차",
+      "year": 2025,
+      "agency": "한국",
+      "destination": "지구 궤도",
+      "destinationCategory": "지구 궤도",
+      "method": "발사체",
+      "methodBasis": "임무 계획",
+      "result": "탑재 위성 13기 궤도 투입",
+      "description": "2025년 차세대중형위성3호와 큐브위성12기를 목표 궤도에 분리·안착시켰다. 민간 기업이 제작·조립을 총괄한 첫 누리호 발사였다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M41",
+        "M42",
+        "M43"
+      ]
+    },
+    {
+      "id": 24,
+      "title": "아르테미스 2호",
+      "year": 2026,
+      "agency": "미국·캐나다",
+      "destination": "달 부근",
+      "destinationCategory": "달",
+      "method": "유인 달 근접 통과",
+      "methodBasis": "임무 계획",
+      "result": "유인 달 근접 통과·귀환",
+      "description": "2026년 승무원 4명이 달 뒤편을 지나 지구로 귀환했다. 달 궤도에 진입하거나 착륙하지 않았다.",
+      "limitations": null,
+      "evidenceIds": [],
+      "sourceIds": [
+        "M44",
+        "M45"
+      ]
+    }
+  ],
+  "technologies": [
+    {
+      "id": 1,
+      "title": "위성 항법 기술(GPS)",
+      "background": "위성 신호로 사용자의 위치·항법·시각 정보를 제공하기 위해",
+      "application": "휴대폰 지도와 자동차 내비게이션의 위치 확인",
+      "connectionType": "우주기술의 직접 이용",
+      "limitations": "스푸트니크와는 인공위성이라는 분야 연결이며 직접 기술이전 인과로 연결하지 않는다.",
+      "sourceIds": [
+        "S01"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "CMOS 능동화소 영상 센서",
+      "background": "우주탐사용 소형·저전력 카메라를 만들기 위한 영상 센서 연구",
+      "application": "스마트폰·디지털 카메라의 영상 촬영",
+      "connectionType": "우주 연구에서 기술이전",
+      "limitations": "확인한 출처만으로 24개 중 특정 탐사 한 건에 발명 공로를 연결하지 않는다.",
+      "sourceIds": [
+        "S02"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "메모리폼",
+      "background": "NASA의 항공기 좌석 연구에서 충격을 줄이고 탑승자를 보호하기 위해",
+      "application": "매트리스·의료용 쿠션·신발 깔창",
+      "connectionType": "항공 연구에서 기술이전",
+      "limitations": "24개 탐사의 직접 영향으로 연결하지 않는다.",
+      "sourceIds": [
+        "S03",
+        "S04"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "적외선 감지·분석 기술",
+      "background": "천체에서 나오는 적외선을 감지·분석하는 관측 기술",
+      "application": "고막이 내는 적외선을 이용하는 귀 체온계 개발에 응용",
+      "connectionType": "천문 관측 기술의 의료 응용",
+      "limitations": "우주망원경과는 관측 원리 연결이다. 허블·제임스 웹이 귀 체온계의 직접 원천이었다고 쓰지 않는다.",
+      "sourceIds": [
+        "S05"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "물 정화·재활용 관련 기술",
+      "background": "우주선과 우주정거장에서 물을 안전하게 정화·재사용하기 위한 연구",
+      "application": "일부 기술이 농촌·재난 현장용 정수 장치 등에 응용",
+      "connectionType": "우주용 정화 기술의 개선·이전",
+      "limitations": "ISS의 물 정화 연구와 직접 관련이 있지만 개발 계보에는 이전 유인우주비행 연구도 포함된다.",
+      "sourceIds": [
+        "S06",
+        "S07",
+        "S18"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "동결건조 식품·포장 기술",
+      "background": "기존 동결건조 기술을 가볍고 오래 보관할 수 있는 우주식량에 맞게 개선",
+      "application": "물을 넣어 먹는 일부 캠핑식·비상식량 등의 개발과 확산",
+      "connectionType": "기존 기술의 우주용 개선·확산",
+      "limitations": "유인우주비행 프로그램 차원의 식량 연구 연결이다. 특정 비행 한 건이 동결건조 식품을 발명했다고 쓰지 않는다.",
+      "sourceIds": [
+        "S08"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "긁힘 방지 코팅",
+      "background": "우주 헬멧 바이저 등을 보호하기 위한 코팅 연구",
+      "application": "일부 안경·선글라스 렌즈의 긁힘 방지 성능 개선에 기여",
+      "connectionType": "우주용 소재 연구의 기술이전",
+      "limitations": "우주복·소재 연구라는 관련성만 있고 특정 비행에 직접 귀속하지 않는다.",
+      "sourceIds": [
+        "S09"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "기상위성 관측",
+      "background": "우주에서 구름·대기·해양 등의 상태와 변화를 관측하기 위해",
+      "application": "일기예보와 태풍 등 열대저기압의 감시·예측에 활용",
+      "connectionType": "우주기술의 직접 이용",
+      "limitations": "24개 데이터에는 기상위성 사례가 직접 포함되어 있지 않으므로 별도 보조 사례임을 알린다.",
+      "sourceIds": [
+        "S10"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E01",
+      "title": "2번 아폴로 11호",
+      "missionIds": [
+        2
+      ],
+      "fact": "아폴로 11호는 달의 암석과 흙을 지구로 가져왔다. 시료를 분석해 착륙 지역의 어두운 달 표면이 오래된 화산암으로 이루어졌다는 근거를 얻었다.",
+      "question": "달에 다녀왔다는 사실 외에, 월석을 가져온 것이 왜 과학적으로 중요할까?",
+      "sourceIds": [
+        "S11"
+      ],
+      "materialType": "탐사와 직접 연결된 근거",
+      "limitations": null
+    },
+    {
+      "id": "E02",
+      "title": "8번 허블 우주망원경",
+      "missionIds": [
+        8
+      ],
+      "fact": "허블의 정밀 관측을 위해 고감도 CCD 영상 센서가 개발·개선되었다. 이 기술의 일부가 유방 조직을 촬영하고 검사용 바늘의 위치를 안내하는 의료 기기에 적용되었다.",
+      "question": "같은 센서 기술이 우주 관측과 의료 검사에서 공통으로 해결하는 문제는 무엇일까?",
+      "sourceIds": [
+        "S12"
+      ],
+      "materialType": "탐사와 직접 연결된 근거",
+      "limitations": null
+    },
+    {
+      "id": "E03",
+      "title": "10번 국제우주정거장(ISS)",
+      "missionIds": [
+        10
+      ],
+      "fact": "NASA는 2023년 ISS에서 물 회수시스템의 약 98% 회수 목표 달성을 실증했다고 보고했다. ISS용으로 개선된 물 소독 기술은 여러 나라의 정수 장치에도 응용되었다.",
+      "question": "우주정거장의 물 문제와 지구의 물 부족 지역 문제는 어떤 점이 같고 다를까?",
+      "sourceIds": [
+        "S13",
+        "S06"
+      ],
+      "materialType": "탐사와 직접 연결된 근거",
+      "limitations": null
+    },
+    {
+      "id": "E04",
+      "title": "14번 큐리오시티",
+      "missionIds": [
+        14
+      ],
+      "fact": "큐리오시티는 화성 대기의 미량 기체를 조사하는 소형 레이저 분석기를 사용했다. 이 기술을 지상용으로 재설계하여 석유·천연가스 시설의 메탄 누출 위치를 찾는 장비와 서비스에 적용했다.",
+      "question": "화성에서 기체를 재던 기술이 지구의 가스시설에서도 유용한 이유는 무엇일까?",
+      "sourceIds": [
+        "S14"
+      ],
+      "materialType": "탐사와 직접 연결된 근거",
+      "limitations": null
+    },
+    {
+      "id": "E05",
+      "title": "16번 오시리스-렉스",
+      "missionIds": [
+        16
+      ],
+      "fact": "오시리스-렉스는 베누 가까이에서 정밀 추적 자료를 얻었다. NASA의 2021년 연구는 이 자료를 이용해 미래 궤도의 불확실성을 줄이고 지구 충돌위험을 더 정확히 평가했다.",
+      "question": "위험을 더 정확히 아는 것과 위험을 없애는 것은 어떻게 다를까?",
+      "sourceIds": [
+        "S15"
+      ],
+      "materialType": "탐사와 직접 연결된 근거",
+      "limitations": null
+    },
+    {
+      "id": "E06",
+      "title": "22번 다누리",
+      "missionIds": [
+        22
+      ],
+      "fact": "다누리는 달의 관측 영상과 여러 지도를 얻었다. 우주항공청은 2025년 이 자료가 KPDS로 공개되어 국내외 달 연구에 활용되고 있으며, 후속 착륙 후보지 검토에도 활용할 계획이라고 보고했다.",
+      "question": "현재 이미 활용된 일과 앞으로 활용하려는 일을 자료에서 각각 찾아보자.",
+      "sourceIds": [
+        "S16"
+      ],
+      "materialType": "탐사와 직접 연결된 근거",
+      "limitations": null
+    },
+    {
+      "id": "B01",
+      "title": "공통 배경: 지구 궤도 환경",
+      "missionIds": [],
+      "fact": "지구 궤도에는 임무가 끝난 위성과 로켓 조각이 남아 다른 우주 물체와 충돌할 위험을 만든다. ESA는 위험을 줄이기 위해 ERS-2의 궤도를 낮추고 남은 연료를 소모했으며, ERS-2는 2024년 2월 지구 대기로 다시 들어왔다.",
+      "question": "우리 탐사가 끝난 뒤 남는 탐사선과 부품은 어떻게 처리할까? 이 방법을 우리 탐사지에도 쓸 수 있을까?",
+      "sourceIds": [
+        "S19",
+        "S20"
+      ],
+      "materialType": "공통 배경자료; 기존 24사례의 특정 사고 원인으로 연결하지 않음",
+      "limitations": null
+    }
+  ],
+  "sources": [
+    {
+      "id": "M01",
+      "agency": "NASA",
+      "title": "NASA, Sputnik, the Dawn of the Space Age",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/image-article/oct-4-1957-sputnik-dawn-of-space-age/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M02",
+      "agency": "NASA",
+      "title": "NASA, Apollo 11",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/mission/apollo-11/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M03",
+      "agency": "NASA",
+      "title": "NASA, Recovery of Apollo 11",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/history/50-years-ago-hornet-3-the-recovery-of-apollo-11/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M04",
+      "agency": "NASA",
+      "title": "NASA, Apollo 13: Mission Details",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/missions/apollo/apollo-13-mission-details/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M05",
+      "agency": "NASA",
+      "title": "NASA, Luna 16",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/photojournal/luna-16/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M06",
+      "agency": "NASA",
+      "title": "NASA, Pioneer 10",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/pioneer-10/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M07",
+      "agency": "NASA",
+      "title": "NASA, Viking Spacecraft and Science",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/viking/spacecraft-and-science/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M08",
+      "agency": "NASA NSSDC",
+      "title": "NASA NSSDC, Viking Project Information",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/viking.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M09",
+      "agency": "NASA",
+      "title": "NASA, Voyager 1",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/voyager/voyager-1/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M10",
+      "agency": "NASA JPL",
+      "title": "NASA JPL, Voyagers and interstellar space",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.jpl.nasa.gov/edu/resources/teachable-moment/then-there-were-two-voyager-2-reaches-interstellar-space/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M11",
+      "agency": "NASA",
+      "title": "NASA, A Chronology of Hubble",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/history/hubble/chron.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M12",
+      "agency": "NASA",
+      "title": "NASA, Hubble Optics",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/hubble/observatory/design/optics/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M13",
+      "agency": "ESA",
+      "title": "ESA, Cassini-Huygens: a Saturn success story",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.esa.int/ESA_Multimedia/Videos/2017/09/Cassini-Huygens_a_Saturn_success_story",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M14",
+      "agency": "NASA",
+      "title": "NASA, International Space Station FAQ",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/international-space-station-frequently-asked-questions/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M15",
+      "agency": "NASA",
+      "title": "NASA, ISS Facts and Figures",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M16",
+      "agency": "NASA JPL",
+      "title": "NASA JPL, Mars Climate Orbiter",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.jpl.nasa.gov/missions/mars-climate-orbiter/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M17",
+      "agency": "NASA JPL",
+      "title": "NASA JPL, Mars Climate Orbiter Team Finds Likely Cause of Loss",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.jpl.nasa.gov/news/mars-climate-orbiter-team-finds-likely-cause-of-loss/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M18",
+      "agency": "JAXA",
+      "title": "JAXA, Hayabusa Reentry",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.jaxa.jp/press/2010/06/20100614_hayabusa_e.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M19",
+      "agency": "ISAS/JAXA",
+      "title": "ISAS/JAXA, Hayabusa mission research",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://planetb.sci.isas.jaxa.jp/~okada/ETC_Missions.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M20",
+      "agency": "JAXA",
+      "title": "JAXA, Identification of origin of particles brought back by Hayabusa",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.jaxa.jp/press/2010/11/20101116_hayabusa_e.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M21",
+      "agency": "NASA",
+      "title": "NASA, New Horizons",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/new-horizons/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M22",
+      "agency": "NASA",
+      "title": "NASA, New Horizons Begins Pluto Encounter",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/news-release/nasas-new-horizons-spacecraft-begins-first-stages-of-pluto-encounter/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M23",
+      "agency": "NASA",
+      "title": "NASA, Curiosity",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/msl-curiosity/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M24",
+      "agency": "NASA",
+      "title": "NASA, Remnants of Ancient Streambed on Mars",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/resource/remnants-of-ancient-streambed-on-mars/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M25",
+      "agency": "ISAS/JAXA",
+      "title": "ISAS/JAXA, first look at Ryugu samples",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.isas.jaxa.jp/en/topics/002893.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M26",
+      "agency": "NASA",
+      "title": "NASA, OSIRIS-REx",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/osiris-rex/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M27",
+      "agency": "NASA",
+      "title": "NASA, First Asteroid Sample Has Landed",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/news-release/nasas-first-asteroid-sample-has-landed-now-secure-in-clean-room/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M28",
+      "agency": "CNSA",
+      "title": "CNSA, Change-4 wakes up after first lunar night",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.cnsa.gov.cn/english/n6465652/n6465653/c6805358/content.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M29",
+      "agency": "CNSA",
+      "title": "CNSA, Change-4 complete success",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.cnsa.gov.cn/english/n6465719/c6805233/content.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M30",
+      "agency": "NASA",
+      "title": "NASA, Mars 2020: Perseverance",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/mars-2020-perseverance/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M31",
+      "agency": "NASA JPL",
+      "title": "NASA JPL, Ingenuity",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.jpl.nasa.gov/missions/ingenuity/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M32",
+      "agency": "NASA",
+      "title": "NASA, Ingenuity Mars Helicopter",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M33",
+      "agency": "CNSA",
+      "title": "CNSA, Change-5 reentry capsule lands with Moon samples",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.cnsa.gov.cn/english/n6465652/n6465653/c6810898/content.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M34",
+      "agency": "CNSA",
+      "title": "CNSA, New mineral found by Chinese scientists",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.cnsa.gov.cn/english/n6465652/n6465653/c6840851/content.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M35",
+      "agency": "KARI/MSIT",
+      "title": "KARI/MSIT, 2021-10-21 Nuri launch statement",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.kari.re.kr/kor/article/ATCL87374b48c/15323",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M36",
+      "agency": "KARI",
+      "title": "KARI, Korean Launch Vehicle Nuri",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.kari.re.kr/kor/contents/51",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M37",
+      "agency": "NASA",
+      "title": "NASA, James Webb Space Telescope",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/webb/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M38",
+      "agency": "NASA",
+      "title": "NASA, More Details on Webb Launch",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/blogs/webb/2021/12/27/more-details-on-webbs-launch/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M39",
+      "agency": "NASA",
+      "title": "NASA, Webb Reveals Exoplanet Atmosphere",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/missions/webb/nasas-webb-reveals-an-exoplanet-atmosphere-as-never-seen-before/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M40",
+      "agency": "KASA/KARI",
+      "title": "KASA/KARI, 2025-08-05 다누리 3년간의 관측 성과 공개",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.kari.re.kr/download/viewer/1771528074473/index.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M41",
+      "agency": "KASA/KARI",
+      "title": "KASA/KARI, 2025-11-27 누리호4차 발사 성공",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.kari.re.kr/kor/article/ATCL87374b48c/18386",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M42",
+      "agency": "KASA/KARI",
+      "title": "KASA/KARI, 2025-09-30 누리호4차 발사 계획",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.kari.re.kr/download/viewer/1771888369551/index.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M43",
+      "agency": "KASA",
+      "title": "KASA, 2025-12-02 누리호4차 부탑재위성 교신 종합결과",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.kasa.go.kr/prog/bbsArticle/BBSMSTR_000000000010/view.do?bbsId=BBSMSTR_000000000010&nttId=B000000002458Lm9aT5",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M44",
+      "agency": "NASA",
+      "title": "NASA, Artemis II mission (updated 2026-10-06)",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/mission/artemis-ii/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "M45",
+      "agency": "NASA",
+      "title": "NASA, Artemis II Splashdown and Recovery",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nasa.gov/gallery/artemis-ii-splashdown-and-recovery/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "발사연도·목적지·대표 성과 확인용. 발표일과 발사연도는 다를 수 있음."
+    },
+    {
+      "id": "S01",
+      "agency": "GPS.gov",
+      "title": "GPS",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.gps.gov/gps",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "위성 신호를 이용해 수신기가 사용자의 3차원 위치와 시각을 계산한다."
+    },
+    {
+      "id": "S02",
+      "agency": "NASA Spinoff",
+      "title": "CMOS Sensors Enable Phone Cameras, HD Video",
+      "publishedOrUpdatedRaw": "2017",
+      "url": "https://spinoff.nasa.gov/Spinoff2017/cg_1.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "JPL의 CMOS-APS 연구, 기술이전과 휴대전화 카메라 활용을 설명한다."
+    },
+    {
+      "id": "S03",
+      "agency": "NASA Spinoff",
+      "title": "Forty-Year-Old Foam Springs Back With New Benefits",
+      "publishedOrUpdatedRaw": "2005",
+      "url": "https://spinoff.nasa.gov/Spinoff2005/ch_6.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "NASA 항공기 좌석의 충격·진동 보호 연구가 메모리폼의 개발 배경이다."
+    },
+    {
+      "id": "S04",
+      "agency": "NASA Spinoff",
+      "title": "FAQ",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://spinoff.nasa.gov/faq",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "메모리폼의 원래 배경을 항공기 조종사·승객 좌석 보호로 명시한다."
+    },
+    {
+      "id": "S05",
+      "agency": "NASA Spinoff",
+      "title": "Infrared Thermometer",
+      "publishedOrUpdatedRaw": "1991",
+      "url": "https://spinoff.nasa.gov/node/9433",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "Diatek와 JPL이 적외선 천문 기술을 이용해 귀 체온계를 개발한 특정 사례를 소개한다."
+    },
+    {
+      "id": "S06",
+      "agency": "NASA Spinoff",
+      "title": "Nine Ways NASA is Solving Water Problems Around the Globe",
+      "publishedOrUpdatedRaw": "2023-03-22",
+      "url": "https://spinoff.nasa.gov/Nine_Ways_NASA_is_Solving_Water_Problems_Around_the_Globe",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "MCV의 우주왕복선 개발·ISS용 개선과 여러 나라의 정수장치 적용을 확인할 수 있다."
+    },
+    {
+      "id": "S07",
+      "agency": "NASA Spinoff",
+      "title": "Fast-Flow Nanofiber Filters Purify Water at Home and in the Field",
+      "publishedOrUpdatedRaw": "2017",
+      "url": "https://spinoff.nasa.gov/Spinoff2017/ps_5.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "NASA 지원으로 개선한 NanoCeram이 가정용·휴대용 정수장치와 재난대응 조직에 쓰인 사례이다."
+    },
+    {
+      "id": "S08",
+      "agency": "NASA Spinoff",
+      "title": "Freeze-Dried Foods Nourish Adventurers and the Imagination",
+      "publishedOrUpdatedRaw": "2020",
+      "url": "https://spinoff.nasa.gov/Spinoff2020/cg_2.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "동결건조를 NASA가 처음 발명한 것은 아니며, 우주식량을 위해 개선한 기술이 민간 식품으로 확산되었다."
+    },
+    {
+      "id": "S09",
+      "agency": "NASA",
+      "title": "Scratch-Resistant, UV-Reflecting Lenses",
+      "publishedOrUpdatedRaw": "2016-02-11",
+      "url": "https://www.nasa.gov/image-article/scratch-resistant-uv-reflecting-lenses/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "헬멧 바이저와 정수막 코팅 연구가 초기 안경렌즈의 긁힘 방지 성능 개선에 기여했다."
+    },
+    {
+      "id": "S10",
+      "agency": "NOAA NESDIS",
+      "title": "Hurricane Imagery",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.nesdis.noaa.gov/imagery/hurricane-imagery",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "정지·극궤도 위성의 관측이 열대저기압의 감시·예측에 활용된다."
+    },
+    {
+      "id": "S11",
+      "agency": "NASA Science",
+      "title": "History of Lunar Exploration",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/solar-system/moon/history-of-lunar-exploration/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "아폴로 11호 시료에서 달의 바다가 오래된 화산암이라는 근거를 얻었다. 페이지의 오래된 미래 전망은 사용하지 않는다."
+    },
+    {
+      "id": "S12",
+      "agency": "NASA Science / Hubble",
+      "title": "Technology Benefits",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/hubble/impacts-and-benefits/technology-benefits/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "허블용 고감도 CCD가 유방 조직검사를 위한 영상기기에 응용된 경로를 설명한다."
+    },
+    {
+      "id": "S13",
+      "agency": "NASA",
+      "title": "NASA Achieves Water Recovery Milestone on International Space Station",
+      "publishedOrUpdatedRaw": "2023-06-20",
+      "url": "https://www.nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "ISS에서 BPA를 포함한 시스템으로 약 98% 물 회수 목표 달성을 실증했다고 보고했다."
+    },
+    {
+      "id": "S14",
+      "agency": "NASA Spinoff",
+      "title": "Methane Detector Sniffs Out Leaks",
+      "publishedOrUpdatedRaw": "2019",
+      "url": "https://spinoff.nasa.gov/Spinoff2019/ps_7.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "큐리오시티용 레이저 분석 기술을 지상용으로 재설계하고 SeekOps가 이전받아 가스누출 탐지에 활용했다."
+    },
+    {
+      "id": "S15",
+      "agency": "NASA",
+      "title": "NASA Spacecraft Provides Insight into Asteroid Bennu's Future Orbit",
+      "publishedOrUpdatedRaw": "2021-08-11",
+      "url": "https://www.nasa.gov/news-release/nasa-spacecraft-provides-insight-into-asteroid-bennus-future-orbit/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "오시리스-렉스의 추적 자료가 베누의 궤도 불확실성과 충돌위험 평가를 개선했다."
+    },
+    {
+      "id": "S16",
+      "agency": "우주항공청",
+      "title": "다누리 3년간의 관측 성과 공개",
+      "publishedOrUpdatedRaw": "2025-08-05",
+      "url": "https://www.kasa.go.kr/prog/bbsArticle/BBSMSTR_000000000010/view.do?bbsId=BBSMSTR_000000000010&nttId=B000000001981Xx9aZ4",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "관측 영상·지도 확보, KPDS 공개와 국내외 연구 활용을 보고하며 후속 착륙지 선정은 미래 활용으로 구분한다."
+    },
+    {
+      "id": "S17",
+      "agency": "NASA Science",
+      "title": "Curiosity Science Highlights",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://science.nasa.gov/mission/msl-curiosity/science-highlights/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "화성의 과거 생명체 거주 가능 환경에 관한 화학·광물 증거를 소개한다. 생명 발견의 증거는 아니다."
+    },
+    {
+      "id": "S18",
+      "agency": "NASA Spinoff",
+      "title": "Clean Water for Remote Locations",
+      "publishedOrUpdatedRaw": "2006",
+      "url": "https://spinoff.nasa.gov/Spinoff2006/ps_2.html",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "MCV를 이용한 농촌용·이동식 재난대응 정수 장치 사례이다. 당시의 ISS 개발 일정은 현재 사실로 쓰지 않는다."
+    },
+    {
+      "id": "S19",
+      "agency": "ESA",
+      "title": "Mitigating space debris generation",
+      "publishedOrUpdatedRaw": "원문 확인",
+      "url": "https://www.esa.int/Space_Safety/Space_Debris/Mitigating_space_debris_generation",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "잔해 문제와 임무 종료 후 잔해 발생을 줄이는 조치"
+    },
+    {
+      "id": "S20",
+      "agency": "ESA",
+      "title": "ERS-2 reenters Earth’s atmosphere over Pacific Ocean",
+      "publishedOrUpdatedRaw": "2024-02-21",
+      "url": "https://www.esa.int/Space_Safety/Space_Debris/ERS-2_reenters_Earth_s_atmosphere_over_Pacific_Ocean",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "자연 재진입 사례. 특정 지점으로 제어한 귀환 사례가 아님."
+    },
+    {
+      "id": "A01",
+      "agency": "NASA/JPL",
+      "title": "Ice Confirmed at the Moon's Poles",
+      "publishedOrUpdatedRaw": "2018-08-20",
+      "url": "https://www.jpl.nasa.gov/news/ice-confirmed-at-the-moons-poles/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "2차시 추가 자료: 본문의 얼음 분포·적외선 관측·극지 그늘 설명"
+    },
+    {
+      "id": "A02",
+      "agency": "NASA/JPL",
+      "title": "NASA Rover Finds Conditions Once Suited for Ancient Life on Mars",
+      "publishedOrUpdatedRaw": "2013-03-12",
+      "url": "https://www.jpl.nasa.gov/news/nasa-rover-finds-conditions-once-suited-for-ancient-life-on-mars/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "2차시 추가 자료: 게일 분화구 옐로나이프만 암석 분석·과거 물 환경"
+    },
+    {
+      "id": "A03",
+      "agency": "NASA",
+      "title": "Europa Clipper Mission Science",
+      "publishedOrUpdatedRaw": "2025-06-26 (page last updated)",
+      "url": "https://science.nasa.gov/mission/europa-clipper/mission-science/",
+      "checkedAt": "2026-10-20",
+      "readingGuide": "2차시 추가 자료: 과학 목표와 카메라·레이더·분광 장비의 역할"
+    }
+  ],
+  "version": "2026-10-22.1"
+}

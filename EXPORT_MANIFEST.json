@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "frontendOnly": true,
+  "privateResourceReferences": 0,
+  "files": [
+    {
+      "path": ".github/workflows/pages.yml",
+      "bytes": 867,
+      "sha256": "1ad0f22d00268e28289a7e409ddab9327efd066e7fd51f580af2e88598e23eb5"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 46,
+      "sha256": "3ebaa94ef2c8c18eec27e4e45ce8f8c7c06218a5830a0e41f2299101fe848115"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2553,
+      "sha256": "596c23ad3698ef8c64ee74adf2e0a3e134dcf9be4743427d9a4c3225a107558e"
+    },
+    {
+      "path": "app/course.ts",
+      "bytes": 21888,
+      "sha256": "cd9b795e30103472cf4c85f84421a42d38615c672f2b43f1f1652f2668edf7af"
+    },
+    {
+      "path": "app/globals.css",
+      "bytes": 74142,
+      "sha256": "08963737ab21b40d2b739772bb441c58d7af10b2a0716242a80e78edeef78fb0"
+    },
+    {
+      "path": "app/landing.tsx",
+      "bytes": 7779,
+      "sha256": "8a54bddda4992f1423a5ee9a2689c1ea08cc0d01a49586544fac6ef7b3be15c6"
+    },
+    {
+      "path": "app/notebook-content/activities.json",
+      "bytes": 43271,
+      "sha256": "451c55e5c3974f1982fd1cea83e476b125637f62c688cf0706bb29f798ced978"
+    },
+    {
+      "path": "app/notebook-content/data.json",
+      "bytes": 49631,
+      "sha256": "30daa60974a83ca309bb78b57f420e8bd35dfdd602f9888077b3d029649bcaac"
+    },
+    {
+      "path": "app/notebook-content/readings.json",
+      "bytes": 25714,
+      "sha256": "82637f00dcd7540ffa8b64d6c6992deab9614fb2a28f6e016a10e064b60348a6"
+    },
+    {
+      "path": "app/page.tsx",
+      "bytes": 38399,
+      "sha256": "3dd2fdcc7d511a381255f3c6c1c813b8a4addc7771449d5ddcb18600fd67d7c3"
+    },
+    {
+      "path": "app/record-ui.tsx",
+      "bytes": 11416,
+      "sha256": "f1aba48b6dc0e793bf16d12a84670dd628d5a07661e5dae15c900d985c661ffd"
+    },
+    {
+      "path": "app/resource-ui.tsx",
+      "bytes": 16390,
+      "sha256": "2f4426ac1089bb2aeb29ef87e366af8772b3e19e11e858d69a1e26ecaff8ded7"
+    },
+    {
+      "path": "app/teacher.tsx",
+      "bytes": 11503,
+      "sha256": "84ee2fceda9f6df9ef17f4a712bf7702bb2fb34a76e576c943aa8c238c13886d"
+    },
+    {
+      "path": "app/teaching-content.ts",
+      "bytes": 18304,
+      "sha256": "1ca0aa86c7730c128c0c986a8ceaaedbbe23b9b6f7af1c41724aa93cdde0d9a6"
+    },
+    {
+      "path": "lib/classroom-client.ts",
+      "bytes": 5182,
+      "sha256": "11bf5bf5b35bb49909f9284471150b8693ee4800ded52f6f0225be700308782f"
+    },
+    {
+      "path": "package.json",
+      "bytes": 694,
+      "sha256": "f0f6c7906a33eaf5b754d9df67682f1ecfa5cec3e1a5f74d0e3cea605fbd0b62"
+    },
+    {
+      "path": "pages/index.html",
+      "bytes": 534,
+      "sha256": "4d19c02ae859688bba4a8f9f621364876491de3ecada30453836f3e7d6073ab4"
+    },
+    {
+      "path": "pages/main.tsx",
+      "bytes": 197,
+      "sha256": "8006d8abe4db65652b23fbc30ada5e2ab7206c27726f7353e668a8a0b49120aa"
+    },
+    {
+      "path": "pages/public/.nojekyll",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "pages/public/config.js",
+      "bytes": 163,
+      "sha256": "131313ab66a158096834dcb3c306efa38b6e66e770730bab9908d57a8c7f3fa2"
+    },
+    {
+      "path": "scripts/build-single-html.mjs",
+      "bytes": 2452,
+      "sha256": "37c72ee9ec49b9046d0e63cf7592a70b79485b81a682cac49bd761482c6f8be6"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 415,
+      "sha256": "0ea25306038c9d9149bfc20447fcd31f14ece62ec0557135383c888a3c05d15f"
+    },
+    {
+      "path": "vite.pages.config.ts",
+      "bytes": 785,
+      "sha256": "1360c3c69b800f8c01042f710cb12a3f85af46540e5e1e5d659d4dee50abdacd"
+    }
+  ]
+}
