@@ -14,9 +14,14 @@
       "sha256": "3ebaa94ef2c8c18eec27e4e45ce8f8c7c06218a5830a0e41f2299101fe848115"
     },
     {
+      "path": "AGENTS.md",
+      "bytes": 1149,
+      "sha256": "fd05af0303727608f8938061dbd14db21e6ff5de763ef67fbf95aa68977fae1b"
+    },
+    {
       "path": "README.md",
-      "bytes": 2553,
-      "sha256": "596c23ad3698ef8c64ee74adf2e0a3e134dcf9be4743427d9a4c3225a107558e"
+      "bytes": 3459,
+      "sha256": "58f72394984b6cc7dec07000401c15215f6ce052a724c14d6935ca5adae70864"
     },
     {
       "path": "app/course.ts",
