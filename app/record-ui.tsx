@@ -110,7 +110,7 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
       {legacyReference&&<details className="legacy-comparison"><summary>이전에 쓴 출발 근거 번호</summary><p>{legacyReference}</p></details>}
     </>:<>
       {def.key==='fact'&&selection.ids.some(id=>id!==null)&&<div className="fact-comparison-context">{selection.ids.map((id,index)=><p key={index}><b>{index===0?'첫 번째':'두 번째'} 탐사</b> {id===null?'아직 선택하지 않았어요.':missionChoiceLabel(id)}</p>)}</div>}
-      {def.options?<select {...props}><option value="">선택하세요</option>{def.options.map(o=><option key={o} value={o}>{clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
+      {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
     </>}
     <div className="field-bottom"><span role="status">{status||(time?`${time} 저장${row?.actor?' / '+row.actor:''}`:'')}</span>{dirty&&<button className="text-btn" onClick={()=>void persist()} disabled={!!conflict||disabled}><Save size={13}/> 저장</button>}</div>
     {conflict&&<div className="conflict" role="alert"><b>다른 기기에서 먼저 수정했어요.</b><p>먼저 저장된 내용: {(def.input==='mission-pair'?comparisonText(conflict.value):conflict.value)||'빈 기록'}</p><p>내 입력은 위에 남아 있어요. 두 내용을 확인하고 저장할 내용을 결정하세요.</p><div className="button-row"><button onClick={()=>void persist(conflict.rev)} disabled={disabled}>{readOnly?'보관 중인 입력 반영':'위 입력을 반영'}</button><button onClick={useSaved}>먼저 저장된 내용 사용</button></div></div>}

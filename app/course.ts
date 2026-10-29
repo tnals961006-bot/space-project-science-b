@@ -63,6 +63,7 @@ const f = (key: string, label: string, hint = '', options?: string[], meta: Part
 });
 const p = (key: string, label: string, hint = '', options?: string[], meta: Partial<FieldDef> = {}): FieldDef => f(key, label, hint, options, { ...meta, personal: true });
 const routes = ['직접 AI 대화', '교사가 제공한 AI 응답', '동료와 검토'];
+const aiRoutes = ['직접 AI 대화', '교사가 제공한 AI 응답'];
 const oneLine = { compact: true };
 const optional = { optional: true };
 const optionalLine = { optional: true, compact: true };
@@ -109,15 +110,15 @@ export const stages: StageDef[] = [
           f('fact', '각 탐사의 자료에는 무엇이라고 적혀 있나요?', '위에 쓴 변화와 관련된 내용을 선택한 두 탐사에서 각각 한 줄씩 적으세요. 발사연도, 탐사 대상, 계획한 방식, 실제 결과 중 비교한 항목을 쓰세요.', undefined, { placeholder: '첫 번째 탐사: 자료에서 찾은 내용\n두 번째 탐사: 자료에서 찾은 내용' }),
           f('claimReason', '이 사실이 변화를 뒷받침하는 이유', '자료 전체의 경향으로 단정하지 말고 비교한 내용을 설명하세요.', undefined, oneLine),
           f('gap', '이 자료로 답하지 못한 질문', '자료에 없다는 말이 인류가 아직 모른다는 뜻은 아닙니다.', undefined, oneLine),
-          f('selectedClaim', 'AI나 동료와 비교할 우리 주장', '방금 쓴 우리 주장 중 하나를 골라 적으세요.', undefined, oneLine),
+          f('selectedClaim', 'AI와 비교할 우리 주장', '방금 쓴 우리 주장 중 하나를 골라 적으세요.', undefined, oneLine),
         ],
       }),
       step(1, 3, {
         name: 'AI 주장 비교', resource: 'ai1',
-        prompt: '우리 주장을 먼저 남기세요. 같은 자료를 읽은 AI나 동료의 주장 하나와 비교하고 원자료로 근거를 확인하세요.',
+        prompt: '우리 주장을 먼저 남기세요. 같은 자료를 읽은 AI의 주장 하나와 비교하고 원자료로 근거를 확인하세요.',
         fields: [
-          f('route1', '검토 방법', '실제로 사용한 방법을 고르세요.', routes),
-          f('claim1', '검토한 AI나 동료의 주장', '실제로 받은 주장 한 문장을 적으세요.', undefined, oneLine),
+          f('route1', '검토 방법', '실제로 사용한 방법을 고르세요.', aiRoutes),
+          f('claim1', '검토한 AI의 주장', '실제로 받은 주장 한 문장을 적으세요.', undefined, oneLine),
           f('check1', '원자료에서 확인한 내용', '탐사 번호와 확인한 사실을 짧게 쓰세요.'),
           f('compare1', '우리 주장과 같은 점 또는 다른 점', '두 의견이 어디에서 같거나 다른지 적으세요.', undefined, oneLine),
           f('decision1', '우리 주장을 유지하거나 바꾼 이유', '원자료의 근거와 연결해 한두 문장으로 쓰세요.'),

@@ -25,8 +25,8 @@
     },
     {
       "path": "app/course.ts",
-      "bytes": 22313,
-      "sha256": "06430a8cf823de4359b40ec7cef992d695d53744e27e6039abc29edc647462bc"
+      "bytes": 22357,
+      "sha256": "e23cec2c45553d3cc6f2d2948abe9643c7d52cf045fce5e530c7472677b87cd8"
     },
     {
       "path": "app/globals.css",
@@ -40,8 +40,8 @@
     },
     {
       "path": "app/notebook-content/activities.json",
-      "bytes": 43271,
-      "sha256": "451c55e5c3974f1982fd1cea83e476b125637f62c688cf0706bb29f798ced978"
+      "bytes": 43522,
+      "sha256": "bebf318ecc3e96a2733bcfedbf660da424c403ec944871b9ef03a29265300dd3"
     },
     {
       "path": "app/notebook-content/data.json",
@@ -55,18 +55,18 @@
     },
     {
       "path": "app/page.tsx",
-      "bytes": 39468,
-      "sha256": "dd1a0aee7448faca007b56619882e55d2fad5ed1154412b359fa9a9fa8419cec"
+      "bytes": 40295,
+      "sha256": "c03e7dd6874c119b05b37d7046701cb54531bb46e2b52643431a7eb2de77bb91"
     },
     {
       "path": "app/record-ui.tsx",
-      "bytes": 15800,
-      "sha256": "42d5c71a843e3a9b922ed3b5a11ff5ce3b9d91e036b98a0f4c4013c36f7cbc0f"
+      "bytes": 15908,
+      "sha256": "93818ea563e6a28a9c7da3d9bcb5a1ec0642a98a3f2bf52ebd9f1820e3d8c1f5"
     },
     {
       "path": "app/resource-ui.tsx",
-      "bytes": 16993,
-      "sha256": "cee8c1f8aee09efe2e1e40fdf063e22377614906f65155321d8a4fcb3090b15e"
+      "bytes": 17129,
+      "sha256": "29118360de385a68fb77f6f46bee3056298bcc0b57c3f3217dc48ccc8d9a52be"
     },
     {
       "path": "app/teacher.tsx",
@@ -75,8 +75,8 @@
     },
     {
       "path": "app/teaching-content.ts",
-      "bytes": 20773,
-      "sha256": "3245c1eef6309289aa7b33df7964632fe5c3a954076922b8b5753abd27ac3a4d"
+      "bytes": 20463,
+      "sha256": "7864d6418a1883185830aeff077b90c0335d06d017e79dea52b44c5a222d2c03"
     },
     {
       "path": "lib/classroom-client.ts",

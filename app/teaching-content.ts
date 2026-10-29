@@ -111,7 +111,7 @@ export const inquiryFlow = [
 const activity = displayContent(activitySource);
 const stepCopy: Record<string, { title?: string; instructions?: string[]; doneWhen?: string[] }> = {
   'l1-read': { instructions: ['발사연도와 목적지를 확인하세요. 계획한 방식과 실제로 한 일을 나누어 읽으세요.', '아폴로 13호의 자료를 찾아 두 문장을 사실 또는 해석으로 분류하고 이유를 적으세요.', '판단의 근거가 된 자료를 모둠원에게 설명하세요.'] },
-  'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 두 개를 골라 비교하세요. 필요한 정렬이나 필터를 사용하세요.', '달라진 점 하나와 두 탐사 자료에서 찾은 근거를 적으세요. 이어서 이 자료로 답하지 못한 질문 하나를 쓰세요.', 'AI나 동료의 의견과 비교할 우리 주장 하나를 고르세요.'], doneWhen: ['두 탐사를 선택하고 달라진 점과 근거를 썼다.', '확인한 사실에서 더 알아볼 질문을 만들었다.', '비교할 우리 주장 하나를 골랐다.'] },
+  'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 두 개를 골라 비교하세요. 필요한 정렬이나 필터를 사용하세요.', '달라진 점 하나와 두 탐사 자료에서 찾은 근거를 적으세요. 이어서 이 자료로 답하지 못한 질문 하나를 쓰세요.', 'AI의 의견과 비교할 우리 주장 하나를 고르세요.'], doneWhen: ['두 탐사를 선택하고 달라진 점과 근거를 썼다.', '확인한 사실에서 더 알아볼 질문을 만들었다.', '비교할 우리 주장 하나를 골랐다.'] },
   'l1-conclude': { instructions: ['더 알아볼 질문을 설명하고, 그 질문을 조사할 탐사지 후보와 고른 이유를 적으세요.', '의의와 영향 근거카드 하나를 읽고, 확인한 사실을 근거로 각자의 결론을 쓰세요.', '이미 확인된 영향과 앞으로 기대하는 효과를 나누고 오늘 기록을 보관하세요.'] },
   'l2-reopen': { instructions: ['지난 시간에 확인한 사실과 남겨 둔 질문을 다시 읽으세요. 탐사지 후보를 고른 이유도 확인하세요.', '질문 입력, 자료 확인, 기록을 나누어 맡고 판단은 함께 하세요.', 'AI에게는 이름과 학번을 빼고 탐사 내용만 보내세요.'] },
   'l2-draft': { title: '추가 자료를 읽고 우리 초안 쓰기', instructions: ['후보지의 추가 자료를 읽고 새로 확인한 사실을 적으세요. 더 조사할 내용 하나를 골라 우리 미션 질문을 쓰세요.', '그 질문에 답하려면 무엇을 관찰하거나 측정해야 할지 적으세요.', '목표와 예상 어려움, 필요한 기술을 짧게 쓰세요. 확신하기 어려운 내용은 확인 필요로 남기세요.'] },
@@ -140,8 +140,7 @@ export const explorationQuestions = activity.explorationQuestions.map((item) => 
 
 export const aiCards: AiCard[] = activity.aiCards.map((card) => card.id !== 'ai-1' ? card : {
   ...card,
-  beforeYouAsk: ['우리가 찾은 변화와 그 근거, 더 알아볼 질문을 먼저 쓰세요.', '우리와 AI가 같은 탐사 사례를 읽는지 확인하세요.'],
-  template: '다음은 수업을 위해 고른 탐사 사례이며 전체 우주 탐사 기록은 아니다.\n이 자료에서 보이는 변화 하나를 주장, 증거, 해석으로 설명해 줘.\n증거에는 사례번호와 탐사명, 비교한 항목과 값을 적어 줘.\n이 자료로 답할 수 없어 추가 자료가 필요한 질문 하나도 제시해 줘.\n자료에 적게 실렸다는 이유만으로 실제 탐사가 적거나 없었다고 단정하지 마.\n자료에 없는 사실이나 수치를 만들지 말고, 알 수 없는 내용은 구분해 줘.\n각 항목은 세 문장 이내로 답해 줘.\n\n[같은 탐사 자료]\n{{EXPLORATION_DATA}}',
+  beforeYouAsk: ['우리가 찾은 변화와 그 근거, 더 알아볼 질문을 먼저 쓰세요.', '우리와 AI가 선택한 같은 두 탐사 자료를 읽는지 확인하세요.'],
 });
 export const criteria = {
   ...activity.judgmentCriteria,
@@ -195,6 +194,7 @@ function readingPack(values: GroupValues): string {
 export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): string {
   const card = aiCards.find((item) => item.lessonId === 'lesson-' + lessonNumber);
   if (!card) return '';
+  if (lessonNumber === 1 && !comparisonComplete(values.comparison)) return '비교할 서로 다른 두 탐사를 먼저 선택해 주세요. 선택한 자료로 AI 질문을 준비합니다.';
   const promptValues = { ...values, factRef: comparisonSource(values) };
   const proposalFields: [string, string][] = [
     ['destination', '탐사지'], ['otherDestination', '다른 탐사지와 근거'], ['selectionReason', '선정 이유'],
@@ -213,7 +213,8 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
     ['claim2', '검증한 주장'], ['verifySource', '확인 자료'], ['verifyConditions', '자료의 조건'], ['verdict', '사실 판정'],
     ['reason', '판정 이유'], ['decision', '계획에 적용한 판단'], ['verifyNext', '더 확인할 점'], ['verifyLink', '연결한 계획'], ['revision', '바꾼 내용과 이유'],
   ];
-  const table = ['번호\t탐사명\t발사연도\t주관국과 기관\t목적지\t수업용 영역\t계획한 방식\t대표 수행 결과\t주요 내용\t근거번호\t출처번호', ...missionRecords.map((mission) => [mission.id, mission.title, mission.year, mission.agency, mission.destination, mission.destinationCategory, mission.method, mission.result, mission.description, mission.evidenceIds.join(', '), mission.sourceIds.join(', ')].join('\t'))].join('\n');
+  const promptMissions = lessonNumber === 1 ? readComparison(values.comparison).ids.map(id => missionRecords.find(mission => mission.id === id)!) : missionRecords;
+  const table = ['번호\t탐사명\t발사연도\t주관국과 기관\t목적지\t수업용 영역\t계획한 방식\t대표 수행 결과\t주요 내용\t근거번호\t출처번호', ...promptMissions.map((mission) => [mission.id, mission.title, mission.year, mission.agency, mission.destination, mission.destinationCategory, mission.method, mission.result, mission.description, mission.evidenceIds.join(', '), mission.sourceIds.join(', ')].join('\t'))].join('\n');
   const replacements: Record<string, string> = {
     EXPLORATION_DATA: table + (promptValues.factRef ? '\n\n[우리 모둠이 비교한 탐사]\n' + promptValues.factRef : ''),
     MISSION_DRAFT: recordText(promptValues, proposalFields), SOURCE_PACK: readingPack(values),
