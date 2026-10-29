@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Save, UserRound, Users} from 'lucide-react';
 import {allFields, FieldDef} from './course';
-import {comparisonSource, comparisonText, missionChoiceLabel, missionRecords, readComparison, writeComparison, ComparisonIds} from './teaching-content';
+import {comparisonText, missionChoiceLabel, missionRecords, readComparison, writeComparison, ComparisonIds, normalizeGroupValues, readMissionEvidence, writeMissionEvidence, readInquiryGap, writeInquiryGap, readExplanationChoice, writeExplanationChoice, explanationLabels, ExplanationKind, recordValueText} from './teaching-content';
 
 export type Row = {key:string; value:string; rev:number; updated?:string; actor?:string};
 export type Snapshot = {id:string; label:string; created:string; body?:string};
@@ -12,7 +12,7 @@ export type Draft = {version:2; studentId:string; teamId:string; personal:boolea
 export type SaveField = (def:FieldDef, value:string, rev:number, expectedTeamId:string)=>Promise<Row>;
 export const recordMap = (rows:Row[] = []):Record<string,string> => {
   const values:Record<string,string> = Object.fromEntries(rows.map(r=>[r.key,r.value]));
-  return 'comparison' in values ? {...values,factRef:comparisonSource(values)} : values;
+  return ['comparison','fact','gap','selectedClaim'].some(key=>key in values)?normalizeGroupValues(values):values;
 };
 export const clean = (s:unknown) => String(s??'').replace(/[·ㆍ•]/g, ', ').replace(/\s*,\s*,/g, ',').replace(/→/g, '다음');
 export const draftKey = (studentId:string, teamId:string, personal:boolean, key:string) => `space-draft:v2:${studentId}:${personal?'personal':teamId}:${key}`;
@@ -88,32 +88,55 @@ export function useFieldRecord({def,row,save,student,disabled=false}:RecordField
   return {cacheKey,value:bound?value:(cacheKey?readDraft(cacheKey)?.value:undefined)??row?.value??'',dirty:bound&&dirty,status:bound?status:'',conflict:bound?conflict:null,change,persist,useSaved};
 }
 type FieldRecord = ReturnType<typeof useFieldRecord>;
-type FieldProps = RecordFieldProps & {student:Student;record?:FieldRecord;comparisonValue?:string;legacyReference?:string;readOnly?:boolean};
+type FieldProps = RecordFieldProps & {student:Student;record?:FieldRecord;comparisonValue?:string;legacyReference?:string;readOnly?:boolean;groupValues?:Record<string,string|undefined>};
 export function Field(props:FieldProps) {
   if(props.def.hidden&&!props.readOnly)return null;
   return props.record?<FieldView {...props} record={props.record}/>:<OwnedField {...props}/>;
 }
 function OwnedField(props:FieldProps){const record=useFieldRecord(props);return <FieldView {...props} record={record}/>;}
-function FieldView({def,row,disabled=false,record,comparisonValue,legacyReference,readOnly=false}:FieldProps&{record:FieldRecord}) {
+function FieldView({def,row,disabled=false,record,comparisonValue,legacyReference,readOnly=false,groupValues={}}:FieldProps&{record:FieldRecord}) {
   const {cacheKey,value,dirty,status,conflict,change,persist,useSaved}=record;
   const props={id:cacheKey,value,disabled,maxLength:3000,onBlur:()=>void persist(),onChange:(e:React.ChangeEvent<HTMLTextAreaElement|HTMLSelectElement>)=>change(e.target.value)};
   const selection=readComparison(def.input==='mission-pair'?value:comparisonValue);
+  const evidence=readMissionEvidence(value),gap=readInquiryGap(value),choice=readExplanationChoice(value);
+  const context={...groupValues,comparison:comparisonValue??groupValues.comparison};
+  const grouped=def.input==='mission-evidence'||def.input==='explanation-choice';
   function choose(index:number,id:string){const ids:ComparisonIds=[...selection.ids];ids[index]=id?Number(id):null;if(change(writeComparison(ids,value)))void persist();}
   const time=row?.updated?new Date(row.updated).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'';
   return <div className={'field '+(def.personal?'personal-field':'')} data-field={def.key}>
-    <div className="field-heading"><label htmlFor={def.input==='mission-pair'?cacheKey+'-0':cacheKey}>{clean(def.label)}{def.optional&&<small className="optional-label"> 선택</small>}</label><span className={'field-owner '+(def.personal?'purple':'')}>{def.personal?<UserRound size={13}/>:<Users size={13}/>} {def.personal?'나의 기록':'모둠 기록'}</span></div>
+    <div className="field-heading">{grouped?<span className="field-group-label" id={cacheKey+'-heading'}>{clean(def.label)}</span>:<label htmlFor={def.input==='mission-pair'?cacheKey+'-0':cacheKey}>{clean(def.label)}{def.optional&&<small className="optional-label"> 선택</small>}</label>}<span className={'field-owner '+(def.personal?'purple':'')}>{def.personal?<UserRound size={13}/>:<Users size={13}/>} {def.personal?'나의 기록':'모둠 기록'}</span></div>
     {def.hint&&<p className="hint">{clean(def.hint)}</p>}
-    {readOnly?<Readback title="보관 중인 이전 입력" value={value}/>:def.input==='mission-pair'?<>
+    {readOnly?<Readback title="보관 중인 이전 입력" value={recordValueText(def.key,value,context)}/>:def.input==='mission-pair'?<>
       <div className="mission-pair-input" id={cacheKey}>{selection.ids.map((id,index)=><label key={index} htmlFor={cacheKey+'-'+index}><span>{index===0?'첫 번째':'두 번째'} 탐사</span><select id={cacheKey+'-'+index} value={id??''} disabled={disabled} onChange={e=>choose(index,e.target.value)} onBlur={()=>void persist()}><option value="">탐사를 선택하세요</option>{missionRecords.map(m=><option key={m.id} value={m.id} disabled={selection.ids[1-index]===m.id}>{missionChoiceLabel(m.id)}</option>)}</select></label>)}</div>
       <p className="hint selection-reminder">탐사를 바꾸었다면 이미 쓴 변화와 근거가 새로 고른 두 탐사와 맞는지 확인하세요.</p>
       {selection.legacy&&<details className="legacy-comparison" open={!selection.structured}><summary>이전에 쓴 비교 기록</summary><p>{selection.legacy}</p><small>원래 입력을 보관합니다. 비교할 두 탐사는 위에서 직접 골라 주세요.</small></details>}
       {legacyReference&&<details className="legacy-comparison"><summary>이전에 쓴 출발 근거 번호</summary><p>{legacyReference}</p></details>}
+    </>:def.input==='mission-evidence'?<>
+      <div className="mission-evidence-input" role="group" aria-labelledby={cacheKey+'-heading'}>{selection.ids.map((id,index)=><div className="evidence-writing-card" key={index}>
+        <label htmlFor={cacheKey+'-evidence-'+index}><span>{index===0?'첫 번째':'두 번째'} 탐사의 근거</span><strong>{id===null?'위에서 탐사를 먼저 선택하세요.':missionChoiceLabel(id)}</strong></label>
+        <textarea id={cacheKey+'-evidence-'+index} rows={3} maxLength={3000} value={id===null?'':evidence.entries[id]||''} disabled={disabled||id===null} placeholder="이 탐사 자료에 적힌 내용을 한 줄로 쓰세요." onChange={e=>{if(id!==null)change(writeMissionEvidence(id,e.target.value,value));}} onBlur={()=>void persist()}/>
+      </div>)}</div>
+      {evidence.legacy&&<details className="legacy-comparison" open={!evidence.structured}><summary>이전에 쓴 근거</summary><p>{evidence.legacy}</p><small>원래 기록을 보관합니다. 내용을 확인해 해당 탐사의 칸에 나누어 적어 주세요.</small></details>}
+      {Object.keys(evidence.entries).some(id=>!selection.ids.includes(Number(id))&&evidence.entries[id].trim())&&<details className="legacy-comparison"><summary>이전에 고른 탐사의 근거</summary>{Object.entries(evidence.entries).filter(([id,text])=>!selection.ids.includes(Number(id))&&text.trim()).map(([id,text])=><Readback key={id} title={missionChoiceLabel(Number(id))} value={text}/>)}</details>}
+    </>:def.input==='inquiry-gap'?<>
+      <textarea id={cacheKey} value={gap.statement} rows={3} maxLength={3000} disabled={disabled} placeholder="어떤 기록을 읽었고, 무엇이 없어 판단하기 어려운지 쓰세요." onChange={e=>change(writeInquiryGap('statement',e.target.value,value))} onBlur={()=>void persist()}/>
+      <div className="gap-question-input"><label htmlFor={cacheKey+'-question'}>추가로 알아볼 질문</label><p className="hint">위에서 알 수 없다고 설명한 점을 질문으로 바꾸어 쓰세요.</p><textarea id={cacheKey+'-question'} value={gap.question} rows={2} maxLength={3000} disabled={disabled} placeholder="다음 자료에서 무엇을 더 알아보고 싶나요?" onChange={e=>change(writeInquiryGap('question',e.target.value,value))} onBlur={()=>void persist()}/></div>
+      {gap.structured&&gap.legacy&&<details className="legacy-comparison"><summary>이전에 쓴 질문</summary><p>{gap.legacy}</p></details>}
+    </>:def.input==='explanation-choice'?<>
+      <div className="explanation-choice-list" role="radiogroup" aria-labelledby={cacheKey+'-heading'}>{(['change','gap'] as ExplanationKind[]).map(kind=>{
+        const text=kind==='change'?groupValues.change:groupValues.gapStatement;
+        return <label className={'explanation-choice '+(choice.kind===kind?'is-selected':'')+(!text?.trim()?' is-empty':'')} key={kind}>
+          <input type="radio" name={cacheKey} value={kind} checked={choice.kind===kind} disabled={disabled||!text?.trim()} onChange={()=>{if(change(writeExplanationChoice(kind,value)))void persist();}}/>
+          <span><strong>{explanationLabels[kind]}</strong><span className="explanation-choice-text">{text?.trim()||'앞에서 이 설명을 작성하고 저장하면 여기에 표시돼요.'}</span></span>
+        </label>;
+      })}</div>
+      <p className="hint">선택한 설명과 근거가 다음 AI 비교 화면에 이어집니다.</p>
+      {choice.legacy&&<details className="legacy-comparison" open={!choice.structured}><summary>이전에 쓴 비교할 주장</summary><p>{choice.legacy}</p><small>이전 주장은 보관합니다. 위의 두 설명 중 비교할 내용을 직접 골라 주세요.</small></details>}
     </>:<>
-      {def.key==='fact'&&selection.ids.some(id=>id!==null)&&<div className="fact-comparison-context">{selection.ids.map((id,index)=><p key={index}><b>{index===0?'첫 번째':'두 번째'} 탐사</b> {id===null?'아직 선택하지 않았어요.':missionChoiceLabel(id)}</p>)}</div>}
       {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
     </>}
     <div className="field-bottom"><span role="status">{status||(time?`${time} 저장${row?.actor?' / '+row.actor:''}`:'')}</span>{dirty&&<button className="text-btn" onClick={()=>void persist()} disabled={!!conflict||disabled}><Save size={13}/> 저장</button>}</div>
-    {conflict&&<div className="conflict" role="alert"><b>다른 기기에서 먼저 수정했어요.</b><p>먼저 저장된 내용: {(def.input==='mission-pair'?comparisonText(conflict.value):conflict.value)||'빈 기록'}</p><p>내 입력은 위에 남아 있어요. 두 내용을 확인하고 저장할 내용을 결정하세요.</p><div className="button-row"><button onClick={()=>void persist(conflict.rev)} disabled={disabled}>{readOnly?'보관 중인 입력 반영':'위 입력을 반영'}</button><button onClick={useSaved}>먼저 저장된 내용 사용</button></div></div>}
+    {conflict&&<div className="conflict" role="alert"><b>다른 기기에서 먼저 수정했어요.</b><p>먼저 저장된 내용: {recordValueText(def.key,conflict.value,context)||'빈 기록'}</p><p>내 입력은 위에 남아 있어요. 두 내용을 확인하고 저장할 내용을 결정하세요.</p><div className="button-row"><button onClick={()=>void persist(conflict.rev)} disabled={disabled}>{readOnly?'보관 중인 입력 반영':'위 입력을 반영'}</button><button onClick={useSaved}>먼저 저장된 내용 사용</button></div></div>}
   </div>;
 }
 
@@ -121,8 +144,8 @@ export function Readback({title,value,empty='아직 작성하지 않았어요.'}
 export function InquiryTrail({rows}:{rows:Row[]}) {
   const v=recordMap(rows);
   return <section className="inquiry-trail" aria-label="질문을 만든 과정"><h3>우리 질문이 만들어진 과정</h3><ol>{[
-    ['1차시에서 확인한 사실',[v.factRef,v.fact].filter(Boolean).join('\n')],
-    ['이 자료로는 답하지 못한 질문',v.gap],
+    ['자료에서 찾은 근거',[v.factRef,v.fact].filter(Boolean).join('\n')],
+    ['자료의 한계와 추가 질문',[v.gapStatement&&'이 자료로 알 수 없는 점과 그 이유: '+v.gapStatement,v.gap&&'추가로 알아볼 질문: '+v.gap].filter(Boolean).join('\n')],
     ['추가 자료에서 확인한 내용',[v.additionalRef,v.additionalFact].filter(Boolean).join('\n')],
     ['더 조사할 과제',v.task],
     ['우리 미션 질문',v.question]
@@ -137,7 +160,7 @@ export function Proposal({rows,label='우리 모둠 제안서'}:{rows:Row[];labe
   const sections=[['탐사 목표',v.goal],['선택한 까닭',v.selectionReason],['관찰하거나 측정할 대상',v.target],['얻으려는 자료',v.data],['자료를 얻는 방법과 이유',v.method],['예상 어려움',v.difficulty],['필요한 기술과 대응',[v.technology,v.response].filter(Boolean).join('\n')],['검증 후 반영한 내용',v.revision],['탐사의 의의와 영향',[v.evidenceRef,v.meaning].filter(Boolean).join('\n')],['우리 미션에서 기대하는 것',v.expectation],['남은 한계와 확인할 점',v.limitation]];
   return <article className="proposal"><p className="eyebrow">{label}</p><h2>{v.missionName||'우리 탐사 미션'}</h2><p className="destination-pill">{v.destination==='다른 탐사지'?v.otherDestination||'탐사지 미작성':v.destination||'탐사지 선택 전'}</p><div className="proposal-question">{v.question||'우리 모둠의 질문을 작성해 주세요.'}</div><InquiryTrail rows={rows}/><div className="proposal-grid">{sections.map(([title,value])=><section key={title}><h4>{title}</h4><p>{value?.trim()||'아직 작성하지 않았어요.'}</p></section>)}</div><EnvironmentTable rows={rows}/></article>;
 }
-export function RecordList({rows}:{rows:Row[]}) {return <>{rows.map(r=>{const selection=r.key==='comparison'?readComparison(r.value):null;return <React.Fragment key={r.key}><Readback title={clean(allFields.find(f=>f.key===r.key)?.label||r.key)} value={selection?comparisonText(r.value):r.value}/>{selection?.structured&&selection.legacy&&<Readback title="이전에 쓴 비교 기록" value={selection.legacy}/>}</React.Fragment>;})}</>;}
+export function RecordList({rows,contextRows=rows}:{rows:Row[];contextRows?:Row[]}) {const context=recordMap(contextRows);return <>{rows.map(r=>{const selection=r.key==='comparison'?readComparison(r.value):null;return <React.Fragment key={r.key}><Readback title={clean(allFields.find(f=>f.key===r.key)?.label||r.key)} value={recordValueText(r.key,r.value,context)}/>{selection?.structured&&selection.legacy&&<Readback title="이전에 쓴 비교 기록" value={selection.legacy}/>}</React.Fragment>;})}</>;}
 
 export function download(name:string,data:string,type='application/json') {const url=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 export const csv=(rows:unknown[][])=>'\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\r\n');

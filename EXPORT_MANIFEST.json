@@ -25,13 +25,13 @@
     },
     {
       "path": "app/course.ts",
-      "bytes": 22357,
-      "sha256": "e23cec2c45553d3cc6f2d2948abe9643c7d52cf045fce5e530c7472677b87cd8"
+      "bytes": 22852,
+      "sha256": "d7665fcae760f50bd1262e1f687b396d523a06bbf31a7e9f81c86643f4d62c3a"
     },
     {
       "path": "app/globals.css",
-      "bytes": 75137,
-      "sha256": "9fc0a5b953e11fa0bff2dcab2f9eec3909440035323ba891918cab6cc284a738"
+      "bytes": 77174,
+      "sha256": "dc942ed887bfe695739ad6e9b71de37b891d899d18b769f19f76f1237cae79a6"
     },
     {
       "path": "app/landing.tsx",
@@ -40,8 +40,8 @@
     },
     {
       "path": "app/notebook-content/activities.json",
-      "bytes": 43522,
-      "sha256": "bebf318ecc3e96a2733bcfedbf660da424c403ec944871b9ef03a29265300dd3"
+      "bytes": 43816,
+      "sha256": "aff0957787590a788da55169e56e51d46a251a17da7a7abe56960272984b8a07"
     },
     {
       "path": "app/notebook-content/data.json",
@@ -55,13 +55,13 @@
     },
     {
       "path": "app/page.tsx",
-      "bytes": 40295,
-      "sha256": "c03e7dd6874c119b05b37d7046701cb54531bb46e2b52643431a7eb2de77bb91"
+      "bytes": 41768,
+      "sha256": "8f934f661e21a2cbeb38394423c652c4fbb52a07339e5dae271652880a00dca2"
     },
     {
       "path": "app/record-ui.tsx",
-      "bytes": 15908,
-      "sha256": "93818ea563e6a28a9c7da3d9bcb5a1ec0642a98a3f2bf52ebd9f1820e3d8c1f5"
+      "bytes": 20209,
+      "sha256": "9df8b237fcd44f5f90883591825124933730b6449f7a89e5bda0179eba7e1929"
     },
     {
       "path": "app/resource-ui.tsx",
@@ -70,13 +70,13 @@
     },
     {
       "path": "app/teacher.tsx",
-      "bytes": 11503,
-      "sha256": "84ee2fceda9f6df9ef17f4a712bf7702bb2fb34a76e576c943aa8c238c13886d"
+      "bytes": 11560,
+      "sha256": "ba85e9a1563dfdd34335a354cc92da8da63355947bc52e059fd14d986563f306"
     },
     {
       "path": "app/teaching-content.ts",
-      "bytes": 20463,
-      "sha256": "7864d6418a1883185830aeff077b90c0335d06d017e79dea52b44c5a222d2c03"
+      "bytes": 27498,
+      "sha256": "e839a2fcf2697b36dd4f0271ddd8ad1b1d0b19b046393b22ab431c0e15244c00"
     },
     {
       "path": "lib/classroom-client.ts",

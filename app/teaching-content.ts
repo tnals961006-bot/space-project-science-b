@@ -73,6 +73,103 @@ export function comparisonSource(values: Record<string, string | undefined>): st
   // An intentionally cleared selection must not revive an older factRef.
   return selection.structured ? comparisonText(values.comparison) : values.factRef?.trim() || values.comparison?.trim() || '';
 }
+
+// These formats stay inside the existing record keys. Raw records remain available
+// for drafts, conflicts, snapshots and downloads; views use the helpers below.
+export type MissionEvidence = { structured: boolean; entries: Record<string, string>; legacy: string };
+export function readMissionEvidence(value = ''): MissionEvidence {
+  try {
+    const item = JSON.parse(value);
+    if (item?.type === 'mission-evidence' && item.version === 1 && item.entries && typeof item.entries === 'object' && !Array.isArray(item.entries)
+      && Object.entries(item.entries).every(([id, text]) => missionRecords.some(m => String(m.id) === id) && typeof text === 'string')
+      && (item.legacy === undefined || typeof item.legacy === 'string')) {
+      return { structured: true, entries: item.entries, legacy: item.legacy || '' };
+    }
+  } catch { /* Historical free text is never guessed or split. */ }
+  return { structured: false, entries: {}, legacy: value };
+}
+export function writeMissionEvidence(id: number, text: string, previous = ''): string {
+  const record = readMissionEvidence(previous);
+  return JSON.stringify({ type: 'mission-evidence', version: 1, entries: { ...record.entries, [id]: text }, ...(record.legacy ? { legacy: record.legacy } : {}) });
+}
+export function missionEvidenceText(value = '', comparison?: string, includePrevious = false): string {
+  const record = readMissionEvidence(value);
+  if (!record.structured) return record.legacy;
+  const selection = readComparison(comparison);
+  const ids = !includePrevious && selection.structured ? selection.ids.filter((id): id is number => id !== null) : Object.keys(record.entries).map(Number);
+  const parts = ids.filter(id => record.entries[id]?.trim()).map(id => `${missionChoiceLabel(id)}: ${record.entries[id]}`);
+  if (includePrevious && record.legacy) parts.push('이전에 쓴 근거\n' + record.legacy);
+  return parts.join('\n');
+}
+export type InquiryGap = { structured: boolean; statement: string; question: string; legacy: string };
+export function readInquiryGap(value = ''): InquiryGap {
+  try {
+    const item = JSON.parse(value);
+    if (item?.type === 'inquiry-gap' && item.version === 1 && typeof item.statement === 'string' && typeof item.question === 'string'
+      && (item.legacy === undefined || typeof item.legacy === 'string')) {
+      return { structured: true, statement: item.statement, question: item.question, legacy: item.legacy || '' };
+    }
+  } catch { /* An earlier question stays a question, not a data-limit claim. */ }
+  return { structured: false, statement: '', question: value, legacy: value };
+}
+export function writeInquiryGap(part: 'statement' | 'question', text: string, previous = ''): string {
+  const record = { ...readInquiryGap(previous), [part]: text };
+  return JSON.stringify({ type: 'inquiry-gap', version: 1, statement: record.statement, question: record.question, ...(record.legacy ? { legacy: record.legacy } : {}) });
+}
+export type ExplanationKind = 'change' | 'gap';
+export const explanationLabels: Record<ExplanationKind, string> = { change: '변화에 대한 우리 설명', gap: '자료의 한계에 대한 우리 설명' };
+export function readExplanationChoice(value = ''): { structured: boolean; kind: ExplanationKind | null; legacy: string } {
+  try {
+    const item = JSON.parse(value);
+    if (item?.type === 'explanation-choice' && item.version === 1 && (item.kind === 'change' || item.kind === 'gap' || item.kind === null)
+      && (item.legacy === undefined || typeof item.legacy === 'string')) {
+      return { structured: true, kind: item.kind, legacy: item.legacy || '' };
+    }
+  } catch { /* Preserve a previous independently written claim. */ }
+  return { structured: false, kind: null, legacy: value };
+}
+export function writeExplanationChoice(kind: ExplanationKind, previous = ''): string {
+  const { legacy } = readExplanationChoice(previous);
+  return JSON.stringify({ type: 'explanation-choice', version: 1, kind, ...(legacy ? { legacy } : {}) });
+}
+export function normalizeGroupValues(values: Record<string, string | undefined>): Record<string, string> {
+  const fact = values.__rawFact ?? values.fact ?? '', gap = values.__rawGap ?? values.gap ?? '', focus = values.__rawSelectedClaim ?? values.selectedClaim ?? '';
+  const gapRecord = readInquiryGap(gap), choice = readExplanationChoice(focus);
+  const result: Record<string, string> = Object.fromEntries(Object.entries(values).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
+  return { ...result, __rawFact: fact, __rawGap: gap, __rawSelectedClaim: focus,
+    factRef: comparisonSource(values), fact: missionEvidenceText(fact, values.comparison), gap: gapRecord.question,
+    gapStatement: gapRecord.statement, selectedClaimKind: choice.kind || '',
+    selectedClaim: choice.kind === 'change' ? values.change || '' : choice.kind === 'gap' ? gapRecord.statement : choice.legacy,
+  };
+}
+export function recordValueText(key: string, value: string, context: Record<string, string | undefined> = {}): string {
+  if (key === 'comparison') return comparisonText(value);
+  if (key === 'fact') return missionEvidenceText(value, context.comparison, true);
+  if (key === 'gap') {
+    const record = readInquiryGap(value);
+    if (!record.structured) return record.question;
+    return [record.statement && '이 자료로 알 수 없는 점과 그 이유: ' + record.statement,
+      record.question && '추가로 알아볼 질문: ' + record.question,
+      record.legacy && '이전에 쓴 질문: ' + record.legacy].filter(Boolean).join('\n');
+  }
+  if (key === 'selectedClaim') {
+    const choice = readExplanationChoice(value);
+    if (!choice.structured) return choice.legacy;
+    const values = normalizeGroupValues({ ...context, __rawSelectedClaim: value });
+    return [choice.kind && explanationLabels[choice.kind], values.selectedClaim, choice.legacy && '이전에 쓴 주장: ' + choice.legacy].filter(Boolean).join('\n');
+  }
+  return value;
+}
+export function comparisonMissingItems(values: Record<string, string | undefined>): string[] {
+  const v = normalizeGroupValues(values), ids = readComparison(v.comparison).ids, evidence = readMissionEvidence(v.__rawFact), missing: string[] = [];
+  if (!comparisonComplete(v.comparison)) missing.push('서로 다른 탐사 두 개 선택');
+  ids.forEach((id, index) => { if (id !== null && !evidence.entries[id]?.trim()) missing.push(`${index === 0 ? '첫 번째' : '두 번째'} 탐사의 근거 (${id}번)`); });
+  for (const [key, title] of [['change', '우리가 찾은 변화'], ['claimReason', '그렇게 판단한 이유'], ['gapStatement', '이 자료로 알 수 없는 점과 그 이유'], ['gap', '추가로 알아볼 질문']]) {
+    if (!v[key]?.trim()) missing.push(title);
+  }
+  if (!readExplanationChoice(v.__rawSelectedClaim).kind) missing.push('AI와 비교할 우리 설명 선택');
+  return missing;
+}
 export const evidenceCards: EvidenceCard[] = displayContent(dataSource.evidence);
 export const sourceRecords: SourceRecord[] = displayContent(dataSource.sources);
 export const readingCards: ReadingCard[] = displayContent(readingSource.cards);
@@ -102,8 +199,8 @@ export const readingGuidance = [
 ];
 
 export const inquiryFlow = [
-  { key: 'fact', title: '각 탐사 자료에서 확인한 내용', referenceKey: 'factRef', hint: '선택한 두 탐사에서 변화와 관련된 기록을 각각 한 줄씩 적으세요.' },
-  { key: 'gap', title: '이 자료로 답하지 못한 질문', hint: '앞의 사실에서 궁금해진 점을 질문으로 쓰세요.' },
+  { key: 'fact', title: '자료에서 찾은 근거', referenceKey: 'factRef', hint: '선택한 두 탐사의 같은 항목에서 찾은 내용을 각각 한 줄씩 적으세요.' },
+  { key: 'gap', title: '추가로 알아볼 질문', hint: '이 자료로 알 수 없는 점에서 질문을 만드세요.' },
   { key: 'task', title: '추가 자료를 읽고 정한 탐구 과제', referenceKey: 'additionalRef', supportingKey: 'additionalFact', hint: '새로 확인한 사실과 더 조사할 내용을 나누어 쓰세요.' },
   { key: 'question', title: '우리 미션 질문', hint: '어디에서 무엇을 조사해 어떤 내용을 알아낼지 질문으로 쓰세요.' },
 ];
@@ -111,7 +208,7 @@ export const inquiryFlow = [
 const activity = displayContent(activitySource);
 const stepCopy: Record<string, { title?: string; instructions?: string[]; doneWhen?: string[] }> = {
   'l1-read': { instructions: ['발사연도와 목적지를 확인하세요. 계획한 방식과 실제로 한 일을 나누어 읽으세요.', '아폴로 13호의 자료를 찾아 두 문장을 사실 또는 해석으로 분류하고 이유를 적으세요.', '판단의 근거가 된 자료를 모둠원에게 설명하세요.'] },
-  'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 두 개를 골라 비교하세요. 필요한 정렬이나 필터를 사용하세요.', '달라진 점 하나와 두 탐사 자료에서 찾은 근거를 적으세요. 이어서 이 자료로 답하지 못한 질문 하나를 쓰세요.', 'AI의 의견과 비교할 우리 주장 하나를 고르세요.'], doneWhen: ['두 탐사를 선택하고 달라진 점과 근거를 썼다.', '확인한 사실에서 더 알아볼 질문을 만들었다.', '비교할 우리 주장 하나를 골랐다.'] },
+  'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 두 개를 고르고 같은 항목을 비교하세요. 자료에서 찾은 근거를 탐사별로 한 줄씩 적으세요.', '두 기록에서 찾은 변화와 그렇게 판단한 이유를 쓰세요. 이어서 이 자료로 알 수 없는 점과 그 이유, 추가로 알아볼 질문을 적으세요.', '앞에서 쓴 두 설명을 읽고 AI의 설명과 비교해 보고 싶은 하나를 고르세요.'], doneWhen: ['같은 항목에서 찾은 두 탐사의 근거를 각각 썼다.', '변화와 자료의 한계를 근거로 설명하고 추가 질문을 만들었다.', 'AI와 비교할 우리 설명 하나를 골랐다.'] },
   'l1-conclude': { instructions: ['더 알아볼 질문을 설명하고, 그 질문을 조사할 탐사지 후보와 고른 이유를 적으세요.', '의의와 영향 근거카드 하나를 읽고, 확인한 사실을 근거로 각자의 결론을 쓰세요.', '이미 확인된 영향과 앞으로 기대하는 효과를 나누고 오늘 기록을 보관하세요.'] },
   'l2-reopen': { instructions: ['지난 시간에 확인한 사실과 남겨 둔 질문을 다시 읽으세요. 탐사지 후보를 고른 이유도 확인하세요.', '질문 입력, 자료 확인, 기록을 나누어 맡고 판단은 함께 하세요.', 'AI에게는 이름과 학번을 빼고 탐사 내용만 보내세요.'] },
   'l2-draft': { title: '추가 자료를 읽고 우리 초안 쓰기', instructions: ['후보지의 추가 자료를 읽고 새로 확인한 사실을 적으세요. 더 조사할 내용 하나를 골라 우리 미션 질문을 쓰세요.', '그 질문에 답하려면 무엇을 관찰하거나 측정해야 할지 적으세요.', '목표와 예상 어려움, 필요한 기술을 짧게 쓰세요. 확신하기 어려운 내용은 확인 필요로 남기세요.'] },
@@ -133,14 +230,14 @@ export const individualPrompts = activity.individualPrompts;
 export const explorationQuestions = activity.explorationQuestions.map((item) => item.id !== 'gap' ? item : {
   ...item,
   title: '이 자료로는 무엇을 알 수 없을까?',
-  mainQuestion: '자료에서 확인한 사실을 바탕으로 더 알아보고 싶은 질문을 적으세요.',
-  supportQuestions: ['어떤 사례의 어떤 내용에서 질문이 생겼나요?', '이 자료에 없다는 이유로 실제 탐사도 없었다고 말할 수 있나요?'],
-  recordPrompts: { claim: '이 자료로 답하지 못한 질문', evidence: '출발점이 된 사례와 확인한 사실', reasoning: '더 알아보고 싶은 이유' },
+  mainQuestion: '자료에서 무엇을 확인하지 못했는지 설명하고, 추가로 알아볼 질문을 만드세요.',
+  supportQuestions: ['어떤 사례의 어떤 기록에서 궁금증이 생겼나요?', '무엇이 빠져 있어서 이 자료만으로 답하기 어렵나요?'],
+  recordPrompts: { claim: '이 자료로 알 수 없는 점', evidence: '그 판단의 근거가 된 사례와 기록', reasoning: '이 자료만으로 판단하기 어려운 이유' },
 });
 
 export const aiCards: AiCard[] = activity.aiCards.map((card) => card.id !== 'ai-1' ? card : {
   ...card,
-  beforeYouAsk: ['우리가 찾은 변화와 그 근거, 더 알아볼 질문을 먼저 쓰세요.', '우리와 AI가 선택한 같은 두 탐사 자료를 읽는지 확인하세요.'],
+  beforeYouAsk: ['변화와 자료의 한계를 근거로 설명하고, AI와 비교할 우리 설명 하나를 고르세요.', '우리와 AI가 선택한 같은 두 탐사 자료를 읽는지 확인하세요.'],
 });
 export const criteria = {
   ...activity.judgmentCriteria,
@@ -195,7 +292,7 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
   const card = aiCards.find((item) => item.lessonId === 'lesson-' + lessonNumber);
   if (!card) return '';
   if (lessonNumber === 1 && !comparisonComplete(values.comparison)) return '비교할 서로 다른 두 탐사를 먼저 선택해 주세요. 선택한 자료로 AI 질문을 준비합니다.';
-  const promptValues = { ...values, factRef: comparisonSource(values) };
+  const promptValues = normalizeGroupValues(values);
   const proposalFields: [string, string][] = [
     ['destination', '탐사지'], ['otherDestination', '다른 탐사지와 근거'], ['selectionReason', '선정 이유'],
     ['factRef', '출발 자료 번호'], ['fact', '확인한 사실'], ['gap', '처음 질문'],

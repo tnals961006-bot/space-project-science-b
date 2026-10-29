@@ -46,7 +46,7 @@ export const destinationParts: { text: string; url?: string }[] = readingCards.f
 export type FieldDef = {
   key: string; label: string; hint?: string; options?: string[]; personal?: boolean;
   optional?: boolean; compact?: boolean; section?: string; dependsOn?: string[];
-  input?: 'mission-pair'; placeholder?: string; hidden?: boolean;
+  input?: 'mission-pair' | 'mission-evidence' | 'inquiry-gap' | 'explanation-choice'; placeholder?: string; hidden?: boolean;
 };
 export type StepDef = {
   id: string; name: string; minutes: number; resource: string; prompt: string;
@@ -102,23 +102,23 @@ export const stages: StageDef[] = [
       }),
       step(1, 2, {
         name: '두 탐사 비교', resource: 'data',
-        prompt: '서로 다른 시기의 두 탐사를 비교하세요. 달라진 점 하나와 근거를 적고, 이 자료로 답하지 못한 질문을 만드세요.',
+        prompt: '두 탐사의 같은 항목에서 근거를 찾으세요. 변화와 자료의 한계를 설명하고, AI와 비교할 우리 설명 하나를 고르세요.',
         fields: [
-          f('comparison', '비교할 탐사 두 개', '서로 다른 두 탐사를 고르세요. 선택한 번호는 근거와 제안서에 함께 연결됩니다.', undefined, { input: 'mission-pair' }),
-          f('change', '우리가 찾은 변화', '이 두 사례에서 어떤 점이 달라졌나요?', undefined, oneLine),
+          f('comparison', '비교할 탐사 두 개', '서로 다른 두 탐사를 고르세요. 선택한 번호는 근거와 제안서에 함께 연결됩니다.', undefined, { input: 'mission-pair', section: '1 탐사 선택' }),
           f('factRef', '출발 근거의 탐사 번호', '', undefined, { ...oneLine, hidden: true }),
-          f('fact', '각 탐사의 자료에는 무엇이라고 적혀 있나요?', '위에 쓴 변화와 관련된 내용을 선택한 두 탐사에서 각각 한 줄씩 적으세요. 발사연도, 탐사 대상, 계획한 방식, 실제 결과 중 비교한 항목을 쓰세요.', undefined, { placeholder: '첫 번째 탐사: 자료에서 찾은 내용\n두 번째 탐사: 자료에서 찾은 내용' }),
-          f('claimReason', '이 사실이 변화를 뒷받침하는 이유', '자료 전체의 경향으로 단정하지 말고 비교한 내용을 설명하세요.', undefined, oneLine),
-          f('gap', '이 자료로 답하지 못한 질문', '자료에 없다는 말이 인류가 아직 모른다는 뜻은 아닙니다.', undefined, oneLine),
-          f('selectedClaim', 'AI와 비교할 우리 주장', '방금 쓴 우리 주장 중 하나를 골라 적으세요.', undefined, oneLine),
+          f('fact', '자료에서 찾은 근거', '계획한 방식, 실제 결과, 주요 활동 중 같은 항목을 비교하세요. 각 탐사 자료에 적힌 내용을 한 줄씩 쓰세요.', undefined, { input: 'mission-evidence', section: '2 자료에서 근거 찾기' }),
+          f('change', '우리가 찾은 변화', '앞의 두 기록을 비교하면 어떤 점이 달라졌나요? 이 두 사례에서 확인한 범위로 설명하세요.', undefined, { ...oneLine, section: '3 변화 설명하기' }),
+          f('claimReason', '그렇게 판단한 이유', '앞에서 찾은 근거가 그 변화를 어떻게 보여 주나요?', undefined, oneLine),
+          f('gap', '이 자료로 알 수 없는 점과 그 이유', '어떤 기록을 읽었고, 무엇이 빠져 있어서 판단하기 어려운지 설명하세요. 이 자료의 한계를 인류가 아직 모르는 것으로 단정하지 마세요.', undefined, { input: 'inquiry-gap', section: '4 자료의 한계와 질문' }),
+          f('selectedClaim', 'AI의 설명과 비교해 보고 싶은 우리 설명', '앞에서 쓴 두 설명 중 하나를 고르세요. 근거를 더 확인하고 싶거나, 다른 해석이 가능하다고 생각하는 설명을 골라도 좋습니다.', undefined, { input: 'explanation-choice', section: '5 AI 비교 준비' }),
         ],
       }),
       step(1, 3, {
         name: 'AI 주장 비교', resource: 'ai1',
-        prompt: '우리 주장을 먼저 남기세요. 같은 자료를 읽은 AI의 주장 하나와 비교하고 원자료로 근거를 확인하세요.',
+        prompt: '앞에서 고른 우리 설명을 읽으세요. 같은 내용을 다룬 AI의 문장 하나를 찾아 원자료로 근거를 확인하세요.',
         fields: [
           f('route1', '검토 방법', '실제로 사용한 방법을 고르세요.', aiRoutes),
-          f('claim1', '검토한 AI의 주장', '실제로 받은 주장 한 문장을 적으세요.', undefined, oneLine),
+          f('claim1', '검토한 AI의 주장', '우리가 고른 설명과 관련된 AI의 문장 하나를 그대로 옮기세요. 다음 칸에서 원자료로 근거를 확인하세요.', undefined, oneLine),
           f('check1', '원자료에서 확인한 내용', '탐사 번호와 확인한 사실을 짧게 쓰세요.'),
           f('compare1', '우리 주장과 같은 점 또는 다른 점', '두 의견이 어디에서 같거나 다른지 적으세요.', undefined, oneLine),
           f('decision1', '우리 주장을 유지하거나 바꾼 이유', '원자료의 근거와 연결해 한두 문장으로 쓰세요.'),
