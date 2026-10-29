@@ -46,6 +46,7 @@ export const destinationParts: { text: string; url?: string }[] = readingCards.f
 export type FieldDef = {
   key: string; label: string; hint?: string; options?: string[]; personal?: boolean;
   optional?: boolean; compact?: boolean; section?: string; dependsOn?: string[];
+  input?: 'mission-pair'; placeholder?: string; hidden?: boolean;
 };
 export type StepDef = {
   id: string; name: string; minutes: number; resource: string; prompt: string;
@@ -102,10 +103,10 @@ export const stages: StageDef[] = [
         name: '두 탐사 비교', resource: 'data',
         prompt: '서로 다른 시기의 두 탐사를 비교하세요. 달라진 점 하나와 근거를 적고, 이 자료로 답하지 못한 질문을 만드세요.',
         fields: [
-          f('comparison', '비교한 탐사 번호 두 개', '자료에서 직접 고른 두 사례의 번호를 적으세요.', undefined, oneLine),
+          f('comparison', '비교할 탐사 두 개', '서로 다른 두 탐사를 고르세요. 선택한 번호는 근거와 제안서에 함께 연결됩니다.', undefined, { input: 'mission-pair' }),
           f('change', '우리가 찾은 변화', '이 두 사례에서 어떤 점이 달라졌나요?', undefined, oneLine),
-          f('factRef', '출발 근거의 탐사 번호', '', undefined, oneLine),
-          f('fact', '자료에서 직접 확인한 사실', '계획한 일과 실제로 한 일을 구분하세요.', undefined, oneLine),
+          f('factRef', '출발 근거의 탐사 번호', '', undefined, { ...oneLine, hidden: true }),
+          f('fact', '각 탐사의 자료에는 무엇이라고 적혀 있나요?', '위에 쓴 변화와 관련된 내용을 선택한 두 탐사에서 각각 한 줄씩 적으세요. 발사연도, 탐사 대상, 계획한 방식, 실제 결과 중 비교한 항목을 쓰세요.', undefined, { placeholder: '첫 번째 탐사: 자료에서 찾은 내용\n두 번째 탐사: 자료에서 찾은 내용' }),
           f('claimReason', '이 사실이 변화를 뒷받침하는 이유', '자료 전체의 경향으로 단정하지 말고 비교한 내용을 설명하세요.', undefined, oneLine),
           f('gap', '이 자료로 답하지 못한 질문', '자료에 없다는 말이 인류가 아직 모른다는 뜻은 아닙니다.', undefined, oneLine),
           f('selectedClaim', 'AI나 동료와 비교할 우리 주장', '방금 쓴 우리 주장 중 하나를 골라 적으세요.', undefined, oneLine),
@@ -277,7 +278,7 @@ export const allFields = stages.flatMap((stage) => stage.steps.flatMap((item) =>
 export const groupKeys = allFields.filter((field) => !field.personal).map((field) => field.key);
 export const personalKeys = allFields.filter((field) => field.personal).map((field) => field.key);
 export const proposalKeys = [
-  'missionName', 'destination', 'otherDestination', 'selectionReason', 'factRef', 'fact', 'gap',
+  'missionName', 'destination', 'otherDestination', 'selectionReason', 'comparison', 'factRef', 'fact', 'gap',
   'additionalRef', 'additionalFact', 'task', 'question', 'goal', 'target', 'data', 'method',
   'difficulty', 'technology', 'response',
   'env1', 'envInfo1', 'envSource1', 'envResponse1', 'envReview1',

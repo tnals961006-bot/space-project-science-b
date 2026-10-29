@@ -546,6 +546,18 @@ textarea{min-height:132px;line-height:1.85}
 .field-owner{font-size:var(--tiny-size);color:#235854;background:#e4f1ec;padding:4px 7px;line-height:1.5;font-weight:550}
 .field-owner.purple{color:#65458b;background:#f1eaf8}
 .field .hint{font-size:var(--small-size);line-height:1.8;margin-bottom:11px}
+.mission-pair-input{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.mission-pair-input>label{display:grid;gap:6px;min-width:0;font-size:var(--small-size);font-weight:600;color:#35586a}
+.mission-pair-input select{width:100%;min-width:0;min-height:48px;font-size:var(--small-size)}
+.selection-reminder{margin-top:12px}
+.legacy-comparison{margin:12px 0;padding:12px 14px;border:1px solid #d4dee6;border-radius:8px;background:#f7f9fa;font-size:var(--small-size)}
+.legacy-comparison summary{cursor:pointer;font-weight:600}
+.legacy-comparison p{white-space:pre-wrap;overflow-wrap:anywhere;margin:10px 0}
+.legacy-comparison small{font-size:var(--tiny-size);line-height:1.7;color:#587084}
+.fact-comparison-context{padding:12px 14px;margin:0 0 12px;border-left:3px solid #87aaa6;background:#f0f6f4}
+.fact-comparison-context p{font-size:var(--small-size);line-height:1.8;margin:0;overflow-wrap:anywhere}
+.fact-comparison-context p+p{margin-top:5px}
+.fact-comparison-context b{font-weight:650}
 .field textarea{font-size:var(--body-size);line-height:1.85;background:#fff;min-height:145px}
 .personal-field textarea{background:#fdfbff;border-color:#a99ab7}
 .field-bottom{min-height:30px;font-size:var(--tiny-size);color:#5f7384;line-height:1.7;flex-wrap:wrap;padding-top:5px}

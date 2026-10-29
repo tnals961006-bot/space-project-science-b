@@ -36,6 +36,43 @@ export type AiCard = (typeof activitySource.aiCards)[number];
 
 export const contentVersion = dataSource.version;
 export const missionRecords: MissionRecord[] = displayContent(dataSource.missions);
+export type ComparisonIds = [number | null, number | null];
+export type ComparisonSelection = { ids: ComparisonIds; legacy: string; structured: boolean };
+/** Only our explicit format is interpreted. Older free text remains unchanged. */
+export function readComparison(value = ''): ComparisonSelection {
+  try {
+    const item = JSON.parse(value);
+    if (item?.type === 'mission-pair' && item.version === 1 && Array.isArray(item.ids) && item.ids.length === 2
+      && item.ids.every((id: unknown) => id === null || (typeof id === 'number' && missionRecords.some(m => m.id === id)))
+      && (item.ids[0] === null || item.ids[0] !== item.ids[1])
+      && (item.legacy === undefined || typeof item.legacy === 'string')) {
+      return { ids: [item.ids[0], item.ids[1]], legacy: item.legacy || '', structured: true };
+    }
+  } catch { /* Free text is a supported historical record. */ }
+  return { ids: [null, null], legacy: value, structured: false };
+}
+export function writeComparison(ids: ComparisonIds, previous = ''): string {
+  const { legacy } = readComparison(previous);
+  return JSON.stringify({ type: 'mission-pair', version: 1, ids, ...(legacy ? { legacy } : {}) });
+}
+export function missionChoiceLabel(id: number): string {
+  const mission = missionRecords.find(item => item.id === id);
+  return mission ? `${mission.id}번 ${mission.title} (${mission.year}년 발사)` : '';
+}
+export function comparisonText(value = ''): string {
+  const selection = readComparison(value);
+  if (!selection.structured) return selection.legacy;
+  return selection.ids.map((id, index) => id === null ? '' : `${index === 0 ? '첫 번째' : '두 번째'} 탐사: ${missionChoiceLabel(id)}`).filter(Boolean).join('\n');
+}
+export function comparisonComplete(value?: string): boolean {
+  const { ids } = readComparison(value);
+  return ids[0] !== null && ids[1] !== null && ids[0] !== ids[1];
+}
+export function comparisonSource(values: Record<string, string | undefined>): string {
+  const selection = readComparison(values.comparison);
+  // An intentionally cleared selection must not revive an older factRef.
+  return selection.structured ? comparisonText(values.comparison) : values.factRef?.trim() || values.comparison?.trim() || '';
+}
 export const evidenceCards: EvidenceCard[] = displayContent(dataSource.evidence);
 export const sourceRecords: SourceRecord[] = displayContent(dataSource.sources);
 export const readingCards: ReadingCard[] = displayContent(readingSource.cards);
@@ -65,7 +102,7 @@ export const readingGuidance = [
 ];
 
 export const inquiryFlow = [
-  { key: 'fact', title: '탐사 자료에서 확인한 사실', referenceKey: 'factRef', hint: '탐사 번호와 자료에서 확인한 내용을 적으세요.' },
+  { key: 'fact', title: '각 탐사 자료에서 확인한 내용', referenceKey: 'factRef', hint: '선택한 두 탐사에서 변화와 관련된 기록을 각각 한 줄씩 적으세요.' },
   { key: 'gap', title: '이 자료로 답하지 못한 질문', hint: '앞의 사실에서 궁금해진 점을 질문으로 쓰세요.' },
   { key: 'task', title: '추가 자료를 읽고 정한 탐구 과제', referenceKey: 'additionalRef', supportingKey: 'additionalFact', hint: '새로 확인한 사실과 더 조사할 내용을 나누어 쓰세요.' },
   { key: 'question', title: '우리 미션 질문', hint: '어디에서 무엇을 조사해 어떤 내용을 알아낼지 질문으로 쓰세요.' },
@@ -74,7 +111,7 @@ export const inquiryFlow = [
 const activity = displayContent(activitySource);
 const stepCopy: Record<string, { title?: string; instructions?: string[]; doneWhen?: string[] }> = {
   'l1-read': { instructions: ['발사연도와 목적지를 확인하세요. 계획한 방식과 실제로 한 일을 나누어 읽으세요.', '아폴로 13호의 자료를 찾아 두 문장을 사실 또는 해석으로 분류하고 이유를 적으세요.', '판단의 근거가 된 자료를 모둠원에게 설명하세요.'] },
-  'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 사례를 비교하세요. 필요한 정렬이나 필터를 사용하세요.', '달라진 점 하나와 그 근거가 된 사례를 적으세요. 이어서 이 자료로 답하지 못한 질문 하나를 쓰세요.', 'AI나 동료의 의견과 비교할 우리 주장 하나를 고르세요.'], doneWhen: ['달라진 점과 근거가 된 탐사 번호를 썼다.', '확인한 사실에서 더 알아볼 질문을 만들었다.', '비교할 우리 주장 하나를 골랐다.'] },
+  'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 두 개를 골라 비교하세요. 필요한 정렬이나 필터를 사용하세요.', '달라진 점 하나와 두 탐사 자료에서 찾은 근거를 적으세요. 이어서 이 자료로 답하지 못한 질문 하나를 쓰세요.', 'AI나 동료의 의견과 비교할 우리 주장 하나를 고르세요.'], doneWhen: ['두 탐사를 선택하고 달라진 점과 근거를 썼다.', '확인한 사실에서 더 알아볼 질문을 만들었다.', '비교할 우리 주장 하나를 골랐다.'] },
   'l1-conclude': { instructions: ['더 알아볼 질문을 설명하고, 그 질문을 조사할 탐사지 후보와 고른 이유를 적으세요.', '의의와 영향 근거카드 하나를 읽고, 확인한 사실을 근거로 각자의 결론을 쓰세요.', '이미 확인된 영향과 앞으로 기대하는 효과를 나누고 오늘 기록을 보관하세요.'] },
   'l2-reopen': { instructions: ['지난 시간에 확인한 사실과 남겨 둔 질문을 다시 읽으세요. 탐사지 후보를 고른 이유도 확인하세요.', '질문 입력, 자료 확인, 기록을 나누어 맡고 판단은 함께 하세요.', 'AI에게는 이름과 학번을 빼고 탐사 내용만 보내세요.'] },
   'l2-draft': { title: '추가 자료를 읽고 우리 초안 쓰기', instructions: ['후보지의 추가 자료를 읽고 새로 확인한 사실을 적으세요. 더 조사할 내용 하나를 골라 우리 미션 질문을 쓰세요.', '그 질문에 답하려면 무엇을 관찰하거나 측정해야 할지 적으세요.', '목표와 예상 어려움, 필요한 기술을 짧게 쓰세요. 확신하기 어려운 내용은 확인 필요로 남기세요.'] },
@@ -158,6 +195,7 @@ function readingPack(values: GroupValues): string {
 export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): string {
   const card = aiCards.find((item) => item.lessonId === 'lesson-' + lessonNumber);
   if (!card) return '';
+  const promptValues = { ...values, factRef: comparisonSource(values) };
   const proposalFields: [string, string][] = [
     ['destination', '탐사지'], ['otherDestination', '다른 탐사지와 근거'], ['selectionReason', '선정 이유'],
     ['factRef', '출발 자료 번호'], ['fact', '확인한 사실'], ['gap', '처음 질문'],
@@ -177,9 +215,9 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
   ];
   const table = ['번호\t탐사명\t발사연도\t주관국과 기관\t목적지\t수업용 영역\t계획한 방식\t대표 수행 결과\t주요 내용\t근거번호\t출처번호', ...missionRecords.map((mission) => [mission.id, mission.title, mission.year, mission.agency, mission.destination, mission.destinationCategory, mission.method, mission.result, mission.description, mission.evidenceIds.join(', '), mission.sourceIds.join(', ')].join('\t'))].join('\n');
   const replacements: Record<string, string> = {
-    EXPLORATION_DATA: table,
-    MISSION_DRAFT: recordText(values, proposalFields), SOURCE_PACK: readingPack(values),
-    PROPOSAL: recordText(values, proposalFields), ENVIRONMENT_RECORD: recordText(values, environmentFields), EVIDENCE_RECORD: recordText(values, verificationFields),
+    EXPLORATION_DATA: table + (promptValues.factRef ? '\n\n[우리 모둠이 비교한 탐사]\n' + promptValues.factRef : ''),
+    MISSION_DRAFT: recordText(promptValues, proposalFields), SOURCE_PACK: readingPack(values),
+    PROPOSAL: recordText(promptValues, proposalFields), ENVIRONMENT_RECORD: recordText(values, environmentFields), EVIDENCE_RECORD: recordText(values, verificationFields),
   };
   return card.template.replace(/\{\{([A-Z_]+)\}\}/g, (_, key: string) => replacements[key] ?? '[확인할 자료를 넣으세요]');
 }
