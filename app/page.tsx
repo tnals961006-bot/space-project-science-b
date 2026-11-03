@@ -128,7 +128,7 @@ export default function App(){
   async function copy(text:string){try{await navigator.clipboard.writeText(text);notify('복사했어요. 선생님이 안내한 곳에 붙여 넣으세요.');}catch{download('SPACE_질문.txt',text,'text/plain');notify('질문 파일을 내려받았어요.');}}
   async function copyAi(level:number){
     const ctx=contextGen.current,studentId=stateRef.current?.student.id,teamId=stateRef.current?.student.teamId;
-    const name=level===1?'1차시 검토 전':level===2?'2차시 AI 사용 전':null;
+    const name=level===1?'1차시 AI 사용 전':level===2?'2차시 AI 사용 전':null;
     if(name?!await snapshot(name,true):!await flush())return;
     const latest=stateRef.current;
     if(ctx!==contextGen.current||!latest||latest.student.id!==studentId||latest.student.teamId!==teamId||latest.student.closed)return;
