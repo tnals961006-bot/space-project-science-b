@@ -108,7 +108,10 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
     <div className="field-heading">{grouped?<span className="field-group-label" id={cacheKey+'-heading'}>{clean(def.label)}</span>:<label htmlFor={def.input==='mission-pair'?cacheKey+'-0':cacheKey}>{clean(def.label)}{def.optional&&<small className="optional-label"> 선택</small>}</label>}<span className={'field-owner '+(def.personal?'purple':'')}>{def.personal?<UserRound size={13}/>:<Users size={13}/>} {def.personal?'나의 기록':'모둠 기록'}</span></div>
     {def.hint&&<p className="hint">{clean(def.hint)}</p>}
     {def.scaffold&&<div className="writing-scaffold"><span>문장틀</span><p>{clean(def.scaffold)}</p></div>}
-    {readOnly?<Readback title="보관 중인 이전 입력" value={recordValueText(def.key,value,context)}/>:def.input==='mission-pair'?<>
+    {readOnly?<Readback title="보관 중인 이전 입력" value={recordValueText(def.key,value,context)}/>:def.input==='destination-free'?<>
+      <textarea {...props} rows={2} placeholder="탐사지 이름을 직접 써 보세요."/>
+      <div className="destination-examples"><span>막힐 때 참고할 예시</span><p>달 남극 · 화성 · 유로파</p><small>꼭 이 셋 중에서 고를 필요는 없습니다. 다른 행성, 위성, 소행성도 가능합니다.</small></div>
+    </>:def.input==='mission-pair'?<>
       <div className="mission-pair-input" id={cacheKey}>{selection.ids.map((id,index)=><label key={index} htmlFor={cacheKey+'-'+index}><span>{index===0?'첫 번째':'두 번째'} 탐사</span><select id={cacheKey+'-'+index} value={id??''} disabled={disabled} onChange={e=>choose(index,e.target.value)} onBlur={()=>void persist()}><option value="">탐사를 선택하세요</option>{missionRecords.map(m=><option key={m.id} value={m.id} disabled={selection.ids[1-index]===m.id}>{missionChoiceLabel(m.id)}</option>)}</select></label>)}</div>
       <p className="hint selection-reminder">탐사를 바꾸었다면 이미 쓴 변화와 근거가 새로 고른 두 탐사와 맞는지 확인하세요.</p>
       {selection.legacy&&<details className="legacy-comparison" open={!selection.structured}><summary>이전에 쓴 비교 기록</summary><p>{selection.legacy}</p><small>원래 입력을 보관합니다. 비교할 두 탐사는 위에서 직접 골라 주세요.</small></details>}
