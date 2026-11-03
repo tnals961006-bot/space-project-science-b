@@ -201,7 +201,7 @@ export default function App(){
       else if(!personal.conclusion?.trim()) current=item('conclusion','마지막으로 각자 오늘의 생각을 쓰세요.','방금 고른 영향 카드의 사실을 근거로 한 문장으로 정리합니다.');
       else current=item('','1차시 기록 완료','1차시 보관을 누르면 됩니다.');
       parts=[
-        {label:'탐사지 고르기',done:!!values.destination?.trim()&&!!values.selectionReason?.trim()},
+        {label:'더 알아볼 곳 고르기',done:!!values.destination?.trim()&&!!values.selectionReason?.trim()},
         {label:'영향 카드',done:!!values.evidenceRef?.trim()&&!!values.meaning?.trim()},
         {label:'나의 생각',done:!!personal.conclusion?.trim()},
       ];
@@ -232,7 +232,7 @@ export default function App(){
             </article>
           </div>
           <ol className="ai-compare-steps">
-            <li><b>1</b> AI 답에서 같은 주제의 문장 1개를 찾기</li>
+            <li><b>1</b> AI 답에서 우리 말과 비슷한 문장 1개 찾기</li>
             <li><b>2</b> 활동 3에서 비교한 두 탐사 자료로 두 문장을 확인하기</li>
             <li><b>3</b> 우리 문장을 그대로 둘지 고칠지 정하기</li>
           </ol>
@@ -286,7 +286,7 @@ export default function App(){
     {mode==='home'&&<Landing reviewOnly={typeof window!=='undefined'&&isLocalReviewOnly()} simpleEntryPreview={typeof window!=='undefined'&&(!isLocalReviewOnly()||new URLSearchParams(window.location.search).get('entry')==='preview')} code={code} onCodeChange={setCode} onJoin={()=>void join()} busy={busy} welcome={welcome} onResume={()=>{const ctx=contextGen.current;setBusy(true);void api('state').then(s=>{if(ctx!==contextGen.current)return;acceptState(s);changeMode('student');setAuthError('');setGallery([]);setSnapView(null);}).catch(e=>{setWelcome('');setJoinError(e.message);}).finally(()=>setBusy(false));}} onReview={()=>changeMode('review')} onTeacher={()=>void openTeacher()} onStartReview={startReview} joinError={joinError}/>}
     {mode==='review'&&<ReviewGuide onStart={startReview} onMaterials={()=>changeMode('materials')}/>}
     {mode==='materials'&&<main className="materials-page"><h1>과학B 전체 수업 자료</h1><button className="secondary" onClick={()=>changeMode('review')}>검토 안내로 돌아가기</button><FullMaterials notify={notify}/></main>}
-    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103j','_blank','noopener,noreferrer');}}/>}
+    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103k','_blank','noopener,noreferrer');}}/>}
     {(mode==='student'||mode==='demo')&&state&&<>
       <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 학생과 같은 활동 화면</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
       {authError&&<div className="auth-banner" role="alert"><p>{authError}</p><button className="secondary" onClick={()=>{changeMode('home');setWelcome('');}}>입장권으로 다시 접속</button><button className="secondary" onClick={()=>download('SPACE_저장전입력.json',JSON.stringify(drafts.map(x=>x.draft),null,2))}>입력 내려받기</button></div>}
