@@ -176,9 +176,9 @@ export default function App(){
         {!ready&&(level===1?<div className="comparison-missing" role="status"><b>아직 필요한 기록</b><ul>{missing.map(item=><li key={item}>{item}</li>)}</ul><button className="text-btn" onClick={()=>void navigate(0,2)}>두 탐사 비교로 돌아가기</button></div>:<p className="hint">먼저 미션 질문과 얻을 자료, 방법을 저장하세요.</p>)}
         <details><summary>보낼 질문 전체 확인</summary><pre className="prompt-preview">{buildAiPrompt(level,values)}</pre></details>
       </div>
-      {level<3&&<button className="secondary wide" disabled={!ready||!!authError||!!state?.student.closed} onClick={()=>void snapshot(level===1?'1차시 검토 전':'2차시 AI 사용 전')}><Save size={16}/>{level===1?'교사 응답을 읽기 전에도 초안 보관':'동료와 검토하기 전에도 초안 보관'}</button>}
-      <p className="notice">{level===1?'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하거나 교사가 제공한 실제 AI 응답을 읽고 기록하세요.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
-      <details className="reading-card" open><summary>{level===1?'AI 접속이 어려우면 추천 비교쌍의 교사 준비 응답으로 진행하세요.':'AI 접속이 어려우면 동료와 검토하세요.'}</summary><ol>{peer.instructions.map(t=><li key={t}>{t}</li>)}</ol>{peer.questions.map(q=><blockquote key={q}>{q}</blockquote>)}</details>
+      {level<3&&<button className="secondary wide" disabled={!ready||!!authError||!!state?.student.closed} onClick={()=>void snapshot(level===1?'1차시 AI 사용 전':'2차시 AI 사용 전')}><Save size={16}/>{level===1?'AI에 질문하기 전 초안 보관':'동료와 검토하기 전에도 초안 보관'}</button>}
+      <p className="notice">{level===1?'여기서는 AI 답변을 만들지 않아요. 질문을 복사해 학교에서 허용한 AI에 직접 보내고, 받은 답을 기록하세요.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
+      {level>1&&<details className="reading-card" open><summary>AI 접속이 어려우면 동료와 검토하세요.</summary><ol>{peer.instructions.map(t=><li key={t}>{t}</li>)}</ol>{peer.questions.map(q=><blockquote key={q}>{q}</blockquote>)}</details>}
       {level===3&&<><CriteriaCards/>{planEditor(true)}</>}
     </div>;
   }
@@ -216,7 +216,7 @@ export default function App(){
     {mode==='home'&&<Landing reviewOnly={typeof window!=='undefined'&&isLocalReviewOnly()} simpleEntryPreview={typeof window!=='undefined'&&(!isLocalReviewOnly()||new URLSearchParams(window.location.search).get('entry')==='preview')} code={code} onCodeChange={setCode} onJoin={()=>void join()} busy={busy} welcome={welcome} onResume={()=>{const ctx=contextGen.current;setBusy(true);void api('state').then(s=>{if(ctx!==contextGen.current)return;acceptState(s);changeMode('student');setAuthError('');setGallery([]);setSnapView(null);}).catch(e=>{setWelcome('');setJoinError(e.message);}).finally(()=>setBusy(false));}} onReview={()=>changeMode('review')} onTeacher={()=>void openTeacher()} onStartReview={startReview} joinError={joinError}/>}
     {mode==='review'&&<ReviewGuide onStart={startReview} onMaterials={()=>changeMode('materials')}/>}
     {mode==='materials'&&<main className="materials-page"><h1>과학B 전체 수업 자료</h1><button className="secondary" onClick={()=>changeMode('review')}>검토 안내로 돌아가기</button><FullMaterials notify={notify}/></main>}
-    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103f','_blank','noopener,noreferrer');}}/>}
+    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103g','_blank','noopener,noreferrer');}}/>}
     {(mode==='student'||mode==='demo')&&state&&<>
       <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 학생과 같은 활동 화면</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
       {authError&&<div className="auth-banner" role="alert"><p>{authError}</p><button className="secondary" onClick={()=>{changeMode('home');setWelcome('');}}>입장권으로 다시 접속</button><button className="secondary" onClick={()=>download('SPACE_저장전입력.json',JSON.stringify(drafts.map(x=>x.draft),null,2))}>입력 내려받기</button></div>}
