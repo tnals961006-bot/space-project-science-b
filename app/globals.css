@@ -1200,3 +1200,9 @@ td .text-btn{font-size:var(--small-size)}
 .carry-forward-card{background:#fff8e9;border:1px solid #e9d6a9;border-radius:13px;padding:15px 17px;margin:0 0 18px}
 .carry-forward-card>span{display:block;font-size:11px;font-weight:800;color:#8a6a2d;margin-bottom:5px}
 .carry-forward-card>p{margin:0;font-size:15px;line-height:1.75;font-weight:700;color:#4d4639;white-space:pre-wrap}
+
+.ai-purpose{margin:10px 0 15px;padding:11px 13px;border-left:3px solid #8da66e;background:#f7faef;border-radius:0 9px 9px 0;font-size:var(--small-size);line-height:1.7}
+.ai-purpose b{margin-right:6px;color:var(--green)}
+.conclusion-flow>.writing-pane,.conclusion-flow>.resource-pane{margin-bottom:0}
+.conclusion-flow .inline-evidence{background:#fcfdfb}
+.conclusion-flow .inline-evidence>.section-heading{margin-bottom:10px}
