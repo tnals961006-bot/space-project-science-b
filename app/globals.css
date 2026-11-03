@@ -1062,3 +1062,8 @@ td .text-btn{font-size:var(--small-size)}
   .prompt-preview{max-height:none;overflow:visible}
 }
 
+
+.space-simple-entry-grid{display:grid;grid-template-columns:120px minmax(0,1fr);gap:13px;min-width:0}
+.space-code-field select{width:100%;min-height:53px;padding:12px 15px;border:1px solid #8497a7;background:#fffdf9;color:#17273a;font-family:var(--font);font-size:var(--body-size);border-radius:8px;line-height:1.5}
+.space-code-field select:focus{box-shadow:0 0 0 3px #24525722;border-color:#245257;outline:none}
+@media(max-width:640px){.space-entry-form{grid-template-columns:1fr}.space-simple-entry-grid{grid-template-columns:1fr 1fr}.space-enter-button{width:100%}}
