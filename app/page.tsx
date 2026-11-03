@@ -169,10 +169,10 @@ export default function App(){
     }else if(step===2){
       if(!comparisonComplete(rawComparison)) current=item('comparison','탐사 두 개를 고르세요.','추천 조합을 눌러도 되고 직접 골라도 됩니다.');
       else if(!evidenceDone) current=item('fact','두 탐사에서 같은 항목의 근거를 가져오세요.','계획한 방식, 실제 결과, 주요 활동 중 같은 항목을 고릅니다.');
-      else if(!values.change?.trim()) current=item('change','두 탐사에서 보이는 차이를 한 문장으로 쓰세요.','앞에서 가져온 두 근거만 보고 씁니다.');
+      else if(!values.change?.trim()) current=item('change','두 탐사에서 보이는 차이를 한 문장으로 쓰세요.','바로 위에 가져온 두 탐사 기록만 보고 씁니다.');
       else if(!values.claimReason?.trim()) current=item('claimReason','왜 그렇게 보이는지 근거를 쓰세요.','첫 번째 탐사와 두 번째 탐사의 기록을 연결합니다.');
       else if(!gapDone) current=item('gap','이 자료만으로 알기 어려운 점과 질문을 쓰세요.','자료에 없는 점을 찾고, 더 알아볼 질문으로 바꿉니다.');
-      else if(!values.selectedClaimKind?.trim()) current=item('selectedClaim','AI와 비교할 우리 문장 하나를 고르세요.','앞에서 우리 모둠이 쓴 두 문장 중 하나만 고릅니다.');
+      else if(!values.selectedClaimKind?.trim()) current=item('selectedClaim','AI와 비교할 우리 문장 하나를 고르세요.','이 활동에서 방금 쓴 ‘두 탐사의 차이’ 또는 ‘이 자료만으로 알기 어려운 점’ 중 하나를 고릅니다.');
       else current=item('','비교 준비 완료','다음 활동에서 AI와 직접 비교합니다.');
       parts=[
         {label:'탐사 고르기',done:comparisonComplete(rawComparison)},
@@ -183,9 +183,9 @@ export default function App(){
       ];
     }else if(step===3){
       if(!values.claim1?.trim()) current=item('claim1','AI 답에서 우리 말과 비슷한 문장 하나를 옮기세요.','AI 답 전체가 아니라 문장 하나만 찾으면 됩니다.');
-      else if(!values.check1?.trim()) current=item('check1','처음 탐사 자료를 다시 보고 확인한 내용을 쓰세요.','우리 문장과 AI 문장이 자료와 맞는지 확인합니다.');
+      else if(!values.check1?.trim()) current=item('check1','활동 3에서 비교한 두 탐사 자료를 다시 보세요.','우리 문장과 AI 문장이 그 자료와 맞는지 확인합니다.');
       else if(!values.compare1?.trim()) current=item('compare1','우리 문장과 AI 문장을 비교하세요.','같은 점 또는 다른 점을 짧게 씁니다.');
-      else if(!values.decision1?.trim()) current=item('decision1','우리 문장을 그대로 둘지 고칠지 정하세요.','처음 탐사 자료를 근거로 결정합니다.');
+      else if(!values.decision1?.trim()) current=item('decision1','우리 문장을 그대로 둘지 고칠지 정하세요.','활동 3에서 비교한 두 탐사 자료를 근거로 결정합니다.');
       else current=item('','AI 비교 완료','다음 활동으로 넘어가세요.');
       parts=[
         {label:'AI 문장 찾기',done:!!values.claim1?.trim()},
@@ -216,37 +216,37 @@ export default function App(){
     const ready=level===1?missing.length===0:['question','data','method'].every(k=>values[k]?.trim());
     return <div className="ai-box">
       <span className="eyebrow">{level===1?'우리 문장과 AI 비교':'AI 또는 동료 검토'}</span><h2>{card.title}</h2>
-      <p>{level===1?'우리 모둠 문장과 같은 내용을 말한 AI 문장 하나를 찾고, 둘 다 처음 탐사 자료와 비교하세요.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
+      <p>{level===1?'활동 3에서 고른 우리 문장과 비슷한 내용을 말한 AI 문장 하나를 찾고, 두 문장을 활동 3의 탐사 자료와 비교하세요.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
       {level===1&&<>
         <section className="ai-compare-focus">
           <p className="eyebrow">지금 비교할 것</p>
           <div className="ai-compare-targets">
             <article>
-              <span>우리 모둠 문장</span>
-              <p>{values.selectedClaimKind?values.selectedClaim:'앞 활동에서 AI와 비교할 문장을 먼저 고르세요.'}</p>
+              <span>활동 3에서 고른 우리 문장</span>
+              <p>{values.selectedClaimKind?values.selectedClaim:'활동 3에서 AI와 비교할 문장을 먼저 고르세요.'}</p>
             </article>
             <article>
-              <span>AI에서 찾을 문장</span>
+              <span>AI 답에서 찾을 문장</span>
               <p>위 우리 문장과 같은 내용을 말한 문장 1개</p>
             </article>
           </div>
           <ol className="ai-compare-steps">
             <li><b>1</b> AI 답에서 같은 주제의 문장 1개를 찾기</li>
-            <li><b>2</b> 처음 탐사 자료에서 두 문장의 근거를 확인하기</li>
+            <li><b>2</b> 활동 3에서 비교한 두 탐사 자료로 두 문장을 확인하기</li>
             <li><b>3</b> 우리 문장을 그대로 둘지 고칠지 정하기</li>
           </ol>
         </section>
-        <Readback title="처음 탐사 자료에서 우리가 찾은 근거" value={[comparisonSource(values),values.fact].filter(Boolean).join('\n')}/>
+        <Readback title="활동 3에서 비교한 두 탐사 자료와 근거" value={[comparisonSource(values),values.fact].filter(Boolean).join('\n')}/>
         {values.selectedClaimKind==='change'&&<Readback title="우리 문장을 만든 근거" value={values.claimReason}/>}
       </>}
-      <div className="prompt-card"><b>질문에 포함할 내용</b><p>{level===1?'우리 모둠이 고른 문장과 두 탐사 자료':level===2?'우리 모둠의 초안과 선택한 탐사지의 확인 자료':'현재 제안서, 환경 조사표, 검증 기록'}</p>
-        <p className="hint">개인의 첫 생각과 성찰은 복사하지 않아요. 직접 쓴 탐사 기록에도 이름과 학번을 넣지 마세요.</p>
-        <button className="primary" disabled={!ready||busy||!!authError||!!state?.student.closed} onClick={()=>void copyAi(level)}><Copy size={16}/>{level<3?'보관하고 질문 복사':'질문 복사'}</button>
+      <div className="prompt-card"><b>{level===1?'1. AI에게 질문하기':'질문에 포함할 내용'}</b><p>{level===1?'활동 3에서 고른 우리 문장과 두 탐사 자료가 함께 복사됩니다.':level===2?'우리 모둠의 초안과 선택한 탐사지의 확인 자료':'현재 제안서, 환경 조사표, 검증 기록'}</p>
+        <p className="hint">{level===1?'복사한 질문을 학교에서 허용한 AI에 붙여 넣고 답을 받으세요. 이름이나 학번은 보내지 않습니다.':'개인의 첫 생각과 성찰은 복사하지 않아요. 직접 쓴 탐사 기록에도 이름과 학번을 넣지 마세요.'}</p>
+        <button className="primary" disabled={!ready||busy||!!authError||!!state?.student.closed} onClick={()=>void copyAi(level)}><Copy size={16}/>{level===1?'AI에 보낼 질문 복사':level<3?'보관하고 질문 복사':'질문 복사'}</button>
         {!ready&&(level===1?<div className="comparison-missing" role="status"><b>아직 필요한 기록</b><ul>{missing.map(item=><li key={item}>{item}</li>)}</ul><button className="text-btn" onClick={()=>void navigate(0,2)}>두 탐사 비교로 돌아가기</button></div>:<p className="hint">먼저 미션 질문과 얻을 자료, 방법을 저장하세요.</p>)}
         <details><summary>보낼 질문 전체 확인</summary><pre className="prompt-preview">{buildAiPrompt(level,values)}</pre></details>
       </div>
-      {level<3&&<button className="secondary wide" disabled={!ready||!!authError||!!state?.student.closed} onClick={()=>void snapshot(level===1?'1차시 AI 사용 전':'2차시 AI 사용 전')}><Save size={16}/>{level===1?'AI에 질문하기 전 초안 보관':'동료와 검토하기 전에도 초안 보관'}</button>}
-      <p className="notice">{level===1?'여기서는 AI 답변을 만들지 않아요. 질문을 복사해 학교에서 허용한 AI에 직접 보내고, 받은 답을 기록하세요.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
+      {level===2&&<button className="secondary wide" disabled={!ready||!!authError||!!state?.student.closed} onClick={()=>void snapshot('2차시 AI 사용 전')}><Save size={16}/>동료와 검토하기 전에도 초안 보관</button>}
+      <p className="notice">{level===1?'AI 답을 받으면 아래 기록에서 우리 문장과 비슷한 AI 문장 하나만 옮기면 됩니다.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
       {level>1&&<details className="reading-card" open><summary>AI 접속이 어려우면 동료와 검토하세요.</summary><ol>{peer.instructions.map(t=><li key={t}>{t}</li>)}</ol>{peer.questions.map(q=><blockquote key={q}>{q}</blockquote>)}</details>}
       {level===3&&<><CriteriaCards/>{planEditor(true)}</>}
     </div>;
@@ -254,7 +254,7 @@ export default function App(){
   function galleryUI(){return <div><div className="section-heading"><h2>우리 반 탐사 제안서</h2><button className="secondary" onClick={()=>void getGallery()}><RefreshCw size={16}/> 새로고침</button></div><p className="muted">같은 학급에 게시한 제안서만 보여요. 개인 기록은 보이지 않아요.</p>{mode==='demo'&&<p className="notice">체험에서는 내가 게시한 체험 제안서만 보여요. 실제 학급에 입장하면 다른 모둠의 게시물도 읽을 수 있어요.</p>}{gallery.length?gallery.map(t=><details className="gallery-item" key={t.id}><summary><b>{t.label} / {recordMap(t.records).missionName||'탐사 미션'}</b><ChevronDown size={16}/></summary><Proposal rows={t.records} label={t.label}/></details>):<p className="empty">아직 게시한 제안서가 없어요. 발표할 때 모둠 제안서를 게시하세요.</p>}<CriteriaCards/></div>;}
   function resource(){
     if(current.resource==='data')return <DataExplorer notify={notify} selection={readComparison(comparisonRecord.value).ids} onSelectionChange={(ids:ComparisonIds)=>{if(comparisonRecord.change(writeComparison(ids,comparisonRecord.value)))void comparisonRecord.persist();}} disabled={!!state?.student.closed||!!authError}/>;
-    if(current.resource==='evidence')return <><section className="carry-forward-card"><span>우리 모둠이 더 알아보기로 한 질문</span><p>{values.gap?.trim()||'아직 질문을 쓰지 않았어요. 3번 활동에서 ‘추가로 알아볼 질문’을 먼저 완성하세요.'}</p></section><EvidenceCards/></>;
+    if(current.resource==='evidence')return <section className="carry-forward-card"><span>활동 3에서 우리가 만든 ‘더 알아볼 질문’</span><p>{values.gap?.trim()||'아직 질문을 쓰지 않았어요. 활동 3의 ‘추가로 알아볼 질문’을 먼저 완성하세요.'}</p></section>;
     if(current.resource==='apollo')return <ApolloReading/>;
     if(current.resource.startsWith('ai'))return aiBox(Number(current.resource.slice(-1)));
     if(stage===1&&step===1)return <><InquiryTrail rows={state!.group}/><DestinationCards selected={values.destination}/></>;
@@ -293,7 +293,7 @@ export default function App(){
       <div className="course-tabs">{stages.map((s,i)=><button key={i} className={stage===i?'active':''} onClick={()=>void navigate(i)}><span>{i+1}차시</span><b>{s.short}</b></button>)}</div>
       <div className={'workspace '+(stage===0&&panel==='lesson'?'lesson-one-workspace':'')}><aside className="sidebar"><p className="eyebrow">{stage+1}차시 활동</p><ol className="step-list">{stages[stage].steps.map((s,i)=><li key={s.id}><button className={(panel==='lesson'&&step===i?'active ':'')+(stage===0&&i===3?'ai-step':'')} onClick={()=>void navigate(stage,i)}><span className="step-index">{i+1}</span><span>{s.name}{stage===0&&i===3?<small className="ai-step-label">우리 생각 ↔ AI</small>:<small>{s.minutes}분</small>}</span>{stage===0&&i===3&&<em className="ai-badge">AI</em>}</button></li>)}</ol>{stage===0&&panel==='lesson'?<details className="student-more"><summary>자료·기록 더보기</summary><div className="sidebar-divider"/>{[['data','탐사 자료실',Search],['record','모둠 제안서',FileText],['personal','나의 기록',UserRound],['gallery','학급 갤러리',LayoutGrid],['history','보관본과 내려받기',Clock3]].map(([id,title,Icon]:any)=><button key={id} className={'nav-item '+(panel===id?'active':'')} onClick={()=>void openPanel(id)}><Icon size={17}/>{title}</button>)}{drafts.length>0&&<button className="nav-item" onClick={()=>setPanel('drafts')}><Save size={17}/>저장 전 입력 {drafts.length}개</button>}<div className="save-explainer"><CheckCircle2 size={16}/><p>자동 저장</p></div></details>:<><div className="sidebar-divider"/>{[['data','탐사 자료실',Search],['record','모둠 제안서',FileText],['personal','나의 기록',UserRound],['gallery','학급 갤러리',LayoutGrid],['history','보관본과 내려받기',Clock3]].map(([id,title,Icon]:any)=><button key={id} className={'nav-item '+(panel===id?'active':'')} onClick={()=>void openPanel(id)}><Icon size={17}/>{title}</button>)}{drafts.length>0&&<button className="nav-item" onClick={()=>setPanel('drafts')}><Save size={17}/>저장 전 입력 {drafts.length}개</button>}<div className="save-explainer"><CheckCircle2 size={16}/><p>자동 저장</p></div></>}</aside>
       <main className="lesson-main"><div className="lesson-heading"><p className="eyebrow">{panel==='lesson'?`${stage+1}차시 · ${step+1}/${stages[stage].steps.length}`:'이어 쓰는 탐구 기록'}</p>{panel==='lesson'&&stage===0&&step===3&&<span className="lesson-ai-badge">AI 활동</span>}<h1>{panel==='lesson'?current.name:({data:'탐사 자료실',record:'우리 모둠 제안서',personal:'나의 탐구 기록',gallery:'학급 갤러리',history:'보관본과 내려받기',drafts:'저장 전 입력'} as Record<string,string>)[panel]}</h1>{panel==='lesson'&&stage>0&&<p>{current.prompt}</p>}</div>{panel==='lesson'&&stage===0&&lessonFlow&&<section className={'now-card '+(!lessonFlow.focus?'is-done':'')}><div className="now-card-label">지금 할 일</div><h2>{lessonFlow.title}</h2>{lessonFlow.detail&&<p>{lessonFlow.detail}</p>}<div className="now-progress">{lessonFlow.parts.map((part,i)=><span key={part.label} className={part.done?'done':''}><b>{part.done?'✓':i+1}</b>{part.label}</span>)}</div></section>}{values.teacherFeedback&&<div className="teacher-note"><GraduationCap size={18}/><div><b>선생님 피드백</b><p>{values.teacherFeedback}</p></div></div>}
-      {panel==='lesson'&&<>{stage>0&&<details className="activity-directions"><summary>활동 안내</summary><ol>{current.instructions.map(t=><li key={t}>{clean(t)}</li>)}</ol><h3>확인</h3><ul>{current.doneWhen.map(t=><li key={t}>{clean(t)}</li>)}</ul></details>}<div className={'learning-grid '+(stage===0?'lesson-one-flow ':'')+(!current.fields.length?'single':'')}><section className="resource-pane" key={stage+'-'+step}>{resource()}</section>{current.fields.length>0&&<section className="writing-pane"><div className="section-heading"><h2>기록</h2></div>{fields(current.fields)}</section>}</div>{step===stages[stage].steps.length-1&&readiness()}<div className="lesson-footer"><button className="secondary" disabled={stage===0&&step===0} onClick={()=>void(step?navigate(stage,step-1):navigate(stage-1,stages[stage-1].steps.length-1))}><ArrowLeft size={16}/> 이전</button><span>{step+1} / {stages[stage].steps.length}</span>{step<stages[stage].steps.length-1?<button className={'primary '+(stage===0&&step===2?'next-ai-button':'')} onClick={()=>void navigate(stage,step+1)}>{stage===0&&step===2?'다음: AI와 비교하기':'다음 활동'} <ArrowRight size={16}/></button>:<div className="button-row"><button className="secondary" onClick={()=>void snapshot(stage===0?'1차시 끝':stage===1?'2차시 끝':'3차시 최종')}><Save size={16}/>{stage+1}차시 보관</button>{stage<2&&<button className="primary" onClick={()=>void navigate(stage+1)}>다음 차시 <ArrowRight size={16}/></button>}</div>}</div></>}
+      {panel==='lesson'&&<>{stage>0&&<details className="activity-directions"><summary>활동 안내</summary><ol>{current.instructions.map(t=><li key={t}>{clean(t)}</li>)}</ol><h3>확인</h3><ul>{current.doneWhen.map(t=><li key={t}>{clean(t)}</li>)}</ul></details>}{stage===0&&step===4?<div className="learning-grid lesson-one-flow conclusion-flow"><section className="resource-pane">{resource()}</section><section className="writing-pane"><div className="section-heading"><h2>1. 질문과 연결되는 곳 고르기</h2></div>{fields(current.fields.filter(f=>['destination','otherDestination','selectionReason'].includes(f.key)))}</section><section className="resource-pane inline-evidence"><div className="section-heading"><h2>2. 영향 카드 읽기</h2></div><EvidenceCards/></section><section className="writing-pane"><div className="section-heading"><h2>3. 카드의 의미와 나의 생각 쓰기</h2></div>{fields(current.fields.filter(f=>['evidenceRef','meaning','conclusion','contribution1'].includes(f.key)))}</section></div>:<div className={'learning-grid '+(stage===0?'lesson-one-flow ':'')+(!current.fields.length?'single':'')}><section className="resource-pane" key={stage+'-'+step}>{resource()}</section>{current.fields.length>0&&<section className="writing-pane"><div className="section-heading"><h2>기록</h2></div>{fields(current.fields)}</section>}</div>}{step===stages[stage].steps.length-1&&readiness()}<div className="lesson-footer"><button className="secondary" disabled={stage===0&&step===0} onClick={()=>void(step?navigate(stage,step-1):navigate(stage-1,stages[stage-1].steps.length-1))}><ArrowLeft size={16}/> 이전</button><span>{step+1} / {stages[stage].steps.length}</span>{step<stages[stage].steps.length-1?<button className={'primary '+(stage===0&&step===2?'next-ai-button':'')} onClick={()=>void navigate(stage,step+1)}>{stage===0&&step===2?'다음: AI와 비교하기':'다음 활동'} <ArrowRight size={16}/></button>:<div className="button-row"><button className="secondary" onClick={()=>void snapshot(stage===0?'1차시 끝':stage===1?'2차시 끝':'3차시 최종')}><Save size={16}/>{stage+1}차시 보관</button>{stage<2&&<button className="primary" onClick={()=>void navigate(stage+1)}>다음 차시 <ArrowRight size={16}/></button>}</div>}</div></>}
       {panel==='data'&&<FullMaterials selected={values.destination} notify={notify}/>}
       {panel==='record'&&<><Proposal rows={state.group}/><div className="button-row"><button className="primary" onClick={()=>void beginPresentation()}><Presentation size={16}/>제안서로 발표</button><button className="secondary" onClick={()=>void publish()}>{state.published?'갤러리 게시 취소':'학급 갤러리에 게시'}</button></div><details className="process-details"><summary>제안서 수정</summary>{fieldsByKeys(proposalKeys)}</details><details className="process-details"><summary>탐구 과정 기록 수정</summary>{fields(allFields.filter(f=>!f.personal&&!proposalKeys.includes(f.key)))}</details></>}
       {panel==='personal'&&<div className="personal-page"><p className="notice">{mode==='demo'?'체험 기록은 이 기기에만 남아요.':'이 기록은 나와 우리 학급을 만든 선생님만 확인해요.'}</p>{stages.map((s,i)=><section key={i}><h2>{i+1}차시 / {s.short}</h2>{fields(s.steps.flatMap(x=>x.fields).filter(f=>f.personal))}</section>)}</div>}
