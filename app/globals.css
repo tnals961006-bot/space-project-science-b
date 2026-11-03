@@ -1155,3 +1155,33 @@ td .text-btn{font-size:var(--small-size)}
 .ai-compare-steps li{display:flex;align-items:flex-start;gap:8px;font-size:var(--small-size);line-height:1.6}
 .ai-compare-steps b{display:grid;place-items:center;min-width:20px;height:20px;border-radius:50%;background:#e4edd8;color:var(--green);font-size:11px}
 @media(max-width:720px){.ai-compare-targets{grid-template-columns:1fr}}
+
+/* Lesson 1: one clear action at a time */
+.lesson-one-flow{grid-template-columns:minmax(0,1fr)}
+.lesson-one-flow .resource-pane{order:1}
+.lesson-one-flow .writing-pane{order:2}
+.now-card{background:#f6faef;border:2px solid #c7d8ad;border-radius:16px;padding:18px 20px;margin:0 0 20px}
+.now-card.is-done{background:#f3f7f2;border-color:#bfcdbf}
+.now-card-label{font-size:12px;font-weight:800;color:var(--green);margin-bottom:5px}
+.now-card h2{font-size:22px;margin:0 0 5px}
+.now-card>p{margin:0 0 12px;color:var(--muted);font-size:var(--small-size)}
+.now-progress{display:flex;gap:7px;flex-wrap:wrap}
+.now-progress span{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--line);border-radius:20px;background:#fff;font-size:12px;color:#6d7c72}
+.now-progress span.done{background:#e7f0df;color:#476b4a;border-color:#cadbbd}
+.now-progress b{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#eef1ec;font-size:10px}
+.now-progress .done b{background:#b8cea7}
+.field-flow-wrap{border-radius:12px;transition:background .15s,border-color .15s}
+.field-flow-wrap.is-current{background:#fbfdf7;border:2px solid #bdd39e;padding:14px 14px 0;margin:0 -14px 18px}
+.field-flow-wrap.is-current .field-section{margin-top:0}
+.student-more{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.student-more>summary{cursor:pointer;list-style:none;font-size:var(--small-size);font-weight:700;color:var(--muted);padding:8px}
+.student-more>summary::-webkit-details-marker{display:none}
+.student-more[open]>summary{color:var(--green)}
+.lesson-one-workspace .sidebar .step-list{margin-bottom:4px}
+@media(max-width:720px){
+  .now-card{padding:15px 16px}
+  .now-card h2{font-size:19px}
+  .now-progress{gap:5px}
+  .now-progress span{font-size:11px;padding:5px 7px}
+  .field-flow-wrap.is-current{margin:0 -8px 15px;padding:10px 8px 0}
+}
