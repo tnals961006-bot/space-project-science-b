@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Save, UserRound, Users} from 'lucide-react';
 import {allFields, FieldDef} from './course';
-import {comparisonText, missionChoiceLabel, missionRecords, readComparison, writeComparison, ComparisonIds, normalizeGroupValues, readMissionEvidence, writeMissionEvidence, readInquiryGap, writeInquiryGap, readExplanationChoice, writeExplanationChoice, explanationLabels, ExplanationKind, recordValueText} from './teaching-content';
+import {comparisonText, evidenceCards, missionChoiceLabel, missionRecords, readComparison, writeComparison, ComparisonIds, normalizeGroupValues, readMissionEvidence, writeMissionEvidence, readInquiryGap, writeInquiryGap, readExplanationChoice, writeExplanationChoice, explanationLabels, ExplanationKind, recordValueText} from './teaching-content';
 
 export type Row = {key:string; value:string; rev:number; updated?:string; actor?:string};
 export type Snapshot = {id:string; label:string; created:string; body?:string};
@@ -114,7 +114,8 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
     </>:def.input==='mission-evidence'?<>
       <div className="mission-evidence-input" role="group" aria-labelledby={cacheKey+'-heading'}>{selection.ids.map((id,index)=><div className="evidence-writing-card" key={index}>
         <label htmlFor={cacheKey+'-evidence-'+index}><span>{index===0?'첫 번째':'두 번째'} 탐사의 근거</span><strong>{id===null?'위에서 탐사를 먼저 선택하세요.':missionChoiceLabel(id)}</strong></label>
-        <textarea id={cacheKey+'-evidence-'+index} rows={3} maxLength={3000} value={id===null?'':evidence.entries[id]||''} disabled={disabled||id===null} placeholder="이 탐사 자료에 적힌 내용을 한 줄로 쓰세요." onChange={e=>{if(id!==null)change(writeMissionEvidence(id,e.target.value,value));}} onBlur={()=>void persist()}/>
+        {id!==null&&(()=>{const mission=missionRecords.find(m=>m.id===id)!;const quick=[['계획한 방식',mission.method],['실제 결과',mission.result],['주요 활동',mission.description]] as const;return <div className="evidence-quick-actions">{quick.map(([label,text])=><button type="button" className="evidence-quick-btn" key={label} disabled={disabled} onClick={()=>{if(change(writeMissionEvidence(id,text,value)))void persist();}}>{label} 가져오기</button>)}</div>;})()}
+        <textarea id={cacheKey+'-evidence-'+index} rows={3} maxLength={3000} value={id===null?'':evidence.entries[id]||''} disabled={disabled||id===null} placeholder="위 버튼으로 같은 항목의 근거를 가져오거나, 자료에서 확인한 내용을 한 줄로 쓰세요." onChange={e=>{if(id!==null)change(writeMissionEvidence(id,e.target.value,value));}} onBlur={()=>void persist()}/>
       </div>)}</div>
       {evidence.legacy&&<details className="legacy-comparison" open={!evidence.structured}><summary>이전에 쓴 근거</summary><p>{evidence.legacy}</p><small>원래 기록을 보관합니다. 내용을 확인해 해당 탐사의 칸에 나누어 적어 주세요.</small></details>}
       {Object.keys(evidence.entries).some(id=>!selection.ids.includes(Number(id))&&evidence.entries[id].trim())&&<details className="legacy-comparison"><summary>이전에 고른 탐사의 근거</summary>{Object.entries(evidence.entries).filter(([id,text])=>!selection.ids.includes(Number(id))&&text.trim()).map(([id,text])=><Readback key={id} title={missionChoiceLabel(Number(id))} value={text}/>)}</details>}
@@ -133,7 +134,7 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
       <p className="hint">선택한 설명과 근거가 다음 AI 비교 화면에 이어집니다.</p>
       {choice.legacy&&<details className="legacy-comparison" open={!choice.structured}><summary>이전에 쓴 비교할 주장</summary><p>{choice.legacy}</p><small>이전 주장은 보관합니다. 위의 두 설명 중 비교할 내용을 직접 골라 주세요.</small></details>}
     </>:<>
-      {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
+      {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{def.key==='evidenceRef'?(o+' / '+clean(evidenceCards.find(c=>c.id===o)?.title||o)):clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
     </>}
     <div className="field-bottom"><span role="status">{status||(time?`${time} 저장${row?.actor?' / '+row.actor:''}`:'')}</span>{dirty&&<button className="text-btn" onClick={()=>void persist()} disabled={!!conflict||disabled}><Save size={13}/> 저장</button>}</div>
     {conflict&&<div className="conflict" role="alert"><b>다른 기기에서 먼저 수정했어요.</b><p>먼저 저장된 내용: {recordValueText(def.key,conflict.value,context)||'빈 기록'}</p><p>내 입력은 위에 남아 있어요. 두 내용을 확인하고 저장할 내용을 결정하세요.</p><div className="button-row"><button onClick={()=>void persist(conflict.rev)} disabled={disabled}>{readOnly?'보관 중인 입력 반영':'위 입력을 반영'}</button><button onClick={useSaved}>먼저 저장된 내용 사용</button></div></div>}
