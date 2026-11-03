@@ -146,14 +146,31 @@ export default function App(){
     const card=aiCards[level-1],peer=peerFallback.entries[level-1],missing=level===1?comparisonMissingItems(values):[];
     const ready=level===1?missing.length===0:['question','data','method'].every(k=>values[k]?.trim());
     return <div className="ai-box">
-      <span className="eyebrow">{level===1?'AI 주장 비교':'AI 또는 동료 검토'}</span><h2>{card.title}</h2>
-      <p>{level===1?'앞에서 고른 우리 설명과 관련된 AI의 문장 하나를 찾아 읽으세요. 두 설명의 근거를 원자료에서 확인해요.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
+      <span className="eyebrow">{level===1?'우리 문장과 AI 비교':'AI 또는 동료 검토'}</span><h2>{card.title}</h2>
+      <p>{level===1?'우리 모둠 문장과 같은 내용을 말한 AI 문장 하나를 찾고, 둘 다 처음 탐사 자료와 비교하세요.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
       {level===1&&<>
-        <Readback title="비교할 우리 설명" value={values.selectedClaimKind?values.selectedClaim:undefined} empty="두 탐사 비교에서 설명 하나를 먼저 골라 주세요."/>
-        <Readback title="자료에서 찾은 근거" value={[comparisonSource(values),values.fact].filter(Boolean).join('\n')}/>
-        {values.selectedClaimKind==='change'&&<Readback title="그렇게 판단한 이유" value={values.claimReason}/>}
+        <section className="ai-compare-focus">
+          <p className="eyebrow">지금 비교할 것</p>
+          <div className="ai-compare-targets">
+            <article>
+              <span>우리 모둠 문장</span>
+              <p>{values.selectedClaimKind?values.selectedClaim:'앞 활동에서 AI와 비교할 문장을 먼저 고르세요.'}</p>
+            </article>
+            <article>
+              <span>AI에서 찾을 문장</span>
+              <p>위 우리 문장과 같은 내용을 말한 문장 1개</p>
+            </article>
+          </div>
+          <ol className="ai-compare-steps">
+            <li><b>1</b> AI 답에서 같은 주제의 문장 1개를 찾기</li>
+            <li><b>2</b> 처음 탐사 자료에서 두 문장의 근거를 확인하기</li>
+            <li><b>3</b> 우리 문장을 그대로 둘지 고칠지 정하기</li>
+          </ol>
+        </section>
+        <Readback title="처음 탐사 자료에서 우리가 찾은 근거" value={[comparisonSource(values),values.fact].filter(Boolean).join('\n')}/>
+        {values.selectedClaimKind==='change'&&<Readback title="우리 문장을 만든 근거" value={values.claimReason}/>}
       </>}
-      <div className="prompt-card"><b>질문에 포함할 내용</b><p>{level===1?'우리 모둠이 고른 두 탐사 자료':level===2?'우리 모둠의 초안과 선택한 탐사지의 확인 자료':'현재 제안서, 환경 조사표, 검증 기록'}</p>
+      <div className="prompt-card"><b>질문에 포함할 내용</b><p>{level===1?'우리 모둠이 고른 문장과 두 탐사 자료':level===2?'우리 모둠의 초안과 선택한 탐사지의 확인 자료':'현재 제안서, 환경 조사표, 검증 기록'}</p>
         <p className="hint">개인의 첫 생각과 성찰은 복사하지 않아요. 직접 쓴 탐사 기록에도 이름과 학번을 넣지 마세요.</p>
         <button className="primary" disabled={!ready||busy||!!authError||!!state?.student.closed} onClick={()=>void copyAi(level)}><Copy size={16}/>{level<3?'보관하고 질문 복사':'질문 복사'}</button>
         {!ready&&(level===1?<div className="comparison-missing" role="status"><b>아직 필요한 기록</b><ul>{missing.map(item=><li key={item}>{item}</li>)}</ul><button className="text-btn" onClick={()=>void navigate(0,2)}>두 탐사 비교로 돌아가기</button></div>:<p className="hint">먼저 미션 질문과 얻을 자료, 방법을 저장하세요.</p>)}
