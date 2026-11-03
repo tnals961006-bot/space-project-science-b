@@ -1109,3 +1109,20 @@ td .text-btn{font-size:var(--small-size)}
 .feedback-label{display:block;font-size:var(--small-size);font-weight:700;margin:18px 0 8px}
 .feedback-label textarea{margin-top:7px;font-weight:400}
 @media(max-width:800px){.teacher-summary-grid{grid-template-columns:1fr 1fr}.teacher-team>summary{align-items:flex-start;flex-wrap:wrap}}
+
+.teacher-coaching{margin-top:18px}
+.teacher-coaching-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.teacher-coaching-head h2{margin-bottom:6px}
+.teacher-coaching-head>span{background:#eef4ef;color:var(--green);border-radius:20px;padding:6px 10px;font-size:var(--small-size);font-weight:700}
+.coaching-list{display:grid;gap:10px}
+.coaching-card{background:#fff;border:1px solid var(--line);border-left:5px solid #97a8a0;border-radius:12px;padding:15px 17px}
+.coaching-card.priority-0{border-left-color:#b55757;background:#fffafa}
+.coaching-card.priority-1{border-left-color:#d29b45;background:#fffdf8}
+.coaching-card.priority-2{border-left-color:#6f8ea8}
+.coaching-card-top{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.coaching-card-top>b{font-size:16px}
+.coaching-card-top>span{font-size:var(--tiny-size);color:var(--green);background:#edf3e8;border-radius:20px;padding:3px 8px}
+.coaching-issue{margin:0 0 10px;font-size:var(--small-size)}
+.coaching-card dl{grid-template-columns:80px minmax(0,1fr);margin:0}
+.coaching-card dt,.coaching-card dd{font-size:var(--small-size)}
+@media(max-width:700px){.teacher-coaching-head{display:block}.teacher-coaching-head>span{display:inline-block;margin-top:6px}.coaching-card dl{grid-template-columns:1fr}.coaching-card dt{font-weight:700;margin-top:5px}}
