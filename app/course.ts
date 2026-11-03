@@ -117,7 +117,7 @@ export const stages: StageDef[] = [
         name: 'AI 주장 비교', resource: 'ai1',
         prompt: '앞에서 고른 우리 설명을 읽으세요. 같은 내용을 다룬 AI의 문장 하나를 찾아 원자료로 근거를 확인하세요.',
         fields: [
-          f('route1', '검토 방법', '실제로 사용한 방법을 고르세요.', aiRoutes),
+          f('route1', '검토 방법', '실제로 사용한 방법을 고르세요.', aiRoutes, { scaffold: '실제로 사용한 검토 방법 하나를 고릅니다.' }),
           f('claim1', '검토한 AI의 주장', '우리가 고른 설명과 관련된 AI의 문장 하나를 그대로 옮기세요. 다음 칸에서 원자료로 근거를 확인하세요.', undefined, { ...oneLine, scaffold: 'AI 답변에서 우리 설명과 관련된 문장 1개만 그대로 옮깁니다.', placeholder: '관련된 문장 1개를 붙여 넣거나 옮겨 쓰세요.' }),
           f('check1', '원자료에서 확인한 내용', '탐사 번호와 확인한 사실을 짧게 쓰세요.', undefined, { scaffold: '______번 자료에서는 ______을 확인했다.', placeholder: '탐사 번호와 원자료에서 확인한 사실을 쓰세요.' }),
           f('compare1', '우리 주장과 같은 점 또는 다른 점', '두 의견이 어디에서 같거나 다른지 적으세요.', undefined, { ...oneLine, scaffold: '우리 설명과 AI는 ______은 같고, ______은 다르다.', placeholder: '같은 점 또는 다른 점을 직접 찾아 쓰세요.' }),
@@ -128,10 +128,10 @@ export const stages: StageDef[] = [
         name: '근거와 결론', resource: 'evidence',
         prompt: '더 알아볼 질문을 조사할 탐사지 후보를 고르세요. 근거카드 하나를 읽고 우주 탐사가 인류에게 갖는 의미를 각자 설명하세요.',
         fields: [
-          f('destination', '우리 모둠 탐사지 후보', '다른 탐사지를 고르면 직접 확인할 자료도 준비하세요.', ['달 남극', '화성', '유로파', '다른 탐사지']),
-          f('otherDestination', '다른 탐사지를 골랐다면 이름과 근거', '', undefined, { ...optionalLine, scaffold: '내가 새로 보탠 질문이나 해석은 ______이다.' }),
+          f('destination', '우리 모둠 탐사지 후보', '다른 탐사지를 고르면 직접 확인할 자료도 준비하세요.', ['달 남극', '화성', '유로파', '다른 탐사지'], { scaffold: '앞에서 만든 질문과 가장 잘 연결되는 후보지 하나를 고릅니다.' }),
+          f('otherDestination', '다른 탐사지를 골랐다면 이름과 근거', '', undefined, { ...optionalLine, scaffold: '다른 탐사지: ______ / 고른 근거: ______' }),
           f('selectionReason', '이 후보지를 고른 이유', '더 알아볼 질문과 연결해 쓰세요.', undefined, { ...oneLine, scaffold: '우리 질문 ______을 더 알아보기 위해 ______을 탐사지 후보로 골랐다.', placeholder: '앞에서 만든 질문과 후보지를 연결해 쓰세요.' }),
-          f('evidenceRef', '선택한 의의와 영향 카드', '왼쪽에서 읽은 카드 하나를 선택하세요. 번호를 직접 입력하지 않아도 됩니다.', evidenceCards.map(card => card.id)),
+          f('evidenceRef', '선택한 의의와 영향 카드', '왼쪽에서 읽은 카드 하나를 선택하세요. 번호를 직접 입력하지 않아도 됩니다.', evidenceCards.map(card => card.id), { scaffold: '카드를 읽고, 내 결론의 근거로 사용할 카드 1개를 고릅니다.' }),
           f('meaning', '확인한 사실과 그 의미', '이미 확인된 영향과 앞으로 기대하는 효과를 나누세요.', undefined, { scaffold: '이 자료에서 ______을 확인했다. 이것은 우주 탐사가 ______이라는 점에서 의미가 있다.', placeholder: '카드의 사실과 그 의미를 연결해 쓰세요.' }),
           p('conclusion', '자료를 읽고 내린 나의 결론', '어느 자료의 어떤 사실이 내 생각을 뒷받침하나요?', undefined, { scaffold: '______ 자료에서 ______을 확인했다. 그래서 나는 우주 탐사가 ______이라는 점에서 의미가 있다고 생각한다.', placeholder: '내가 고른 자료를 근거로 나의 결론을 쓰세요.' }),
           p('contribution1', '내가 보탠 질문이나 해석', '관련 자료 번호도 남길 수 있습니다.', undefined, { ...optionalLine, scaffold: '내가 새로 보탠 질문이나 해석은 ______이다.' }),
