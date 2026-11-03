@@ -114,7 +114,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 3, {
-        name: '내 생각과 AI 생각 비교하기', resource: 'ai1',
+        name: 'AI와 비교하기', resource: 'ai1',
         prompt: '우리가 고른 문장과 같은 내용을 말한 AI 문장 1개를 찾아 비교하세요.',
         fields: [
           f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { hidden: true }),
