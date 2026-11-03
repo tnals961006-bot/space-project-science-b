@@ -117,7 +117,7 @@ export function writeInquiryGap(part: 'statement' | 'question', text: string, pr
   return JSON.stringify({ type: 'inquiry-gap', version: 1, statement: record.statement, question: record.question, ...(record.legacy ? { legacy: record.legacy } : {}) });
 }
 export type ExplanationKind = 'change' | 'gap';
-export const explanationLabels: Record<ExplanationKind, string> = { change: '변화에 대한 우리 설명', gap: '자료의 한계에 대한 우리 설명' };
+export const explanationLabels: Record<ExplanationKind, string> = { change: '두 탐사에서 찾은 차이', gap: '이 자료만으로 알기 어려운 점' };
 export function readExplanationChoice(value = ''): { structured: boolean; kind: ExplanationKind | null; legacy: string } {
   try {
     const item = JSON.parse(value);
@@ -313,7 +313,7 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
   const promptMissions = lessonNumber === 1 ? readComparison(values.comparison).ids.map(id => missionRecords.find(mission => mission.id === id)!) : missionRecords;
   const table = ['탐사명\t발사연도\t주관국과 기관\t목적지\t계획한 방식\t대표 수행 결과\t주요 내용', ...promptMissions.filter(Boolean).map((mission) => [mission.title, mission.year, mission.agency, mission.destination, mission.method, mission.result, mission.description].join('\t'))].join('\n');
   const replacements: Record<string, string> = {
-    EXPLORATION_DATA: table + (promptValues.factRef ? '\n\n[우리 모둠이 비교한 탐사]\n' + promptValues.factRef : ''),
+    EXPLORATION_DATA: table + (promptValues.selectedClaim ? '\n\n[AI와 비교할 우리 모둠의 문장]\n' + promptValues.selectedClaim : '') + (promptValues.factRef ? '\n\n[우리 모둠이 비교한 탐사]\n' + promptValues.factRef : ''),
     MISSION_DRAFT: recordText(promptValues, proposalFields), SOURCE_PACK: readingPack(values),
     PROPOSAL: recordText(promptValues, proposalFields), ENVIRONMENT_RECORD: recordText(values, environmentFields), EVIDENCE_RECORD: recordText(values, verificationFields),
   };
