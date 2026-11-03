@@ -8,22 +8,43 @@ import {stages} from './course';
 export function SourceLinks({ids}:{ids:string[]}) {
   return <div className="source-links">{ids.map(id=>{const s=getSource(id);return s?<a key={id} href={s.url} target="_blank" rel="noreferrer" title={s.title}>{id} / {s.agency}<ExternalLink size={12}/></a>:<span key={id}>{id}</span>;})}</div>;
 }
+const recommendedPairs:{label:string;ids:[number,number]}[] = [
+  {label:'달 탐사 변화 / 아폴로 11호와 다누리',ids:[2,22]},
+  {label:'화성 탐사 변화 / 바이킹 1호와 퍼서비어런스',ids:[6,18]},
+  {label:'소행성 탐사 / 하야부사와 오시리스-렉스',ids:[12,16]},
+  {label:'한국 발사체 / 누리호 1차와 4차',ids:[20,23]},
+];
+
+function ReferenceLegend(){
+  return <div className="reference-legend"><b>자료 번호 읽는 법</b><span><strong>02</strong> 수업용 탐사 사례 번호</span><span><strong>M02</strong> 원문 출처 번호</span><span><strong>E01</strong> 의의와 영향 카드 번호</span></div>;
+}
+
 export function DataExplorer({notify,selection,onSelectionChange,disabled=false}:{notify:(s:string)=>void;selection?:ComparisonIds;onSelectionChange?:(ids:ComparisonIds)=>void;disabled?:boolean}) {
   const [query,setQuery]=useState(''),[category,setCategory]=useState('전체'),[order,setOrder]=useState('asc'),[localSelection,setLocalSelection]=useState<ComparisonIds>([null,null]);
   const slots=selection??localSelection,selected=slots.filter((id):id is number=>id!==null);
   const setSelection=(ids:ComparisonIds)=>{if(disabled)return;if(onSelectionChange)onSelectionChange(ids);else setLocalSelection(ids);};
   const filtered=missionRecords.filter(m=>(category==='전체'||m.destinationCategory===category)&&[m.title,m.destination,m.agency,m.description].join(' ').toLowerCase().includes(query.trim().toLowerCase())).sort((a,b)=>order==='asc'?a.year-b.year:b.year-a.year);
   const toggle=(id:number)=>{if(disabled)return;const next:ComparisonIds=[...slots],existing=next.indexOf(id),empty=next.indexOf(null);if(existing!==-1)next[existing]=null;else if(empty!==-1)next[empty]=id;else{notify('비교할 탐사 두 개를 골랐어요. 하나를 뺀 뒤 바꾸세요.');return;}setSelection(next);};
-  return <div className="data-explorer"><div className="resource-topline"><span className="eyebrow">탐사 자료</span><span>{missionRecords.length}개 선정 사례</span></div><h2>두 탐사를 나란히 읽어 보세요.</h2><p className="muted">발사연도와 도착연도는 다를 수 있어요. 계획한 방식과 실제 결과를 구분하세요.</p><p className="notice">수업을 위해 고른 사례예요. 이 자료에 적게 실렸다는 이유로 실제 탐사도 적었다고 말할 수는 없어요.</p>
+  return <div className="data-explorer">
+    <div className="resource-topline"><span className="eyebrow">탐사 자료</span><span>{missionRecords.length}개 선정 사례</span></div>
+    <h2>두 탐사를 나란히 읽어 보세요.</h2>
+    <p className="muted">발사연도와 도착연도는 다를 수 있어요. 계획한 방식과 실제 결과를 구분하세요.</p>
+    <p className="notice">수업을 위해 고른 사례예요. 이 자료에 적게 실렸다는 이유로 실제 탐사도 적었다고 말할 수는 없어요.</p>
+    <ReferenceLegend/>
+    <section className="recommended-pairs" aria-label="추천 비교쌍">
+      <div><b>빠르게 시작하기</b><small>시간이 부족하면 추천 비교쌍 하나를 고르세요. 직접 다른 탐사를 골라도 됩니다.</small></div>
+      <div className="recommended-pair-buttons">{recommendedPairs.map(pair=><button type="button" className="secondary" key={pair.label} disabled={disabled} onClick={()=>setSelection(pair.ids)}>{pair.label}</button>)}</div>
+    </section>
     <div className="filters"><label className="searchbox"><Search size={18}/><input aria-label="탐사 검색" value={query} placeholder="탐사명이나 목적지" onChange={e=>setQuery(e.target.value)}/></label><select value={category} aria-label="목적지별 보기" onChange={e=>setCategory(e.target.value)}>{['전체',...new Set(missionRecords.map(m=>m.destinationCategory))].map(c=><option key={c}>{c}</option>)}</select><select value={order} aria-label="발사연도 정렬" onChange={e=>setOrder(e.target.value)}><option value="asc">오래된 순</option><option value="desc">최근 순</option></select></div>
-    {selected.length>0&&<section className="comparison-area"><div className="section-heading"><h3>선택한 탐사 {selected.length}/2</h3><button className="text-btn" disabled={disabled} onClick={()=>setSelection([null,null])}>선택 해제</button></div><div className="compare-grid">{selected.map(id=>{const m=missionRecords.find(m=>m.id===id)!;return <article key={id}><small>{slots[0]===m.id?'첫 번째':'두 번째'} 탐사 / {m.id}번 / {m.year}년 발사</small><h3>{m.title}</h3><dl><dt>목적지</dt><dd>{m.destination}</dd><dt>계획한 방식</dt><dd>{m.method}</dd><dt>실제 결과</dt><dd>{m.result}</dd></dl><p>{m.description}</p>{m.limitations&&<p className="hint">{m.limitations}</p>}<SourceLinks ids={m.sourceIds}/><button className="text-btn" disabled={disabled} onClick={()=>toggle(id)}>비교에서 빼기</button></article>})}</div><p className="hint">무엇이 달라졌나요? 그 생각과 다른 사례도 있는지 살펴보세요.</p></section>}
+    {selected.length>0&&<div className="selection-strip"><b>선택 {selected.length}/2</b>{selected.map(id=>{const m=missionRecords.find(m=>m.id===id)!;return <span key={id}>{String(id).padStart(2,'0')} {m.title}</span>})}<button className="text-btn" disabled={disabled} onClick={()=>setSelection([null,null])}>선택 해제</button></div>}
     <div className="mission-list">{filtered.map(m=><details className="mission-card" key={m.id}><summary><span className="mission-number">{String(m.id).padStart(2,'0')}</span><span><b>{m.title}</b><small>{m.year}년 발사 / {m.destination}</small></span><ChevronDown size={16}/></summary><div className="mission-body"><dl><dt>주관국과 기관</dt><dd>{m.agency}</dd><dt>계획한 방식</dt><dd>{m.method}</dd><dt>실제 결과</dt><dd>{m.result}</dd></dl><p>{m.description}</p>{m.limitations&&<p className="hint">{m.limitations}</p>}<SourceLinks ids={m.sourceIds}/>{m.evidenceIds.length>0&&<p className="hint">의의와 영향 카드 {m.evidenceIds.join(', ')}에서 더 읽을 수 있어요.</p>}<button className="secondary" disabled={disabled} aria-pressed={selected.includes(m.id)} onClick={()=>toggle(m.id)}>{selected.includes(m.id)?'비교에서 빼기':'나란히 비교하기'}</button></div></details>)}</div>
     {!filtered.length&&<p className="empty">검색어와 조건을 바꿔 보세요.</p>}
+    {selected.length>0&&<section className="comparison-area"><div className="section-heading"><h3>선택한 탐사 비교</h3><button className="text-btn" disabled={disabled} onClick={()=>setSelection([null,null])}>선택 해제</button></div><div className="compare-grid">{selected.map(id=>{const m=missionRecords.find(m=>m.id===id)!;return <article key={id}><small>{slots[0]===m.id?'첫 번째':'두 번째'} 탐사 / {m.id}번 / {m.year}년 발사</small><h3>{m.title}</h3><dl><dt>목적지</dt><dd>{m.destination}</dd><dt>계획한 방식</dt><dd>{m.method}</dd><dt>실제 결과</dt><dd>{m.result}</dd></dl><p>{m.description}</p>{m.limitations&&<p className="hint">{m.limitations}</p>}<SourceLinks ids={m.sourceIds}/><button className="text-btn" disabled={disabled} onClick={()=>toggle(id)}>비교에서 빼기</button></article>})}</div><p className="hint">무엇이 달라졌나요? 두 사례에서 확인한 범위까지만 설명하세요.</p></section>}
     <details className="reading-card"><summary>주장을 점검할 질문<ChevronDown size={16}/></summary>{explorationQuestions.map(q=><section key={q.id}><h3>{q.title}</h3><p>{q.mainQuestion}</p><ul>{q.supportQuestions.map(t=><li key={t}>{t}</li>)}</ul></section>)}</details>
   </div>;
 }
 
-export function EvidenceCards() {return <div><span className="eyebrow">의의와 영향</span><h2>탐사가 우리에게 남긴 것</h2><p className="muted">카드 하나를 골라 사실을 읽고, 그 사실이 어떤 의미인지 설명하세요. 이미 확인된 영향과 앞으로의 기대를 나누세요.</p>{evidenceCards.map(c=><details className="reading-card" key={c.id}><summary><span className="card-code">{c.id}</span><b>{c.title}</b><ChevronDown size={16}/></summary><div><small>{c.materialType}</small><p>{c.fact}</p><blockquote>{c.question}</blockquote>{c.limitations&&<p className="notice">{c.limitations}</p>}<SourceLinks ids={c.sourceIds}/></div></details>)}</div>;}
+export function EvidenceCards() {return <div><span className="eyebrow">의의와 영향</span><h2>탐사가 우리에게 남긴 것</h2><p className="muted">카드 하나를 골라 사실을 읽고, 오른쪽 선택칸에서 같은 카드를 고르세요. 이미 확인된 영향과 앞으로의 기대를 나누세요.</p><ReferenceLegend/>{evidenceCards.map(c=><details className="reading-card" key={c.id}><summary><span className="card-code">{c.id}</span><b>{c.title}</b><ChevronDown size={16}/></summary><div><small>{c.materialType}</small><p>{c.fact}</p><blockquote>{c.question}</blockquote>{c.limitations&&<p className="notice">{c.limitations}</p>}<SourceLinks ids={c.sourceIds}/></div></details>)}</div>;}
 
 export function DestinationCards({selected,environmentOnly=false}:{selected?:string;environmentOnly?:boolean}) {
   const [tab,setTab]=useState(getReadingCard(selected)?.id||readingCards[0].id);
@@ -39,7 +60,7 @@ export function DestinationCards({selected,environmentOnly=false}:{selected?:str
 
 export function TechnologyCards(){return <div><h2>생활에서 쓰는 우주 기술</h2><p className="muted">필요할 때 읽는 추가 자료예요. 기술이 쓰인 사례와 특정 탐사가 기술을 만들었다는 주장을 구분하세요.</p>{technologyCards.map(t=><details className="reading-card technology" key={t.id}><summary><span className="card-code">기술 {t.id}</span><b>{t.title}</b><ChevronDown size={16}/></summary><div><h4>개발 배경</h4><p>{t.background}</p><h4>생활에서의 활용</h4><p>{t.application}</p><small>{t.connectionType}</small><p className="notice">{t.limitations}</p><SourceLinks ids={t.sourceIds}/></div></details>)}</div>;}
 
-export function ApolloReading(){const m=missionRecords.find(m=>m.id===apolloPractice.missionId)!;return <div><span className="eyebrow">탐사 {m.id}</span><h2>사실일까요, 해석일까요?</h2><div className="apollo-quote"><span>{m.year}년 발사</span><h3>{m.title}</h3><p>{m.description}</p></div><div className="compare-grid"><Readback title="계획한 방식" value={m.method}/><Readback title="실제 결과" value={m.result}/></div><SourceLinks ids={m.sourceIds}/>{apolloPractice.statements.map((s,i)=><blockquote key={s.id}><b>문장 {i+1}</b><p>{s.text}</p></blockquote>)}<p className="hint">{apolloPractice.reasonPrompt}</p><p>{apolloPractice.discussionQuestion}</p></div>;}
+export function ApolloReading(){const m=missionRecords.find(m=>m.id===apolloPractice.missionId)!;return <div><span className="eyebrow">탐사 {m.id}</span><h2>사실일까요, 해석일까요?</h2><div className="apollo-quote"><span>{m.year}년 발사</span><h3>{m.title}</h3><p>{m.description}</p></div><div className="compare-grid"><Readback title="계획한 방식" value={m.method}/><Readback title="실제 결과" value={m.result}/></div><SourceLinks ids={m.sourceIds}/><ReferenceLegend/>{apolloPractice.statements.map((s,i)=><blockquote key={s.id}><b>문장 {i+1}</b><p>{s.text}</p></blockquote>)}<p className="hint">{apolloPractice.reasonPrompt}</p><p>{apolloPractice.discussionQuestion}</p></div>;}
 
 export function CriteriaCards(){return <div className="criteria-grid">{criteria.studentReview.map(c=><section className="reading-card" key={c.id}><h3>{c.title}</h3><ul>{c.questions.map(q=><li key={q}>{q}</li>)}</ul></section>)}</div>;}
 export function VerificationGuide(){return <div><h2>주장과 자료의 조건을 비교하세요.</h2><p>기관명이나 링크만 적지 말고, 그 자료에서 실제로 확인한 내용을 쓰세요.</p><div className="criteria-grid">{criteria.verification.map(c=><section className="reading-card" key={c.value}><h3>{c.label}</h3><p>{c.meaning}</p><small>{c.nextAction}</small></section>)}</div><p className="notice">{criteria.verificationReminder}</p></div>;}
