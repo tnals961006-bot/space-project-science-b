@@ -1,0 +1,64 @@
+.teacher-page.board-page {max-width:1440px;padding:18px clamp(12px,2.8vw,42px) 40px}
+.board-page .section-heading {margin:0 0 12px;align-items:center}
+.board-page .section-heading h1 {font-size:clamp(23px,3vw,32px);margin:0}
+.board-page .section-heading .eyebrow {margin-bottom:2px}
+.board-page .teacher-class-tabs,.board-page .pill-tabs {margin:0;gap:5px;flex-wrap:wrap}
+.board-navigation,.board-controls,.board-metrics,.board-row-head,.board-actions {display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.board-navigation {justify-content:space-between;margin:8px 0 12px}
+.board-navigation button {font-size:14px;min-height:36px;padding:5px 12px}
+.board-controls {gap:12px}
+.board-controls label {display:flex;align-items:center;gap:7px;font-size:14px;font-weight:750;color:#334e50}
+.board-controls select {width:auto;max-width:100%;padding:5px 27px 5px 9px;font-size:15px}
+.board-metrics {gap:5px 14px;margin:8px 0 10px;font-size:14px;color:#435662}
+.board-metrics b {color:#183c41}
+.board-list {display:grid;gap:7px}
+.board-row {display:grid;grid-template-columns:85px minmax(0,1.6fr) minmax(250px,1fr);gap:6px 14px;align-items:start;padding:10px 14px;background:#fff;border:1px solid #ccd9da;border-radius:10px}
+.board-row.board-fresh {border-left:4px solid #15816e;padding-left:11px}
+.board-row-head {align-content:flex-start;gap:2px 5px}
+.board-row-head strong {font-size:20px;color:#143b3f}
+.board-row-head small,.board-row-head .board-oral {flex-basis:100%;font-size:12px;color:#495e63}
+.board-row-head em,.board-row-head .board-oral {font-weight:700;font-style:normal;color:#186153}
+.board-row-head em {border-radius:12px;background:#d8f4e9;padding:1px 6px;font-size:12px}
+.board-answers {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.board-answers>div:only-child {grid-column:1/-1}
+.board-answers small,.board-details b {display:block;font-size:13px;color:#4c616b;font-weight:650}
+.board-answers p,.board-check span {white-space:pre-wrap;overflow-wrap:anywhere}
+.board-answers p {font-size:max(17px,var(--label-size));font-weight:650;line-height:1.4;margin:2px 0 0;color:#172c36}
+.board-answers .board-empty {color:#617078;font-weight:400;font-size:15px}
+.board-clamp {display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.board-coach {grid-column:3;grid-row:1/span 2}
+.board-coach p,.board-check,.board-details p {font-size:14px;line-height:1.45;margin:0;overflow-wrap:anywhere}
+.board-coach p>b,.board-check b {color:#215754;font-size:13px}
+.board-check,.board-details {grid-column:2}
+.board-check {background:#f1f6f5;padding:5px 8px;border-radius:5px}
+.board-details {grid-row:auto;white-space:pre-wrap}
+.board-details p {margin:4px 0 8px}
+.board-actions {gap:5px;margin-top:6px}
+.board-actions button {border:1px solid #c2d1d1;border-radius:7px;padding:5px 8px;font-size:13px;line-height:1.4;color:#30494e;background:white;font-weight:650}
+.board-actions button[aria-pressed=true] {color:#175249;background:#e1f2ea}
+.board-actions .board-send {background:#205c57;color:white;border-color:#205c57}
+.board-compose {grid-column:2/-1;padding:9px 12px;background:#eff6f3;border-radius:8px}
+.board-compose label {font-size:14px;font-weight:700}
+.board-compose textarea {display:block;font-size:16px;margin-top:4px;padding:6px 9px;line-height:1.5}
+.board-compose small,.board-tools {font-size:13px;color:#4e6367}
+.board-tools {margin-top:20px}
+.board-tools>summary {cursor:pointer;font-weight:700}
+@media(max-width:900px) {
+ .board-row {grid-template-columns:66px minmax(0,1fr)}
+ .board-coach,.board-compose,.board-details,.board-check {grid-column:2;grid-row:auto}
+ .board-coach {display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px}
+}
+@media(max-width:580px) {
+ .board-page .section-heading {display:block}
+ .board-page .section-heading .button-row {margin-top:6px;gap:5px}
+ .board-page .section-heading button {font-size:12px;padding:5px 8px;min-height:34px}
+ .board-navigation {gap:8px}
+ .board-row {display:flex;flex-direction:column;align-items:stretch;padding:10px}
+ .board-row-head small,.board-row-head .board-oral {flex-basis:auto}
+ .board-row-head small {margin-left:auto}
+ .board-answers {grid-template-columns:1fr;gap:6px}
+ .board-controls label {flex-wrap:wrap}
+}
+.board-sync {margin-left:auto;order:1;font-size:12px;color:#52666d}
+.coaching-quote {font-size:17px;font-weight:650;border-left:3px solid #548980;padding-left:10px;margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere;max-height:7em;overflow:auto}
+.board-row-head .board-revisit {padding:1px 6px;border-radius:5px;color:#75460a;background:#fff0cc;font-size:12px;font-weight:700}
