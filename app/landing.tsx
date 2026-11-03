@@ -61,6 +61,7 @@ export default function Landing({
   simpleEntryPreview = false,
 }: LandingProps) {
   const welcomeLabel = welcome.replace(/[\u00b7\u318d]/g, ' ');
+  const effectiveReviewOnly = reviewOnly && !simpleEntryPreview;
   const [entryClass = '4', entryNumber = ''] = code.includes('-') ? code.split('-', 2) : ['4', ''];
   const setEntryPart = (classNo: string, number: string) => onCodeChange(`${classNo}-${number.replace(/\D/g, '').slice(0, 2)}`);
 
@@ -88,14 +89,14 @@ export default function Landing({
           <section className="space-entry-ticket" aria-labelledby="space-entry-title">
             <div className="space-ticket-stub" aria-hidden="true">
               <Ticket size={30} strokeWidth={1.5} />
-              <span>{reviewOnly ? '수업' : '나의'}<br />{reviewOnly ? '체험' : '입장권'}</span>
+              <span>{effectiveReviewOnly ? '수업' : '나의'}<br />{effectiveReviewOnly ? '체험' : '입장권'}</span>
             </div>
             <div className="space-entry-content">
               <div className="space-entry-heading">
-                <h2 id="space-entry-title">{reviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호로 탐사실 입장' : '나의 탐사실 입장'}</h2>
-                <p>{reviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? '3학년 4반 또는 6반과 자신의 번호를 입력하세요.' : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
+                <h2 id="space-entry-title">{effectiveReviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호로 탐사실 입장' : '나의 탐사실 입장'}</h2>
+                <p>{effectiveReviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? '3학년 4반 또는 6반과 자신의 번호를 입력하세요.' : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
               </div>
-              {reviewOnly ? (
+              {effectiveReviewOnly ? (
                 <div className="space-review-entry">
                   <button className="space-enter-button" type="button" onClick={() => onStartReview(0)} disabled={busy}>
                     <span>1차시부터 살펴보기</span>
