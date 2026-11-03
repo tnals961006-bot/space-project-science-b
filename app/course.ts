@@ -86,12 +86,12 @@ export const stages: StageDef[] = [
     goal: activityLessons[0].goal, totalMinutes: 45,
     steps: [
       step(1, 0, {
-        name: '첫 생각', resource: 'intro',
+        name: '내 생각 쓰기', resource: 'intro',
         prompt: '자료를 보기 전, 왜 우주를 탐사한다고 생각하는지 한 문장으로 쓰세요.',
         fields: [p('first', '우주를 탐사하는 이유', '', undefined, { ...oneLine, scaffold: '나는 우주를 탐사하는 이유가 ______이라고 생각한다.', placeholder: '빈칸에 들어갈 내 생각을 직접 써 보세요.' })],
       }),
       step(1, 1, {
-        name: '사실과 해석', resource: 'apollo',
+        name: '사실인지 해석인지 고르기', resource: 'apollo',
         prompt: '아폴로 13호 자료를 읽고 두 문장을 사실 또는 해석으로 분류하세요.',
         fields: [
           f('apolloA', '첫 문장의 종류', '', apolloOptions),
@@ -101,7 +101,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 2, {
-        name: '두 탐사 비교', resource: 'data',
+        name: '탐사 두 개 비교하기', resource: 'data',
         prompt: '탐사 두 개를 골라 같은 항목을 비교하고, 차이와 질문을 기록하세요.',
         fields: [
           f('comparison', '비교할 탐사 두 개', '서로 다른 탐사 두 개를 고르세요.', undefined, { input: 'mission-pair', section: '1 탐사 고르기', scaffold: '① 첫 번째 탐사 선택 → ② 두 번째 탐사 선택 → ③ 두 탐사의 같은 항목을 비교합니다.' }),
@@ -114,7 +114,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 3, {
-        name: '우리 문장과 AI 비교', resource: 'ai1',
+        name: '내 생각과 AI 생각 비교하기', resource: 'ai1',
         prompt: '우리가 고른 문장과 같은 내용을 말한 AI 문장 1개를 찾아 비교하세요.',
         fields: [
           f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { hidden: true }),
@@ -125,7 +125,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 4, {
-        name: '근거와 결론', resource: 'evidence',
+        name: '오늘의 결론 쓰기', resource: 'evidence',
         prompt: '탐사지와 근거카드를 고르고, 우주 탐사의 의미를 정리하세요.',
         fields: [
           f('destination', '다음에 더 알아볼 곳', '다른 탐사지를 고르면 직접 확인할 자료도 준비하세요.', ['달 남극', '화성', '유로파', '다른 탐사지'], { scaffold: '앞에서 만든 질문과 가장 잘 연결되는 후보지 하나를 고릅니다.' }),
