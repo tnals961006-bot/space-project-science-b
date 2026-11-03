@@ -1196,3 +1196,7 @@ td .text-btn{font-size:var(--small-size)}
 .ai-badge{margin-left:auto;font-style:normal;font-size:10px;font-weight:800;letter-spacing:.04em;color:white;background:#725783;border-radius:20px;padding:3px 6px}
 .lesson-ai-badge{display:inline-block;margin-bottom:8px;background:#725783;color:#fff;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:800}
 .next-ai-button{box-shadow:0 0 0 3px #e8dff0}
+
+.carry-forward-card{background:#fff8e9;border:1px solid #e9d6a9;border-radius:13px;padding:15px 17px;margin:0 0 18px}
+.carry-forward-card>span{display:block;font-size:11px;font-weight:800;color:#8a6a2d;margin-bottom:5px}
+.carry-forward-card>p{margin:0;font-size:15px;line-height:1.75;font-weight:700;color:#4d4639;white-space:pre-wrap}
