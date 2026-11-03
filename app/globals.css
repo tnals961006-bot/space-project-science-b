@@ -1126,3 +1126,20 @@ td .text-btn{font-size:var(--small-size)}
 .coaching-card dl{grid-template-columns:80px minmax(0,1fr);margin:0}
 .coaching-card dt,.coaching-card dd{font-size:var(--small-size)}
 @media(max-width:700px){.teacher-coaching-head{display:block}.teacher-coaching-head>span{display:inline-block;margin-top:6px}.coaching-card dl{grid-template-columns:1fr}.coaching-card dt{font-weight:700;margin-top:5px}}
+
+.writing-guide{background:#f7f9f5;border:1px solid var(--line);border-radius:11px;padding:13px 15px;margin:0 0 22px;font-size:var(--small-size)}
+.writing-guide>b{display:block;margin-bottom:4px}
+.writing-guide>p{margin:0 0 10px;color:var(--muted);line-height:1.7}
+.writing-guide>div{display:flex;gap:8px;flex-wrap:wrap}
+.writing-guide span{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:4px 8px;font-weight:700}
+.guide-team{color:#456b4b;background:#e8f0e5}
+.guide-personal{color:var(--purple);background:#f1edf5}
+.writing-scaffold{border-left:3px solid #a8ba87;background:#f7faef;border-radius:0 8px 8px 0;padding:9px 11px;margin:0 0 9px}
+.writing-scaffold>span{display:block;font-size:11px;font-weight:800;color:#63805f;margin-bottom:3px}
+.writing-scaffold>p{margin:0;font-size:var(--small-size);line-height:1.65;color:#45564c;font-weight:600}
+.personal-field .writing-scaffold{border-left-color:#aa95b7;background:#faf7fc}
+.personal-field .writing-scaffold>span{color:var(--purple)}
+.field-owner{font-weight:700;border:1px solid #d7e3d4}
+.field-owner.purple{border-color:#e1d7e7}
+.activity-directions[open]{background:#fbfcf9}
+.activity-directions[open]>summary{font-weight:800}
