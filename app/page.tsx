@@ -194,11 +194,11 @@ export default function App(){
         {label:'우리 문장 결정',done:!!values.decision1?.trim()},
       ];
     }else{
-      if(!values.destination?.trim()) current=item('destination','다음에 더 알아볼 곳을 고르세요.','앞에서 만든 질문과 가장 잘 연결되는 곳을 고릅니다.');
-      else if(!values.selectionReason?.trim()) current=item('selectionReason','그곳을 고른 이유를 쓰세요.','앞에서 만든 질문과 연결합니다.');
-      else if(!values.evidenceRef?.trim()) current=item('evidenceRef','영향 카드 하나를 고르세요.','왼쪽 카드 하나를 읽고 같은 카드를 선택합니다.');
-      else if(!values.meaning?.trim()) current=item('meaning','카드에서 확인한 사실과 의미를 쓰세요.','확인한 사실과 내가 생각한 의미를 나눠 씁니다.');
-      else if(!personal.conclusion?.trim()) current=item('conclusion','마지막으로 나의 생각을 쓰세요.','선택한 카드를 근거로 각자 한 문장으로 정리합니다.');
+      if(!values.destination?.trim()) current=item('destination','위에 보이는 우리 모둠 질문을 읽고, 더 알아볼 곳을 고르세요.',values.gap?.trim()?`우리 질문: ${values.gap}`:'3번 활동에서 만든 질문이 위에 표시됩니다.');
+      else if(!values.selectionReason?.trim()) current=item('selectionReason','왜 그곳을 골랐는지 쓰세요.',values.gap?.trim()?`우리 질문 “${values.gap}”과 연결해서 씁니다.`:'우리 모둠 질문과 연결해서 씁니다.');
+      else if(!values.evidenceRef?.trim()) current=item('evidenceRef','이제 영향 카드 하나를 읽고 고르세요.','탐사지 선택과는 별개입니다. 마지막 내 생각의 근거로 쓸 카드입니다.');
+      else if(!values.meaning?.trim()) current=item('meaning','고른 카드에서 사실 하나와 그 의미를 쓰세요.','카드에 적힌 사실과, 그 사실이 왜 의미 있는지를 나눠 씁니다.');
+      else if(!personal.conclusion?.trim()) current=item('conclusion','마지막으로 각자 오늘의 생각을 쓰세요.','방금 고른 영향 카드의 사실을 근거로 한 문장으로 정리합니다.');
       else current=item('','1차시 기록 완료','1차시 보관을 누르면 됩니다.');
       parts=[
         {label:'탐사지 고르기',done:!!values.destination?.trim()&&!!values.selectionReason?.trim()},
@@ -254,7 +254,7 @@ export default function App(){
   function galleryUI(){return <div><div className="section-heading"><h2>우리 반 탐사 제안서</h2><button className="secondary" onClick={()=>void getGallery()}><RefreshCw size={16}/> 새로고침</button></div><p className="muted">같은 학급에 게시한 제안서만 보여요. 개인 기록은 보이지 않아요.</p>{mode==='demo'&&<p className="notice">체험에서는 내가 게시한 체험 제안서만 보여요. 실제 학급에 입장하면 다른 모둠의 게시물도 읽을 수 있어요.</p>}{gallery.length?gallery.map(t=><details className="gallery-item" key={t.id}><summary><b>{t.label} / {recordMap(t.records).missionName||'탐사 미션'}</b><ChevronDown size={16}/></summary><Proposal rows={t.records} label={t.label}/></details>):<p className="empty">아직 게시한 제안서가 없어요. 발표할 때 모둠 제안서를 게시하세요.</p>}<CriteriaCards/></div>;}
   function resource(){
     if(current.resource==='data')return <DataExplorer notify={notify} selection={readComparison(comparisonRecord.value).ids} onSelectionChange={(ids:ComparisonIds)=>{if(comparisonRecord.change(writeComparison(ids,comparisonRecord.value)))void comparisonRecord.persist();}} disabled={!!state?.student.closed||!!authError}/>;
-    if(current.resource==='evidence')return <EvidenceCards/>;
+    if(current.resource==='evidence')return <><section className="carry-forward-card"><span>우리 모둠이 더 알아보기로 한 질문</span><p>{values.gap?.trim()||'아직 질문을 쓰지 않았어요. 3번 활동에서 ‘추가로 알아볼 질문’을 먼저 완성하세요.'}</p></section><EvidenceCards/></>;
     if(current.resource==='apollo')return <ApolloReading/>;
     if(current.resource.startsWith('ai'))return aiBox(Number(current.resource.slice(-1)));
     if(stage===1&&step===1)return <><InquiryTrail rows={state!.group}/><DestinationCards selected={values.destination}/></>;
@@ -285,7 +285,7 @@ export default function App(){
     {mode==='home'&&<Landing reviewOnly={typeof window!=='undefined'&&isLocalReviewOnly()} simpleEntryPreview={typeof window!=='undefined'&&(!isLocalReviewOnly()||new URLSearchParams(window.location.search).get('entry')==='preview')} code={code} onCodeChange={setCode} onJoin={()=>void join()} busy={busy} welcome={welcome} onResume={()=>{const ctx=contextGen.current;setBusy(true);void api('state').then(s=>{if(ctx!==contextGen.current)return;acceptState(s);changeMode('student');setAuthError('');setGallery([]);setSnapView(null);}).catch(e=>{setWelcome('');setJoinError(e.message);}).finally(()=>setBusy(false));}} onReview={()=>changeMode('review')} onTeacher={()=>void openTeacher()} onStartReview={startReview} joinError={joinError}/>}
     {mode==='review'&&<ReviewGuide onStart={startReview} onMaterials={()=>changeMode('materials')}/>}
     {mode==='materials'&&<main className="materials-page"><h1>과학B 전체 수업 자료</h1><button className="secondary" onClick={()=>changeMode('review')}>검토 안내로 돌아가기</button><FullMaterials notify={notify}/></main>}
-    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103i','_blank','noopener,noreferrer');}}/>}
+    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103j','_blank','noopener,noreferrer');}}/>}
     {(mode==='student'||mode==='demo')&&state&&<>
       <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 학생과 같은 활동 화면</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
       {authError&&<div className="auth-banner" role="alert"><p>{authError}</p><button className="secondary" onClick={()=>{changeMode('home');setWelcome('');}}>입장권으로 다시 접속</button><button className="secondary" onClick={()=>download('SPACE_저장전입력.json',JSON.stringify(drafts.map(x=>x.draft),null,2))}>입력 내려받기</button></div>}
