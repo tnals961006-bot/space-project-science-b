@@ -118,7 +118,7 @@ export const stages: StageDef[] = [
         prompt: '우리가 고른 문장과 같은 내용을 말한 AI 문장 1개를 찾아 비교하세요.',
         fields: [
           f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { hidden: true }),
-          f('claim1', 'AI 답에서 찾은 같은 주제의 문장', '', undefined, { ...oneLine, scaffold: '위의 우리 문장과 같은 내용을 말한 AI 문장 1개만 찾아 그대로 옮깁니다.', placeholder: '우리 문장과 같은 주제의 AI 문장 1개를 옮겨 쓰세요.' }),
+          f('claim1', 'AI 답에서 찾은 비슷한 내용의 문장', '', undefined, { ...oneLine, scaffold: '위의 우리 문장과 같은 내용을 말한 AI 문장 1개만 찾아 그대로 옮깁니다.', placeholder: '우리 문장과 비슷한 내용을 말한 AI 문장 1개를 옮겨 쓰세요.' }),
           f('check1', '활동 3의 두 탐사 자료에서 확인한 내용', '', undefined, { scaffold: '활동 3에서 비교한 ______ 탐사 자료에서 ______을 확인했다.', placeholder: '탐사 이름과 자료에서 확인한 사실을 쓰세요.' }),
           f('compare1', '우리 문장과 AI 문장 비교', '', undefined, { ...oneLine, scaffold: '우리 문장과 AI 문장은 ______은 같고, ______은 다르다.', placeholder: '같은 점 또는 다른 점을 직접 찾아 쓰세요.' }),
           f('decision1', '우리 문장을 그대로 둘지 고칠지', '', undefined, { scaffold: '활동 3의 두 탐사 자료에서 ______을 확인했다. 그래서 우리 문장을 그대로 둔다 / ______로 고친다.', placeholder: '그대로 둘지 고칠지와 이유를 쓰세요.' }),
