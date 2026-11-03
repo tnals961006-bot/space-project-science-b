@@ -15,6 +15,7 @@ export const recordMap = (rows:Row[] = []):Record<string,string> => {
   return ['comparison','fact','gap','selectedClaim'].some(key=>key in values)?normalizeGroupValues(values):values;
 };
 export const clean = (s:unknown) => String(s??'').replace(/[·ㆍ•]/g, ', ').replace(/\s*,\s*,/g, ',').replace(/→/g, '다음');
+const evidenceLabel=(id:string)=>{const card=evidenceCards.find(c=>c.id===id);const n=id.replace(/^E0?/,'');return card?`영향 카드 ${n} / ${clean(card.title)}`:`영향 카드 ${n}`;};
 export const draftKey = (studentId:string, teamId:string, personal:boolean, key:string) => `space-draft:v2:${studentId}:${personal?'personal':teamId}:${key}`;
 export function readDraft(key:string):Draft|null {
   try { const d=JSON.parse(sessionStorage.getItem(key)||'null'); return d?.version===2 && typeof d.value==='string' && d.value.length<=3000 && Number.isInteger(d.baseRev) && d.baseRev>=0 ? d : null; } catch {return null;}
@@ -135,7 +136,7 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
       <p className="hint">선택한 설명과 근거가 다음 AI 비교 화면에 이어집니다.</p>
       {choice.legacy&&<details className="legacy-comparison" open={!choice.structured}><summary>이전에 쓴 비교할 주장</summary><p>{choice.legacy}</p><small>이전 주장은 보관합니다. 위의 두 설명 중 비교할 내용을 직접 골라 주세요.</small></details>}
     </>:<>
-      {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{def.key==='evidenceRef'?(o+' / '+clean(evidenceCards.find(c=>c.id===o)?.title||o)):clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
+      {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{def.key==='evidenceRef'?evidenceLabel(o):clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
     </>}
     <div className="field-bottom"><span role="status">{status||(time?`${time} 저장${row?.actor?' / '+row.actor:''}`:'')}</span>{dirty&&<button className="text-btn" onClick={()=>void persist()} disabled={!!conflict||disabled}><Save size={13}/> 저장</button>}</div>
     {conflict&&<div className="conflict" role="alert"><b>다른 기기에서 먼저 수정했어요.</b><p>먼저 저장된 내용: {recordValueText(def.key,conflict.value,context)||'빈 기록'}</p><p>내 입력은 위에 남아 있어요. 두 내용을 확인하고 저장할 내용을 결정하세요.</p><div className="button-row"><button onClick={()=>void persist(conflict.rev)} disabled={disabled}>{readOnly?'보관 중인 입력 반영':'위 입력을 반영'}</button><button onClick={useSaved}>먼저 저장된 내용 사용</button></div></div>}
@@ -159,7 +160,7 @@ export function EnvironmentTable({rows}:{rows:Row[]}) {
 }
 export function Proposal({rows,label='우리 모둠 제안서'}:{rows:Row[];label?:string}) {
   const v=recordMap(rows);
-  const sections=[['탐사 목표',v.goal],['선택한 까닭',v.selectionReason],['관찰하거나 측정할 대상',v.target],['얻으려는 자료',v.data],['자료를 얻는 방법과 이유',v.method],['예상 어려움',v.difficulty],['필요한 기술과 대응',[v.technology,v.response].filter(Boolean).join('\n')],['검증 후 반영한 내용',v.revision],['탐사의 의의와 영향',[v.evidenceRef,v.meaning].filter(Boolean).join('\n')],['우리 미션에서 기대하는 것',v.expectation],['남은 한계와 확인할 점',v.limitation]];
+  const sections=[['탐사 목표',v.goal],['선택한 까닭',v.selectionReason],['관찰하거나 측정할 대상',v.target],['얻으려는 자료',v.data],['자료를 얻는 방법과 이유',v.method],['예상 어려움',v.difficulty],['필요한 기술과 대응',[v.technology,v.response].filter(Boolean).join('\n')],['검증 후 반영한 내용',v.revision],['탐사의 의의와 영향',[v.evidenceRef?evidenceLabel(v.evidenceRef):'',v.meaning].filter(Boolean).join('\n')],['우리 미션에서 기대하는 것',v.expectation],['남은 한계와 확인할 점',v.limitation]];
   return <article className="proposal"><p className="eyebrow">{label}</p><h2>{v.missionName||'우리 탐사 미션'}</h2><p className="destination-pill">{v.destination==='다른 탐사지'?v.otherDestination||'탐사지 미작성':v.destination||'탐사지 선택 전'}</p><div className="proposal-question">{v.question||'우리 모둠의 질문을 작성해 주세요.'}</div><InquiryTrail rows={rows}/><div className="proposal-grid">{sections.map(([title,value])=><section key={title}><h4>{title}</h4><p>{value?.trim()||'아직 작성하지 않았어요.'}</p></section>)}</div><EnvironmentTable rows={rows}/></article>;
 }
 export function RecordList({rows,contextRows=rows}:{rows:Row[];contextRows?:Row[]}) {const context=recordMap(contextRows);return <>{rows.map(r=>{const selection=r.key==='comparison'?readComparison(r.value):null;return <React.Fragment key={r.key}><Readback title={clean(allFields.find(f=>f.key===r.key)?.label||r.key)} value={recordValueText(r.key,r.value,context)}/>{selection?.structured&&selection.legacy&&<Readback title="이전에 쓴 비교 기록" value={selection.legacy}/>}</React.Fragment>;})}</>;}
