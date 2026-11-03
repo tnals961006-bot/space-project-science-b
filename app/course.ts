@@ -62,8 +62,8 @@ const f = (key: string, label: string, hint = '', options?: string[], meta: Part
   options: options?.map(cleanDisplayText), ...meta,
 });
 const p = (key: string, label: string, hint = '', options?: string[], meta: Partial<FieldDef> = {}): FieldDef => f(key, label, hint, options, { ...meta, personal: true });
-const routes = ['직접 AI 대화', '교사가 제공한 AI 응답', '동료와 검토'];
-const aiRoutes = ['직접 AI 대화', '교사가 제공한 AI 응답'];
+const routes = ['직접 AI 대화', '동료와 검토'];
+const aiRoutes = ['직접 AI 대화'];
 const oneLine = { compact: true };
 const optional = { optional: true };
 const optionalLine = { optional: true, compact: true };
@@ -117,7 +117,7 @@ export const stages: StageDef[] = [
         name: '우리 문장과 AI 비교', resource: 'ai1',
         prompt: '우리가 고른 문장과 같은 내용을 말한 AI 문장 1개를 찾아 비교하세요.',
         fields: [
-          f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { scaffold: '실제로 사용한 검토 방법 하나를 고릅니다.' }),
+          f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { hidden: true }),
           f('claim1', 'AI 답에서 찾은 같은 주제의 문장', '', undefined, { ...oneLine, scaffold: '위의 우리 문장과 같은 내용을 말한 AI 문장 1개만 찾아 그대로 옮깁니다.', placeholder: '우리 문장과 같은 주제의 AI 문장 1개를 옮겨 쓰세요.' }),
           f('check1', '처음 탐사 자료에서 확인한 내용', '', undefined, { scaffold: '______번 자료에서는 ______을 확인했다.', placeholder: '탐사 번호와 원자료에서 확인한 사실을 쓰세요.' }),
           f('compare1', '우리 설명과 AI 설명 비교', '', undefined, { ...oneLine, scaffold: '우리 설명과 AI는 ______은 같고, ______은 다르다.', placeholder: '같은 점 또는 다른 점을 직접 찾아 쓰세요.' }),
