@@ -14,7 +14,7 @@ export default function Teacher({notify}:Props){
   const [classes,setClasses]=useState<any[]>([]);
   const [selected,setSelected]=useState('class-4');
   const [data,setData]=useState<any>(null);
-  const [tab,setTab]=useState<'teams'|'students'>('teams');
+  const [tab,setTab]=useState<'coaching'|'teams'|'students'>('coaching');
   const [busy,setBusy]=useState(false);
   const [feedback,setFeedback]=useState<Record<string,string>>({});
   const current=classes.find(c=>c.id===selected);
@@ -75,6 +75,39 @@ export default function Teacher({notify}:Props){
     finally{setBusy(false);}
   }
 
+  const coaching=useMemo(()=>{
+    if(!data)return [];
+    const items:any[]=[];
+    const add=(item:any)=>items.push(item);
+    for(const t of data.teams||[]){
+      const v=recordMap(t.records||[]);
+      const target=t.label;
+      const hasWork=(t.records||[]).some((r:Row)=>r.key!=='teacherFeedback'&&r.value.trim());
+      if(!hasWork)continue;
+
+      if(v.comparison&&!v.fact) add({priority:1,target,kind:'근거 확인',issue:'비교할 탐사는 골랐지만 자료 근거가 아직 없어요.',prompt:'두 탐사의 같은 항목에서 어떤 문장을 근거로 가져왔어?',resource:'선택한 두 탐사 카드의 계획한 방식, 실제 결과, 주요 활동'});
+      if(v.fact&&!v.change) add({priority:1,target,kind:'비교 설명',issue:'자료 근거는 찾았지만 변화 설명이 아직 없어요.',prompt:'두 근거를 나란히 놓으면 무엇이 달라 보여?',resource:'두 탐사 비교 화면'});
+      if(v.change&&!v.claimReason) add({priority:1,target,kind:'근거 연결',issue:'변화는 설명했지만 왜 그렇게 판단했는지가 비어 있어요.',prompt:'앞에서 찾은 어떤 근거가 방금 말한 변화를 보여 줘?',resource:'두 탐사의 근거 기록'});
+      if(v.gapStatement&&!v.gap) add({priority:2,target,kind:'질문 만들기',issue:'자료의 한계는 찾았지만 추가 질문으로 이어지지 않았어요.',prompt:'그 자료에 없는 내용을 알아보려면 무엇을 질문해야 할까?',resource:'자료의 한계와 추가 질문 칸'});
+      if(v.claim1&&!v.check1) add({priority:0,target,kind:'AI 검증',issue:'AI의 주장은 옮겼지만 원자료 확인 기록이 없어요.',prompt:'AI가 말한 문장을 원자료 어디에서 확인할 수 있어?',resource:'선택한 두 탐사의 원자료'});
+      if(v.check1&&!v.decision1) add({priority:0,target,kind:'AI 판단',issue:'원자료 확인은 했지만 우리 설명을 유지하거나 바꿀 판단이 아직 없어요.',prompt:'원자료를 확인하고 나니 우리 설명은 유지할래, 바꿀래? 왜?',resource:'우리 설명, AI 주장, 원자료 확인 내용'});
+      if(v.destination&&!v.selectionReason) add({priority:1,target,kind:'탐사지 선택',issue:'탐사지는 골랐지만 앞에서 만든 질문과 선택 이유가 연결되지 않았어요.',prompt:'우리가 만든 추가 질문을 알아보는 데 왜 이 탐사지가 적절할까?',resource:'추가 질문과 탐사지 후보'});
+      if(v.evidenceRef&&!v.meaning) add({priority:1,target,kind:'의의 해석',issue:'의의와 영향 카드는 골랐지만 사실의 의미가 아직 설명되지 않았어요.',prompt:'이 카드의 사실이 왜 우주 탐사의 가치나 영향이라고 볼 수 있을까?',resource:v.evidenceRef+' 카드'});
+      if(v.change&&/(항상|모두|전부|무조건|전체 우주|우주 탐사는 점점|갈수록)/.test(v.change)) add({priority:0,target,kind:'과도한 일반화',issue:'두 사례를 넘어 전체 우주 탐사로 넓혀 말했을 가능성이 있어요.',prompt:'우리가 본 두 사례만으로 어디까지 말할 수 있을까?',resource:'두 탐사 사례의 범위'});
+      if(v.gapStatement&&/(인류.*모른|아무도.*모른|아직.*알려지지)/.test(v.gapStatement)) add({priority:0,target,kind:'자료 범위',issue:'자료에 없는 내용을 인류가 모르는 사실로 단정했을 가능성이 있어요.',prompt:'이 자료에 없다는 것과 인류가 아직 모른다는 것은 같은 뜻일까?',resource:'수업용 자료의 범위 안내'});
+    }
+
+    const classHasConcluding=(data.teams||[]).some((t:any)=>{const v=recordMap(t.records||[]);return !!(v.destination||v.evidenceRef||v.meaning);});
+    if(classHasConcluding){
+      for(const st of data.students||[]){
+        const v=recordMap(st.records||[]);
+        if(v.first&&!v.conclusion) add({priority:2,target:st.number+'번',kind:'개인 결론',issue:'첫 생각은 남겼지만 1차시 개인 결론이 아직 없어요.',prompt:'처음 생각과 비교해서, 지금은 어떤 자료 때문에 생각이 달라졌거나 더 분명해졌어?',resource:'의의와 영향 카드, 처음 생각'});
+        if(v.conclusion&&v.conclusion.trim().length<18) add({priority:2,target:st.number+'번',kind:'개인 결론 보완',issue:'개인 결론이 매우 짧아 근거가 드러나지 않을 수 있어요.',prompt:'어느 자료의 어떤 사실이 네 결론을 뒷받침해?',resource:'선택한 의의와 영향 카드'});
+      }
+    }
+    return items.sort((a,b)=>a.priority-b.priority||String(a.target).localeCompare(String(b.target),'ko'));
+  },[data]);
+
   const summary=useMemo(()=>{
     if(!data)return {students:0,studentsStarted:0,teamsStarted:0,personal:0,group:0};
     const studentsStarted=data.students.filter((s:any)=>s.records?.some((r:Row)=>r.value.trim())).length;
@@ -131,9 +164,22 @@ export default function Teacher({notify}:Props){
       </div>
 
       <div className="pill-tabs">
+        <button className={tab==='coaching'?'active':''} onClick={()=>setTab('coaching')}>교사용 코칭 {coaching.length?coaching.length:''}</button>
         <button className={tab==='teams'?'active':''} onClick={()=>setTab('teams')}><Users size={16}/> 모둠 기록</button>
         <button className={tab==='students'?'active':''} onClick={()=>setTab('students')}><UserRound size={16}/> 개인 기록</button>
       </div>
+
+      {tab==='coaching'&&<section className="teacher-coaching">
+        <div className="teacher-coaching-head">
+          <div><h2>지금 피드백하면 좋은 기록</h2><p className="muted">학생 답을 자동 채점하지 않고, 현재 기록에서 교사가 확인하면 좋은 지점만 모아 보여 줍니다.</p></div>
+          <span>{coaching.length}건</span>
+        </div>
+        {coaching.length?<div className="coaching-list">{coaching.map((item:any,index:number)=><article className={'coaching-card priority-'+item.priority} key={item.target+'-'+item.kind+'-'+index}>
+          <div className="coaching-card-top"><b>{item.target}</b><span>{item.kind}</span></div>
+          <p className="coaching-issue">{item.issue}</p>
+          <dl><dt>추천 발문</dt><dd>{item.prompt}</dd><dt>볼 자료</dt><dd>{item.resource}</dd></dl>
+        </article>)}</div>:<div className="notice">현재 기록에서 바로 개입이 필요한 항목을 찾지 못했어요. 모둠 기록과 개인 기록 탭에서 학생 답을 직접 확인할 수 있어요.</div>}
+      </section>}
 
       {tab==='teams'&&<section className="teacher-record-list">
         {data.teams.map((t:any)=>{
