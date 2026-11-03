@@ -41,7 +41,7 @@ export function DataExplorer({notify,selection,onSelectionChange,disabled=false}
   </div>;
 }
 
-export function EvidenceCards() {return <div><span className="eyebrow">우주 탐사의 영향</span><h2>카드 하나를 읽어 보세요.</h2><p className="muted">읽은 카드 하나를 골라, 확인한 사실과 그 의미를 정리합니다.</p>{evidenceCards.map(c=><details className="reading-card" key={c.id}><summary><span className="card-code">영향 카드 {evidenceNumber(c.id)}</span><b>{c.title}</b><ChevronDown size={16}/></summary><div><small>{c.materialType}</small><p>{c.fact}</p><blockquote>{c.question}</blockquote>{c.limitations&&<p className="notice">{c.limitations}</p>}<SourceLinks ids={c.sourceIds}/></div></details>)}</div>;}
+export function EvidenceCards() {return <div><span className="eyebrow">다음 단계 · 내 생각의 근거 찾기</span><h2>영향 카드 하나를 읽어 보세요.</h2><p className="muted">탐사지를 고른 뒤 하는 활동입니다. 카드의 사실 하나를 골라 마지막 나의 생각의 근거로 사용합니다.</p>{evidenceCards.map(c=><details className="reading-card" key={c.id}><summary><span className="card-code">영향 카드 {evidenceNumber(c.id)}</span><b>{c.title}</b><ChevronDown size={16}/></summary><div><small>{c.materialType}</small><p>{c.fact}</p><blockquote>{c.question}</blockquote>{c.limitations&&<p className="notice">{c.limitations}</p>}<SourceLinks ids={c.sourceIds}/></div></details>)}</div>;}
 
 export function DestinationCards({selected,environmentOnly=false}:{selected?:string;environmentOnly?:boolean}) {
   const [tab,setTab]=useState(getReadingCard(selected)?.id||readingCards[0].id);
