@@ -57,7 +57,7 @@ export function writeComparison(ids: ComparisonIds, previous = ''): string {
 }
 export function missionChoiceLabel(id: number): string {
   const mission = missionRecords.find(item => item.id === id);
-  return mission ? `${mission.id}번 ${mission.title} (${mission.year}년 발사)` : '';
+  return mission ? `${mission.title} (${mission.year}년 발사)` : '';
 }
 export function comparisonText(value = ''): string {
   const selection = readComparison(value);
@@ -163,7 +163,7 @@ export function recordValueText(key: string, value: string, context: Record<stri
 export function comparisonMissingItems(values: Record<string, string | undefined>): string[] {
   const v = normalizeGroupValues(values), ids = readComparison(v.comparison).ids, evidence = readMissionEvidence(v.__rawFact), missing: string[] = [];
   if (!comparisonComplete(v.comparison)) missing.push('서로 다른 탐사 두 개 선택');
-  ids.forEach((id, index) => { if (id !== null && !evidence.entries[id]?.trim()) missing.push(`${index === 0 ? '첫 번째' : '두 번째'} 탐사의 근거 (${id}번)`); });
+  ids.forEach((id, index) => { if (id !== null && !evidence.entries[id]?.trim()) missing.push(`${index === 0 ? '첫 번째' : '두 번째'} 탐사의 근거`); });
   for (const [key, title] of [['change', '우리가 찾은 변화'], ['claimReason', '그렇게 판단한 이유'], ['gapStatement', '이 자료로 알 수 없는 점과 그 이유'], ['gap', '추가로 알아볼 질문']]) {
     if (!v[key]?.trim()) missing.push(title);
   }
@@ -295,11 +295,11 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
   const promptValues = normalizeGroupValues(values);
   const proposalFields: [string, string][] = [
     ['destination', '탐사지'], ['otherDestination', '다른 탐사지와 근거'], ['selectionReason', '선정 이유'],
-    ['factRef', '출발 자료 번호'], ['fact', '확인한 사실'], ['gap', '처음 질문'],
-    ['additionalRef', '추가 자료 번호'], ['additionalFact', '새로 확인한 사실'], ['task', '더 조사할 과제'],
+    ['factRef', '비교한 탐사'], ['fact', '확인한 사실'], ['gap', '처음 질문'],
+    ['additionalRef', '추가로 읽은 자료'], ['additionalFact', '새로 확인한 사실'], ['task', '더 조사할 과제'],
     ['question', '미션 질문'], ['goal', '탐사 목표'], ['target', '관측 대상'], ['data', '얻을 자료'],
     ['method', '방법과 이유'], ['difficulty', '예상 어려움'], ['technology', '필요한 기술'], ['response', '대비 방법'],
-    ['evidenceRef', '의의와 영향 근거번호'], ['meaning', '확인한 사실과 의미'],
+    ['evidenceRef', '선택한 영향 카드'], ['meaning', '확인한 사실과 의미'],
     ['expectation', '기대하는 지식과 도움'], ['limitation', '이 계획으로 확인할 수 없는 점'],
   ];
   const environmentFields: [string, string][] = [
@@ -311,7 +311,7 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
     ['reason', '판정 이유'], ['decision', '계획에 적용한 판단'], ['verifyNext', '더 확인할 점'], ['verifyLink', '연결한 계획'], ['revision', '바꾼 내용과 이유'],
   ];
   const promptMissions = lessonNumber === 1 ? readComparison(values.comparison).ids.map(id => missionRecords.find(mission => mission.id === id)!) : missionRecords;
-  const table = ['번호\t탐사명\t발사연도\t주관국과 기관\t목적지\t수업용 영역\t계획한 방식\t대표 수행 결과\t주요 내용\t근거번호\t출처번호', ...promptMissions.map((mission) => [mission.id, mission.title, mission.year, mission.agency, mission.destination, mission.destinationCategory, mission.method, mission.result, mission.description, mission.evidenceIds.join(', '), mission.sourceIds.join(', ')].join('\t'))].join('\n');
+  const table = ['탐사명\t발사연도\t주관국과 기관\t목적지\t계획한 방식\t대표 수행 결과\t주요 내용', ...promptMissions.filter(Boolean).map((mission) => [mission.title, mission.year, mission.agency, mission.destination, mission.method, mission.result, mission.description].join('\t'))].join('\n');
   const replacements: Record<string, string> = {
     EXPLORATION_DATA: table + (promptValues.factRef ? '\n\n[우리 모둠이 비교한 탐사]\n' + promptValues.factRef : ''),
     MISSION_DRAFT: recordText(promptValues, proposalFields), SOURCE_PACK: readingPack(values),
