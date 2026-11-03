@@ -46,7 +46,7 @@ export const destinationParts: { text: string; url?: string }[] = readingCards.f
 export type FieldDef = {
   key: string; label: string; hint?: string; options?: string[]; personal?: boolean;
   optional?: boolean; compact?: boolean; section?: string; dependsOn?: string[];
-  input?: 'mission-pair' | 'mission-evidence' | 'inquiry-gap' | 'explanation-choice'; placeholder?: string; scaffold?: string; hidden?: boolean;
+  input?: 'mission-pair' | 'mission-evidence' | 'inquiry-gap' | 'explanation-choice' | 'destination-free'; placeholder?: string; scaffold?: string; hidden?: boolean;
 };
 export type StepDef = {
   id: string; name: string; minutes: number; resource: string; prompt: string;
@@ -128,7 +128,7 @@ export const stages: StageDef[] = [
         name: '오늘의 결론 쓰기', resource: 'evidence',
         prompt: '활동 3에서 만든 질문을 다시 보고, 더 알아볼 곳과 내 생각의 근거를 정하세요.',
         fields: [
-          f('destination', '우리 질문을 알아볼 곳', '화면 위에 다시 보이는 우리 모둠 질문을 보고 고르세요.', ['달 남극', '화성', '유로파', '다른 탐사지'], { scaffold: '위에 보이는 우리 모둠 질문을 더 알아보기 좋은 곳 하나를 고릅니다.' }),
+          f('destination', '우리 질문을 알아볼 곳', '우리 모둠이 조사해 보고 싶은 장소를 직접 정하세요.', undefined, { input: 'destination-free', scaffold: '위에 보이는 우리 모둠 질문을 더 알아보기 좋은 장소를 직접 정합니다.' }),
           f('otherDestination', '다른 탐사지를 골랐다면 이름과 근거', '', undefined, { ...optionalLine, scaffold: '다른 탐사지: ______ / 고른 근거: ______' }),
           f('selectionReason', '이곳을 고른 이유', '위에 보이는 우리 모둠 질문과 연결해 쓰세요.', undefined, { ...oneLine, scaffold: '우리 모둠 질문 “______”을 더 알아보기 위해 ______을 골랐다.', placeholder: '화면 위에 다시 보이는 우리 모둠 질문과 연결해 쓰세요.' }),
           f('evidenceRef', '내 생각의 근거가 될 영향 카드', '화면의 영향 카드 중 하나를 읽고 고르세요.', evidenceCards.map(card => card.id), { scaffold: '화면에서 읽은 카드 중, 내 마지막 생각의 근거로 쓸 카드 1개를 고릅니다.' }),
