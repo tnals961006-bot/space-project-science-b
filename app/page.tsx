@@ -3,7 +3,7 @@ import React,{useEffect,useRef,useState,useCallback} from 'react';
 import {ArrowLeft,ArrowRight,BookOpen,CheckCircle2,ChevronDown,Clock3,Copy,Download,FileText,GraduationCap,LayoutGrid,LogOut,Orbit,Presentation,RefreshCw,Save,Search,Type,UserRound,Users,WifiOff,X} from 'lucide-react';
 import Landing from './landing';
 import Teacher from './teacher';
-import {api,getBackendUrl,hasStudentSession,clearStudentSession,isLocalReviewOnly} from '../lib/classroom-client';
+import {api,hasStudentSession,clearStudentSession,isLocalReviewOnly} from '../lib/classroom-client';
 import {allFields,stages,phaseNames,proposalKeys,FieldDef} from './course';
 import {aiCards,buildAiPrompt,peerFallback,storyTransition,comparisonComplete,comparisonSource,comparisonText,readComparison,writeComparison,ComparisonIds,comparisonMissingItems,recordValueText,readMissionEvidence} from './teaching-content';
 import {ClassroomState,Row,Snapshot,Field,Proposal,RecordList,Readback,InquiryTrail,SaveField,recordMap,pendingDrafts,readDraft,finishDraft,download,clean,useFieldRecord} from './record-ui';
@@ -69,8 +69,8 @@ export default function App(){
     const review=loadReview();changeMode('demo');updateState(review,false);setStage(lesson);setStep(0);setPanel('lesson');setFull(false);setAuthError('');setPrior(null);setSnapView(null);setGallery([]);setWelcome('');window.scrollTo({top:0});
   }
   async function openTeacher(){
-    if(isLocalReviewOnly()){notify('이 파일은 수업 내용 체험용이에요. 학급 관리는 저장 서버가 연결된 수업 사이트에서 열 수 있어요.');return;}
-    const backend=getBackendUrl();if(backend&&backend!==location.origin){location.assign(backend+'/?teacher=1');return;}changeMode('teacher');
+    if(isLocalReviewOnly()){notify('이 파일은 수업 내용 체험용이에요. 저장 서버가 연결된 수업 사이트에서 교사 공간을 열어 주세요.');return;}
+    changeMode('teacher');
   }
   const save:SaveField=async(def,value,rev,expectedTeamId)=>{
     const s=stateRef.current;if(!s)throw new Error('기록을 먼저 열어 주세요.');
