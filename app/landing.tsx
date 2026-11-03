@@ -174,7 +174,7 @@ export default function Landing({
                 </button>
               </form>
               {joinError && <p className="space-join-error" id="space-join-error" role="alert">{joinError}</p>}
-              <p className="space-code-help" id="space-code-help">{simpleEntryPreview ? '입장 화면 미리보기입니다. 공유 저장은 DB 연결 후 활성화됩니다.' : '개인 코드는 나만 사용해요.'}</p>
+              {!simpleEntryPreview && <p className="space-code-help" id="space-code-help">개인 코드는 나만 사용해요.</p>}
               {welcome && (
                 <button className="space-resume-button" type="button" onClick={onResume} disabled={busy}>
                   <span>{welcomeLabel} 이어 쓰기</span>
