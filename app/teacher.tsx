@@ -1,13 +1,13 @@
 'use client';
 import React,{useEffect,useMemo,useState} from 'react';
-import {Download,LogOut,RefreshCw,Users,UserRound,ChevronDown} from 'lucide-react';
+import {Download,ExternalLink,LogOut,RefreshCw,Users,UserRound,ChevronDown} from 'lucide-react';
 import {api,hasTeacherSession} from '../lib/classroom-client';
 import {proposalKeys} from './course';
 import {Row,Proposal,RecordList,recordMap,download} from './record-ui';
 
-type Props={notify:(message:string)=>void};
+type Props={notify:(message:string)=>void; onStudentPreview:()=>void};
 
-export default function Teacher({notify}:Props){
+export default function Teacher({notify,onStudentPreview}:Props){
   const [loggedIn,setLoggedIn]=useState(()=>typeof window!=='undefined'&&hasTeacherSession());
   const [teacherCode,setTeacherCode]=useState('');
   const [loginError,setLoginError]=useState('');
@@ -141,6 +141,7 @@ export default function Teacher({notify}:Props){
     <div className="section-heading">
       <div><p className="eyebrow">교사 전용</p><h1>SPACE 수업 기록 대시보드</h1><p className="muted">학생이 따로 제출하지 않아도 저장된 기록을 여기서 확인할 수 있어요.</p></div>
       <div className="button-row">
+        <button className="secondary" onClick={onStudentPreview}><ExternalLink size={16}/> 학생 화면 그대로 보기</button>
         <button className="secondary" disabled={busy} onClick={()=>void loadClass()}><RefreshCw size={16}/> 지금 갱신</button>
         <button className="secondary" onClick={()=>void logout()}><LogOut size={16}/> 나가기</button>
       </div>
