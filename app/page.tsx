@@ -26,7 +26,7 @@ function loadReview():ClassroomState {
 export default function App(){
   const [mode,setMode]=useState<Mode>('home'),[state,setState]=useState<ClassroomState|null>(null),[code,setCode]=useState(''),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[joinError,setJoinError]=useState(''),[studentPreview,setStudentPreview]=useState(false);
   const [stage,setStage]=useState(0),[step,setStep]=useState(0),[panel,setPanel]=useState('lesson'),[online,setOnline]=useState(true),[full,setFull]=useState(false),[large,setLarge]=useState(false),[welcome,setWelcome]=useState(''),[authError,setAuthError]=useState('');
-  const [gallery,setGallery]=useState<any[]>([]),[snapView,setSnapView]=useState<Snapshot|null>(null),[prior,setPrior]=useState<Snapshot|null>(null),[pendingVersion,setPendingVersion]=useState(0),[lastSync,setLastSync]=useState('');
+  const [gallery,setGallery]=useState<any[]>([]),[snapView,setSnapView]=useState<Snapshot|null>(null),[prior,setPrior]=useState<Snapshot|null>(null),[pendingVersion,setPendingVersion]=useState(0),[,setLastSync]=useState('');
   const stateRef=useRef<ClassroomState|null>(null),modeRef=useRef<Mode>('home'),booted=useRef(false),contextGen=useRef(0),inflight=useRef(new Map<string,{value:string;promise:Promise<Row>}>());
   const notify=useCallback((s:string)=>setNotice(s),[]);
   function changeMode(next:Mode){if(modeRef.current!==next)contextGen.current++;modeRef.current=next;setMode(next);}
