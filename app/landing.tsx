@@ -63,6 +63,7 @@ export default function Landing({
   const welcomeLabel = welcome.replace(/[\u00b7\u318d]/g, ' ');
   const effectiveReviewOnly = reviewOnly && !simpleEntryPreview;
   const [entryClass = '4', entryNumber = ''] = code.includes('-') ? code.split('-', 2) : ['4', ''];
+  const simpleEntryValid = /^[46]-(?:[1-9]|[12][0-9]|3[0-9]|40)$/.test(code);
   const setEntryPart = (classNo: string, number: string) => onCodeChange(`${classNo}-${number.replace(/\D/g, '').slice(0, 2)}`);
 
   return (
@@ -109,7 +110,7 @@ export default function Landing({
                 aria-busy={busy}
                 onSubmit={(event) => {
                   event.preventDefault();
-                  if (!busy && code.trim()) onJoin();
+                  if (!busy && (simpleEntryPreview ? simpleEntryValid : Boolean(code.trim()))) onJoin();
                 }}
               >
                 {simpleEntryPreview ? (
@@ -168,7 +169,7 @@ export default function Landing({
                     />
                   </div>
                 )}
-                <button className="space-enter-button" type="submit" disabled={busy || !code.trim()}>
+                <button className="space-enter-button" type="submit" disabled={busy || (simpleEntryPreview ? !simpleEntryValid : !code.trim())}>
                   <span>{busy ? '입장하는 중' : '탐사실 입장하기'}</span>
                   <ArrowRight size={20} aria-hidden="true" />
                 </button>
