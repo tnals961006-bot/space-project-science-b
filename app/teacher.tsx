@@ -3,6 +3,7 @@ import React,{useEffect,useMemo,useState} from 'react';
 import {Download,ExternalLink,LogOut,RefreshCw,Users,UserRound,ChevronDown} from 'lucide-react';
 import {api,hasTeacherSession} from '../lib/classroom-client';
 import {proposalKeys} from './course';
+import {evidenceCards} from './teaching-content';
 import {Row,Proposal,RecordList,recordMap,download} from './record-ui';
 
 type Props={notify:(message:string)=>void; onStudentPreview:()=>void};
@@ -18,6 +19,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
   const [busy,setBusy]=useState(false);
   const [feedback,setFeedback]=useState<Record<string,string>>({});
   const current=classes.find(c=>c.id===selected);
+  const evidenceName=(id:string)=>{const card=evidenceCards.find(c=>c.id===id);const n=id.replace(/^E0?/,'');return card?`영향 카드 ${n} · ${card.title}`:`영향 카드 ${n}`;};
 
   async function login(e:React.FormEvent){
     e.preventDefault();setBusy(true);setLoginError('');
@@ -92,7 +94,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
       if(v.claim1&&!v.check1) add({priority:0,target,kind:'AI 검증',issue:'AI의 주장은 옮겼지만 원자료 확인 기록이 없어요.',prompt:'AI가 말한 문장을 원자료 어디에서 확인할 수 있어?',resource:'선택한 두 탐사의 원자료'});
       if(v.check1&&!v.decision1) add({priority:0,target,kind:'AI 판단',issue:'원자료 확인은 했지만 우리 설명을 유지하거나 바꿀 판단이 아직 없어요.',prompt:'원자료를 확인하고 나니 우리 설명은 유지할래, 바꿀래? 왜?',resource:'우리 설명, AI 주장, 원자료 확인 내용'});
       if(v.destination&&!v.selectionReason) add({priority:1,target,kind:'탐사지 선택',issue:'탐사지는 골랐지만 앞에서 만든 질문과 선택 이유가 연결되지 않았어요.',prompt:'우리가 만든 추가 질문을 알아보는 데 왜 이 탐사지가 적절할까?',resource:'추가 질문과 탐사지 후보'});
-      if(v.evidenceRef&&!v.meaning) add({priority:1,target,kind:'의의 해석',issue:'의의와 영향 카드는 골랐지만 사실의 의미가 아직 설명되지 않았어요.',prompt:'이 카드의 사실이 왜 우주 탐사의 가치나 영향이라고 볼 수 있을까?',resource:v.evidenceRef+' 카드'});
+      if(v.evidenceRef&&!v.meaning) add({priority:1,target,kind:'의의 해석',issue:'의의와 영향 카드는 골랐지만 사실의 의미가 아직 설명되지 않았어요.',prompt:'이 카드의 사실이 왜 우주 탐사의 가치나 영향이라고 볼 수 있을까?',resource:evidenceName(v.evidenceRef)});
       if(v.change&&/(항상|모두|전부|무조건|전체 우주|우주 탐사는 점점|갈수록)/.test(v.change)) add({priority:0,target,kind:'과도한 일반화',issue:'두 사례를 넘어 전체 우주 탐사로 넓혀 말했을 가능성이 있어요.',prompt:'우리가 본 두 사례만으로 어디까지 말할 수 있을까?',resource:'두 탐사 사례의 범위'});
       if(v.gapStatement&&/(인류.*모른|아무도.*모른|아직.*알려지지)/.test(v.gapStatement)) add({priority:0,target,kind:'자료 범위',issue:'자료에 없는 내용을 인류가 모르는 사실로 단정했을 가능성이 있어요.',prompt:'이 자료에 없다는 것과 인류가 아직 모른다는 것은 같은 뜻일까?',resource:'수업용 자료의 범위 안내'});
     }
