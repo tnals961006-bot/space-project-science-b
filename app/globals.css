@@ -1067,3 +1067,21 @@ td .text-btn{font-size:var(--small-size)}
 .space-code-field select{width:100%;min-height:53px;padding:12px 15px;border:1px solid #8497a7;background:#fffdf9;color:#17273a;font-family:var(--font);font-size:var(--body-size);border-radius:8px;line-height:1.5}
 .space-code-field select:focus{box-shadow:0 0 0 3px #24525722;border-color:#245257;outline:none}
 @media(max-width:640px){.space-entry-form{grid-template-columns:1fr}.space-simple-entry-grid{grid-template-columns:1fr 1fr}.space-enter-button{width:100%}}
+
+.reference-legend{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;margin:12px 0 16px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#f8faf8;font-size:var(--tiny-size);color:var(--muted)}
+.reference-legend b{color:var(--ink)}
+.reference-legend span{display:inline-flex;align-items:center;gap:5px}
+.reference-legend strong{font-family:monospace;color:var(--green);font-size:12px}
+.recommended-pairs{border:1px solid #d6e1d3;background:#f2f6ed;border-radius:11px;padding:14px;margin:16px 0}
+.recommended-pairs>div:first-child{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap;margin-bottom:10px}
+.recommended-pairs small{color:var(--muted);font-size:var(--tiny-size)}
+.recommended-pair-buttons{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.recommended-pair-buttons .secondary{justify-content:flex-start;text-align:left;font-size:var(--tiny-size);padding:8px 10px}
+.selection-strip{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0 12px;padding:9px 11px;border:1px solid #cfdccc;border-radius:9px;background:#edf3e8;font-size:var(--tiny-size)}
+.selection-strip>b{color:var(--green)}
+.selection-strip>span{background:#fff;border:1px solid #d9e3d5;border-radius:20px;padding:4px 8px}
+.selection-strip .text-btn{margin-left:auto;font-size:var(--tiny-size)}
+.evidence-quick-actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.evidence-quick-btn{background:#f2f6ef;border:1px solid #cedbca;color:var(--green);border-radius:7px;padding:6px 9px;font-size:var(--tiny-size);font-weight:650}
+.evidence-quick-btn:hover:not(:disabled){background:#e5efe0}
+@media(max-width:700px){.recommended-pair-buttons{grid-template-columns:1fr}.selection-strip .text-btn{margin-left:0}.reference-legend{align-items:flex-start}}
