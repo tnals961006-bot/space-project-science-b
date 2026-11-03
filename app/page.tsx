@@ -215,8 +215,9 @@ export default function App(){
     const card=aiCards[level-1],peer=peerFallback.entries[level-1],missing=level===1?comparisonMissingItems(values):[];
     const ready=level===1?missing.length===0:['question','data','method'].every(k=>values[k]?.trim());
     return <div className="ai-box">
-      <span className="eyebrow">{level===1?'우리 문장과 AI 비교':'AI 또는 동료 검토'}</span><h2>{card.title}</h2>
-      <p>{level===1?'활동 3에서 고른 우리 문장과 비슷한 내용을 말한 AI 문장 하나를 찾고, 두 문장을 활동 3의 탐사 자료와 비교하세요.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
+      <span className="eyebrow">{level===1?'우리 생각과 AI 생각 비교':'AI 또는 동료 검토'}</span><h2>{card.title}</h2>
+      <p>{level===1?'우리가 먼저 쓴 생각과 AI가 한 말을 비교한 뒤, 활동 3의 탐사 자료를 보고 우리 생각을 그대로 둘지 고칩니다.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
+      {level===1&&<p className="ai-purpose"><b>핵심</b> AI가 정답인지 맞히는 활동이 아니에요. <strong>우리 생각과 AI 생각을 같은 탐사 자료로 확인</strong>하는 활동입니다.</p>}
       {level===1&&<>
         <section className="ai-compare-focus">
           <p className="eyebrow">지금 비교할 것</p>
