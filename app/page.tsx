@@ -194,14 +194,14 @@ export default function App(){
         {label:'우리 문장 결정',done:!!values.decision1?.trim()},
       ];
     }else{
-      if(!values.destination?.trim()) current=item('destination','위에 보이는 우리 모둠 질문을 읽고, 더 알아볼 곳을 고르세요.',values.gap?.trim()?`우리 질문: ${values.gap}`:'3번 활동에서 만든 질문이 위에 표시됩니다.');
+      if(!values.destination?.trim()) current=item('destination','위에 보이는 우리 모둠 질문을 읽고, 조사해 보고 싶은 곳을 직접 써 보세요.',values.gap?.trim()?`우리 질문: ${values.gap}`:'3번 활동에서 만든 질문이 위에 표시됩니다.');
       else if(!values.selectionReason?.trim()) current=item('selectionReason','왜 그곳을 골랐는지 쓰세요.',values.gap?.trim()?`우리 질문 “${values.gap}”과 연결해서 씁니다.`:'우리 모둠 질문과 연결해서 씁니다.');
       else if(!values.evidenceRef?.trim()) current=item('evidenceRef','이제 영향 카드 하나를 읽고 고르세요.','탐사지 선택과는 별개입니다. 마지막 내 생각의 근거로 쓸 카드입니다.');
       else if(!values.meaning?.trim()) current=item('meaning','고른 카드에서 사실 하나와 그 의미를 쓰세요.','카드에 적힌 사실과, 그 사실이 왜 의미 있는지를 나눠 씁니다.');
       else if(!personal.conclusion?.trim()) current=item('conclusion','마지막으로 각자 오늘의 생각을 쓰세요.','방금 고른 영향 카드의 사실을 근거로 한 문장으로 정리합니다.');
       else current=item('','1차시 기록 완료','1차시 보관을 누르면 됩니다.');
       parts=[
-        {label:'더 알아볼 곳 고르기',done:!!values.destination?.trim()&&!!values.selectionReason?.trim()},
+        {label:'탐사지 직접 정하기',done:!!values.destination?.trim()&&!!values.selectionReason?.trim()},
         {label:'영향 카드',done:!!values.evidenceRef?.trim()&&!!values.meaning?.trim()},
         {label:'나의 생각',done:!!personal.conclusion?.trim()},
       ];
@@ -286,7 +286,7 @@ export default function App(){
     {mode==='home'&&<Landing reviewOnly={typeof window!=='undefined'&&isLocalReviewOnly()} simpleEntryPreview={typeof window!=='undefined'&&(!isLocalReviewOnly()||new URLSearchParams(window.location.search).get('entry')==='preview')} code={code} onCodeChange={setCode} onJoin={()=>void join()} busy={busy} welcome={welcome} onResume={()=>{const ctx=contextGen.current;setBusy(true);void api('state').then(s=>{if(ctx!==contextGen.current)return;acceptState(s);changeMode('student');setAuthError('');setGallery([]);setSnapView(null);}).catch(e=>{setWelcome('');setJoinError(e.message);}).finally(()=>setBusy(false));}} onReview={()=>changeMode('review')} onTeacher={()=>void openTeacher()} onStartReview={startReview} joinError={joinError}/>}
     {mode==='review'&&<ReviewGuide onStart={startReview} onMaterials={()=>changeMode('materials')}/>}
     {mode==='materials'&&<main className="materials-page"><h1>과학B 전체 수업 자료</h1><button className="secondary" onClick={()=>changeMode('review')}>검토 안내로 돌아가기</button><FullMaterials notify={notify}/></main>}
-    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103k','_blank','noopener,noreferrer');}}/>}
+    {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261103l','_blank','noopener,noreferrer');}}/>}
     {(mode==='student'||mode==='demo')&&state&&<>
       <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 학생과 같은 활동 화면</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
       {authError&&<div className="auth-banner" role="alert"><p>{authError}</p><button className="secondary" onClick={()=>{changeMode('home');setWelcome('');}}>입장권으로 다시 접속</button><button className="secondary" onClick={()=>download('SPACE_저장전입력.json',JSON.stringify(drafts.map(x=>x.draft),null,2))}>입력 내려받기</button></div>}
