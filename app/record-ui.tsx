@@ -130,10 +130,10 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
         const text=kind==='change'?groupValues.change:groupValues.gapStatement;
         return <label className={'explanation-choice '+(choice.kind===kind?'is-selected':'')+(!text?.trim()?' is-empty':'')} key={kind}>
           <input type="radio" name={cacheKey} value={kind} checked={choice.kind===kind} disabled={disabled||!text?.trim()} onChange={()=>{if(change(writeExplanationChoice(kind,value)))void persist();}}/>
-          <span><strong>{explanationLabels[kind]}</strong><span className="explanation-choice-text">{text?.trim()||'앞에서 이 설명을 작성하고 저장하면 여기에 표시돼요.'}</span></span>
+          <span><strong>{explanationLabels[kind]}</strong><span className="explanation-choice-text">{text?.trim()||'이 활동에서 이 문장을 먼저 쓰고 저장하면 여기에 표시돼요.'}</span></span>
         </label>;
       })}</div>
-      <p className="hint">고른 문장이 다음 화면의 ‘우리 모둠 문장’에 그대로 표시됩니다.</p>
+      <p className="hint">고른 문장은 4번 활동에서 ‘활동 3에서 고른 우리 문장’으로 다시 보여 줍니다.</p>
       {choice.legacy&&<details className="legacy-comparison" open={!choice.structured}><summary>이전에 쓴 비교할 주장</summary><p>{choice.legacy}</p><small>이전 주장은 보관합니다. 위의 두 설명 중 비교할 내용을 직접 골라 주세요.</small></details>}
     </>:<>
       {def.options?<select {...props}><option value="">선택하세요</option>{value&&!def.options.includes(value)&&<option value={value} disabled>이전 기록: {clean(value)}</option>}{def.options.map(o=><option key={o} value={o}>{def.key==='evidenceRef'?evidenceLabel(o):clean(o)}</option>)}</select>:<textarea {...props} rows={def.compact?2:3} placeholder={def.placeholder||'우리 생각과 근거를 적으세요.'}/>}
