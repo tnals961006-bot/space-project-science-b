@@ -14,6 +14,7 @@ export type LandingProps = {
   onStartReview: (stage?: number) => void;
   joinError?: string;
   reviewOnly?: boolean;
+  simpleEntryPreview?: boolean;
 };
 
 const journey = [
@@ -57,8 +58,11 @@ export default function Landing({
   onStartReview,
   joinError,
   reviewOnly = false,
+  simpleEntryPreview = false,
 }: LandingProps) {
   const welcomeLabel = welcome.replace(/[\u00b7\u318d]/g, ' ');
+  const [entryClass = '4', entryNumber = ''] = code.includes('-') ? code.split('-', 2) : ['4', ''];
+  const setEntryPart = (classNo: string, number: string) => onCodeChange(`${classNo}-${number.replace(/\D/g, '').slice(0, 2)}`);
 
   return (
     <main className="space-landing" id="space-landing-main">
@@ -88,8 +92,8 @@ export default function Landing({
             </div>
             <div className="space-entry-content">
               <div className="space-entry-heading">
-                <h2 id="space-entry-title">{reviewOnly ? '수업 내용 검토' : '나의 탐사실 입장'}</h2>
-                <p>{reviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
+                <h2 id="space-entry-title">{reviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호로 탐사실 입장' : '나의 탐사실 입장'}</h2>
+                <p>{reviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? '3학년 4반 또는 6반과 자신의 번호를 입력하세요.' : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
               </div>
               {reviewOnly ? (
                 <div className="space-review-entry">
@@ -107,34 +111,69 @@ export default function Landing({
                   if (!busy && code.trim()) onJoin();
                 }}
               >
-                <div className="space-code-field">
-                  <label htmlFor="space-access-code">개인 접속 코드</label>
-                  <input
-                    id="space-access-code"
-                    name="access-code"
-                    type="text"
-                    inputMode="text"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="characters"
-                    spellCheck={false}
-                    value={code}
-                    onChange={(event) => onCodeChange(event.currentTarget.value)}
-                    maxLength={32}
-                    placeholder="받은 코드를 입력하세요"
-                    aria-describedby={joinError ? 'space-code-help space-join-error' : 'space-code-help'}
-                    aria-invalid={Boolean(joinError)}
-                    readOnly={busy}
-                    required
-                  />
-                </div>
+                {simpleEntryPreview ? (
+                  <div className="space-simple-entry-grid">
+                    <div className="space-code-field">
+                      <label htmlFor="space-class-number">반</label>
+                      <select
+                        id="space-class-number"
+                        value={entryClass}
+                        onChange={(event) => setEntryPart(event.currentTarget.value, entryNumber)}
+                        disabled={busy}
+                      >
+                        <option value="4">4반</option>
+                        <option value="6">6반</option>
+                      </select>
+                    </div>
+                    <div className="space-code-field">
+                      <label htmlFor="space-student-number">번호</label>
+                      <input
+                        id="space-student-number"
+                        name="student-number"
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="off"
+                        value={entryNumber}
+                        onChange={(event) => setEntryPart(entryClass, event.currentTarget.value)}
+                        maxLength={2}
+                        placeholder="예: 12"
+                        aria-describedby={joinError ? 'space-code-help space-join-error' : 'space-code-help'}
+                        aria-invalid={Boolean(joinError)}
+                        readOnly={busy}
+                        required
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-code-field">
+                    <label htmlFor="space-access-code">개인 접속 코드</label>
+                    <input
+                      id="space-access-code"
+                      name="access-code"
+                      type="text"
+                      inputMode="text"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      autoCapitalize="characters"
+                      spellCheck={false}
+                      value={code}
+                      onChange={(event) => onCodeChange(event.currentTarget.value)}
+                      maxLength={32}
+                      placeholder="받은 코드를 입력하세요"
+                      aria-describedby={joinError ? 'space-code-help space-join-error' : 'space-code-help'}
+                      aria-invalid={Boolean(joinError)}
+                      readOnly={busy}
+                      required
+                    />
+                  </div>
+                )}
                 <button className="space-enter-button" type="submit" disabled={busy || !code.trim()}>
                   <span>{busy ? '입장하는 중' : '탐사실 입장하기'}</span>
                   <ArrowRight size={20} aria-hidden="true" />
                 </button>
               </form>
               {joinError && <p className="space-join-error" id="space-join-error" role="alert">{joinError}</p>}
-              <p className="space-code-help" id="space-code-help">개인 코드는 나만 사용해요.</p>
+              <p className="space-code-help" id="space-code-help">{simpleEntryPreview ? '입장 화면 미리보기입니다. 공유 저장은 DB 연결 후 활성화됩니다.' : '개인 코드는 나만 사용해요.'}</p>
               {welcome && (
                 <button className="space-resume-button" type="button" onClick={onResume} disabled={busy}>
                   <span>{welcomeLabel} 이어 쓰기</span>
