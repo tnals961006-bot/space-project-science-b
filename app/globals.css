@@ -1206,3 +1206,8 @@ td .text-btn{font-size:var(--small-size)}
 .conclusion-flow>.writing-pane,.conclusion-flow>.resource-pane{margin-bottom:0}
 .conclusion-flow .inline-evidence{background:#fcfdfb}
 .conclusion-flow .inline-evidence>.section-heading{margin-bottom:10px}
+
+.destination-examples{margin-top:9px;padding:10px 12px;border:1px dashed #cfd8ca;border-radius:9px;background:#fafbf8}
+.destination-examples>span{display:block;font-size:11px;font-weight:800;color:#6f7e71;margin-bottom:3px}
+.destination-examples>p{margin:0 0 3px;font-size:var(--small-size);font-weight:700;color:#4f6154}
+.destination-examples>small{display:block;font-size:11px;line-height:1.55;color:#849087}
