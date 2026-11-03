@@ -24,7 +24,7 @@ function loadReview():ClassroomState {
 }
 
 export default function App(){
-  const [mode,setMode]=useState<Mode>('home'),[state,setState]=useState<ClassroomState|null>(null),[code,setCode]=useState(''),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[joinError,setJoinError]=useState('');
+  const [mode,setMode]=useState<Mode>('home'),[state,setState]=useState<ClassroomState|null>(null),[code,setCode]=useState(''),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[joinError,setJoinError]=useState(''),[studentPreview,setStudentPreview]=useState(false);
   const [stage,setStage]=useState(0),[step,setStep]=useState(0),[panel,setPanel]=useState('lesson'),[online,setOnline]=useState(true),[full,setFull]=useState(false),[large,setLarge]=useState(false),[welcome,setWelcome]=useState(''),[authError,setAuthError]=useState('');
   const [gallery,setGallery]=useState<any[]>([]),[snapView,setSnapView]=useState<Snapshot|null>(null),[prior,setPrior]=useState<Snapshot|null>(null),[pendingVersion,setPendingVersion]=useState(0),[lastSync,setLastSync]=useState('');
   const stateRef=useRef<ClassroomState|null>(null),modeRef=useRef<Mode>('home'),booted=useRef(false),contextGen=useRef(0),inflight=useRef(new Map<string,{value:string;promise:Promise<Row>}>());
@@ -51,6 +51,7 @@ export default function App(){
     const params=new URLSearchParams(location.search),hash=new URLSearchParams(location.hash.replace(/^#/,'')),ticket=hash.get('ticket');
     if(ticket){history.replaceState(null,'',location.pathname+location.search);setCode(ticket);void join(ticket);}
     else if(params.get('teacher')==='1')void openTeacher();
+    else if(params.get('studentview')==='1'){setStudentPreview(true);startReview(Math.min(2,Math.max(0,Number(params.get('lesson')||1)-1)));}
     else if(params.get('review')==='1')startReview(Math.min(2,Math.max(0,Number(params.get('lesson')||1)-1)));
     else if(!isLocalReviewOnly()&&hasStudentSession()){const ctx=contextGen.current;void api('state').then(s=>{if(ctx!==contextGen.current||modeRef.current!=='home')return;acceptState(s);setWelcome(`${s.student.className} ${s.student.number}번으로 이어 쓰기`);}).catch(()=>{});}
     const yes=()=>setOnline(true),no=()=>setOnline(false);
@@ -121,7 +122,7 @@ export default function App(){
   const canReadWithoutSave=()=>!!stateRef.current?.student.closed||!!authError||(!online&&modeRef.current==='student');
   async function navigate(lesson:number,activity=0){if(!await flush()&&!canReadWithoutSave())return;setStage(lesson);setStep(activity);setPanel('lesson');window.scrollTo({top:0,behavior:'smooth'});}
   async function openPanel(next:string){if(!await flush()&&!canReadWithoutSave())return;setPanel(next);window.scrollTo({top:0,behavior:'smooth'});}
-  async function goHome(){if(!await flush()&&!canReadWithoutSave())return;changeMode('home');setFull(false);if(mode==='student'&&state)setWelcome(`${state.student.className} ${state.student.number}번으로 이어 쓰기`);}
+  async function goHome(){if(!await flush()&&!canReadWithoutSave())return;changeMode('home');setFull(false);if(mode==='student'&&state)setWelcome(`${state.student.className} ${state.student.number}번으로 이어 쓰기`);if(mode==='demo')setStudentPreview(false);}
   async function leave(){if(!await flush()&&!confirm('저장 전 입력을 이 기기에 보관하고 나갈까요? 같은 입장권으로 다시 들어오면 확인할 수 있어요.'))return;if(modeRef.current==='student')await api('logout',{}).catch(()=>{});changeMode('home');updateState(null,false);setWelcome('');setAuthError('');setFull(false);}
   async function beginPresentation(){if(await flush())setFull(true);}
   async function copy(text:string){try{await navigator.clipboard.writeText(text);notify('복사했어요. 선생님이 안내한 곳에 붙여 넣으세요.');}catch{download('SPACE_질문.txt',text,'text/plain');notify('질문 파일을 내려받았어요.');}}
@@ -180,7 +181,7 @@ export default function App(){
     if(current.resource==='present')return <><PresentationGuide/><div className="button-row"><button className="primary" onClick={()=>void beginPresentation()}><Presentation size={16}/> 제안서로 발표</button><button className="secondary" onClick={()=>void publish()}>{state?.published?'갤러리 게시 취소':'학급 갤러리에 게시'}</button></div><Proposal rows={state!.group}/><details className="reading-card"><summary>발표 후 제안서 수정</summary>{fieldsByKeys(proposalKeys.filter(k=>!['envReview1','envReview2'].includes(k)))}</details></>;
     if(current.resource==='gallery')return galleryUI();
     if(current.resource==='reflection')return <><Readback title="자료를 읽기 전 나의 첫 생각" value={personal.first}/><Readback title="1차시 자료를 읽고 내린 결론" value={personal.conclusion}/><details className="next-story"><summary>마지막 1분, 다음 탐사 열기</summary><small>{storyTransition.badge}</small><h2>{storyTransition.title}</h2><p>{storyTransition.introduction}</p>{storyTransition.scenes.map(s=><p key={s.title}><b>{s.title}</b><br/>{s.text}</p>)}<blockquote>{storyTransition.openingQuestion}</blockquote><p className="notice">{storyTransition.environmentBoundary}</p><p>{storyTransition.nextLesson}</p></details></>;
-    return <div className="intro-resource"><span className="eyebrow">세 차시의 탐사 여정</span><h2>기록에서 질문을,<br/>질문에서 탐사를.</h2><p>과거의 탐사 자료를 읽고, 우리 모둠이 더 알아볼 질문을 정해요. 그 질문에 답할 탐사 방법을 설계하고 근거를 확인해요.</p>{mode==='demo'&&<p className="notice">체험 모드에서는 실제 반과 모둠 배정이 표시되지 않아요. 실제 수업에서는 반과 번호로 입장하면 상단에 자기 모둠이 표시됩니다.</p>}<ol className="intro-journey">{stages.map((s,i)=><li key={i}><b>{i+1}차시 / {s.short}</b><p>{s.subtitle}</p></li>)}</ol><div className="notice"><b>함께 기록하는 방법</b><p>모둠 기록은 같은 모둠이 함께 써요. 같은 칸을 한꺼번에 고치기보다 읽기, 자료 확인, 기록 역할을 나누세요. 나의 기록은 각자 작성해요.</p></div></div>;
+    return <div className="intro-resource"><span className="eyebrow">세 차시의 탐사 여정</span><h2>기록에서 질문을,<br/>질문에서 탐사를.</h2><p>과거의 탐사 자료를 읽고, 우리 모둠이 더 알아볼 질문을 정해요. 그 질문에 답할 탐사 방법을 설계하고 근거를 확인해요.</p>{mode==='demo'&&!studentPreview&&<p className="notice">체험 모드에서는 실제 반과 모둠 배정이 표시되지 않아요. 실제 수업에서는 반과 번호로 입장하면 상단에 자기 모둠이 표시됩니다.</p>}<ol className="intro-journey">{stages.map((s,i)=><li key={i}><b>{i+1}차시 / {s.short}</b><p>{s.subtitle}</p></li>)}</ol><div className="notice"><b>함께 기록하는 방법</b><p>모둠 기록은 같은 모둠이 함께 써요. 같은 칸을 한꺼번에 고치기보다 읽기, 자료 확인, 기록 역할을 나누세요. 나의 기록은 각자 작성해요.</p></div></div>;
   }
   function readiness(){
     const merged={...values,...personal},ids=readComparison(merged.comparison).ids,evidence=readMissionEvidence(merged.__rawFact??merged.fact);
@@ -200,7 +201,7 @@ export default function App(){
     {mode==='materials'&&<main className="materials-page"><h1>과학B 전체 수업 자료</h1><button className="secondary" onClick={()=>changeMode('review')}>검토 안내로 돌아가기</button><FullMaterials notify={notify}/></main>}
     {mode==='teacher'&&<Teacher notify={notify}/>}
     {(mode==='student'||mode==='demo')&&state&&<>
-      <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
+      <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 학생과 같은 활동 화면</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
       {authError&&<div className="auth-banner" role="alert"><p>{authError}</p><button className="secondary" onClick={()=>{changeMode('home');setWelcome('');}}>입장권으로 다시 접속</button><button className="secondary" onClick={()=>download('SPACE_저장전입력.json',JSON.stringify(drafts.map(x=>x.draft),null,2))}>입력 내려받기</button></div>}
       {state.student.closed&&<div className="notice">선생님이 작성을 마감했어요. 지금까지의 기록은 읽고 내려받을 수 있어요.</div>}
       <div className="course-tabs">{stages.map((s,i)=><button key={i} className={stage===i?'active':''} onClick={()=>void navigate(i)}><span>{i+1}차시</span><b>{s.short}</b><small>45분</small></button>)}</div>
