@@ -255,7 +255,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
       <section className="teacher-summary-grid">
         <div><small>학생</small><strong>{summary.students}명</strong></div>
         <div><small>개인 기록 시작</small><strong>{summary.studentsStarted}명</strong></div>
-        <div><small>모둠 기록 시작</small><strong>{summary.teamsStarted}/6조</strong></div>
+        <div><small>모둠 기록 시작</small><strong>{summary.teamsStarted}개 조</strong></div>
         <div><small>저장된 기록</small><strong>{summary.personal+summary.group}개</strong></div>
       </section>
 
