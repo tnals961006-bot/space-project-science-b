@@ -15,6 +15,8 @@ export type LandingProps = {
   joinError?: string;
   reviewOnly?: boolean;
   simpleEntryPreview?: boolean;
+  entryClasses?: number[];
+  entryLabel?: string;
 };
 
 const journey = [
@@ -59,11 +61,14 @@ export default function Landing({
   joinError,
   reviewOnly = false,
   simpleEntryPreview = false,
+  entryClasses = [4, 6],
+  entryLabel,
 }: LandingProps) {
   const welcomeLabel = welcome.replace(/[\u00b7\u318d]/g, ' ');
   const effectiveReviewOnly = reviewOnly && !simpleEntryPreview;
-  const [entryClass = '4', entryNumber = ''] = code.includes('-') ? code.split('-', 2) : ['4', ''];
-  const simpleEntryValid = /^[46]-(?:[1-9]|[12][0-9]|3[0-9]|40)$/.test(code);
+  const defaultEntryClass = String(entryClasses[0] ?? 4);
+  const [entryClass = defaultEntryClass, entryNumber = ''] = code.includes('-') ? code.split('-', 2) : [defaultEntryClass, ''];
+  const simpleEntryValid = entryClasses.includes(Number(entryClass)) && /^(?:[1-9]|[12][0-9]|3[0-9]|40)$/.test(entryNumber);
   const setEntryPart = (classNo: string, number: string) => onCodeChange(`${classNo}-${number.replace(/\D/g, '').slice(0, 2)}`);
 
   return (
@@ -95,7 +100,7 @@ export default function Landing({
             <div className="space-entry-content">
               <div className="space-entry-heading">
                 <h2 id="space-entry-title">{effectiveReviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호로 탐사실 입장' : '나의 탐사실 입장'}</h2>
-                <p>{effectiveReviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? '3학년 4반 또는 6반과 자신의 번호를 입력하세요.' : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
+                <p>{effectiveReviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? (entryLabel || `3학년 ${entryClasses.join('·')}반과 자신의 번호를 입력하세요.`) : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
               </div>
               {effectiveReviewOnly ? (
                 <div className="space-review-entry">
@@ -123,8 +128,7 @@ export default function Landing({
                         onChange={(event) => setEntryPart(event.currentTarget.value, entryNumber)}
                         disabled={busy}
                       >
-                        <option value="4">4반</option>
-                        <option value="6">6반</option>
+                        {entryClasses.map(classNo=><option key={classNo} value={String(classNo)}>{classNo}반</option>)}
                       </select>
                     </div>
                     <div className="space-code-field">
