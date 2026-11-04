@@ -157,7 +157,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
     <div className="teacher-login-card">
       <p className="eyebrow">교사 전용</p>
       <h1>SPACE 수업 기록 대시보드</h1>
-      <p className="muted">4반과 6반의 모둠 기록과 개인 기록을 확인합니다.</p>
+      <p className="muted">연구 대상 4·6반과 일반 수업 5·7·8·9·10반의 기록을 확인합니다.</p>
       <form onSubmit={login}>
         <label>교사용 코드
           <input value={teacherCode} onChange={e=>setTeacherCode(e.target.value.toUpperCase())} maxLength={8} autoComplete="off" spellCheck={false} placeholder="8자리 코드"/>
