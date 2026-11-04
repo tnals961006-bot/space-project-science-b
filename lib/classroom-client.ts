@@ -6,7 +6,9 @@ let memoryTeacherSession: { origin: string; session: Session } | null = null;
 const teacherActions = new Set(['teacher', 'class', 'feedback', 'teacher_logout']);
 
 let configuredEndpoint: string | undefined;
+let configuredSessionScope = 'research';
 export function configureClassroomClient(config: ClientConfig) { configuredBackend = config.backendUrl; configuredEndpoint = config.classroomEndpoint; memorySession = null; memoryTeacherSession = null; }
+export function setClassroomSessionScope(scope: 'research' | 'general') { configuredSessionScope = scope; memorySession = null; }
 export function isLocalReviewOnly(): boolean {
   if (typeof window === 'undefined') return false;
   const config = (window as unknown as { __SPACE_CONFIG__?: { STATIC_EXPORT?: boolean; PUBLIC_BACKEND_URL?: string; PUBLIC_CLASSROOM_ENDPOINT?: string } }).__SPACE_CONFIG__;
@@ -28,7 +30,7 @@ export function getClassroomEndpoint(): string {
   if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || (window.location.protocol === 'https:' && url.protocol !== 'https:')) throw new Error('탐사실 연결 주소를 확인해 주세요.');
   return url.href.replace(/\/$/,'');
 }
-function sessionKey() { return 'space-session:v1:' + getClassroomEndpoint(); }
+function sessionKey() { return 'space-session:v1:' + configuredSessionScope + ':' + getClassroomEndpoint(); }
 function teacherSessionKey() { return 'space-teacher-session:v1:' + getClassroomEndpoint(); }
 function saveSession(session: Session) {
   memorySession = { origin: getBackendUrl(), session };
