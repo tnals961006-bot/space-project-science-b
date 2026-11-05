@@ -210,11 +210,11 @@ const stepCopy: Record<string, { title?: string; instructions?: string[]; doneWh
   'l1-read': { instructions: ['발사연도와 목적지를 확인하세요. 계획한 방식과 실제로 한 일을 나누어 읽으세요.', '아폴로 13호의 자료를 찾아 두 문장을 사실 또는 해석으로 분류하고 이유를 적으세요.', '판단의 근거가 된 자료를 모둠원에게 설명하세요.'] },
   'l1-explore': { title: '자료를 비교하고 질문 만들기', instructions: ['서로 다른 시기의 탐사 두 개를 고르고 같은 항목을 비교하세요. 자료에서 찾은 근거를 탐사별로 한 줄씩 적으세요.', '두 기록에서 찾은 변화와 그렇게 판단한 이유를 쓰세요. 이어서 이 자료로 알 수 없는 점과 그 이유, 추가로 알아볼 질문을 적으세요.', '앞에서 쓴 두 설명을 읽고 AI의 설명과 비교해 보고 싶은 하나를 고르세요.'], doneWhen: ['같은 항목에서 찾은 두 탐사의 근거를 각각 썼다.', '변화와 자료의 한계를 근거로 설명하고 추가 질문을 만들었다.', 'AI와 비교할 우리 설명 하나를 골랐다.'] },
   'l1-conclude': { instructions: ['더 알아볼 질문을 설명하고, 그 질문을 조사할 탐사지 후보와 고른 이유를 적으세요.', '의의와 영향 근거카드 하나를 읽고, 확인한 사실을 근거로 각자의 결론을 쓰세요.', '이미 확인된 영향과 앞으로 기대하는 효과를 나누고 오늘 기록을 보관하세요.'] },
-  'l2-reopen': { instructions: ['지난 시간에 확인한 사실과 남겨 둔 질문을 다시 읽으세요. 탐사지 후보를 고른 이유도 확인하세요.', '질문 입력, 자료 확인, 기록을 나누어 맡고 판단은 함께 하세요.', 'AI에게는 이름과 학번을 빼고 탐사 내용만 보내세요.'] },
-  'l2-draft': { title: '추가 자료를 읽고 우리 초안 쓰기', instructions: ['후보지의 추가 자료를 읽고 새로 확인한 사실을 적으세요. 더 조사할 내용 하나를 골라 우리 미션 질문을 쓰세요.', '그 질문에 답하려면 무엇을 관찰하거나 측정해야 할지 적으세요.', '목표와 예상 어려움, 필요한 기술을 짧게 쓰세요. 확신하기 어려운 내용은 확인 필요로 남기세요.'] },
-  'l2-consult': { instructions: ['우리 초안이 들어 있는 질문을 확인하고 AI나 동료에게 보내세요.', '환경에 관한 사실과 기술 제안을 나누어 읽으세요.', '우리 탐사 방법을 정하는 데 중요한 주장 하나를 골라 확인하세요.'] },
-  'l2-verify': { title: '주장 하나를 자료와 비교하기', instructions: ['고른 주장과 비교할 설명이나 수치를 탐사지 자료에서 찾으세요.', '내용과 단위, 장소, 시점을 비교하세요. 평균인지 범위인지도 확인하고 자료 번호를 적으세요.', '판정과 이유를 쓰세요. 자료로 판단하기 어렵다면 확인 불가를 고르고 무엇을 더 알아야 하는지 남기세요.'] },
-  'l2-revise': { instructions: ['검증 결과에 따라 제안을 채택, 수정, 제외, 보류할지 정하고 이유를 쓰세요.', '제안서에서 해당하는 칸을 직접 고치세요. 어떤 판단을 반영했는지 남기세요.', '우리 탐사에 중요한 환경 두 항목을 적으세요. 확인한 정보에는 출처를, 모르는 정보에는 확인 필요를 붙이세요.'] },
+  'l2-reopen': { instructions: ['1차시에서 우리 모둠이 남긴 질문을 다시 읽으세요.', '아직 탐사지를 정하지 않았다면 질문을 알아보기 좋은 곳을 정하고 이유를 한 줄로 씁니다.', '오늘은 미션 초안, AI 확인, 환경 조사 1개까지 이어 갑니다.'] },
+  'l2-draft': { title: '우리 미션 초안 만들기', instructions: ['탐사지와 관련된 자료 하나를 읽고 자료 이름과 새로 알게 된 사실 하나를 적으세요.', '우리 미션 질문을 정하고, 답을 얻기 위해 필요한 자료와 방법을 짧게 씁니다.', '지금은 완벽한 제안서를 만드는 시간이 아닙니다. 확인이 필요한 내용은 그대로 남겨도 됩니다.'] },
+  'l2-consult': { instructions: ['현재 초안이 들어 있는 질문을 복사해 학교에서 허용한 AI에 직접 보냅니다.', 'AI 답 전체를 검토하지 말고, 맞는지 확인하면 우리 계획이 달라질 수 있는 문장 하나만 고릅니다.', '다음 활동에서 그 문장을 우리가 읽은 자료와 비교합니다.'] },
+  'l2-verify': { title: '자료로 확인하고 계획 고치기', instructions: ['고른 AI 문장을 우리가 읽은 자료와 직접 비교하세요.', '맞음·일부 맞음·수정 필요·확인 불가 중 하나를 고르고 이유를 씁니다.', '그 판단 때문에 우리 계획을 유지할지, 고칠지, 보류할지 정하고 실제 계획에 반영합니다.'] },
+  'l2-revise': { instructions: ['우리 미션에 가장 중요한 환경 조건 하나만 고르세요.', '확인한 정보와 출처를 적고, 이 조건 때문에 예상되는 어려움과 대비를 한 줄로 씁니다.', '마지막으로 각자 오늘 자료를 보고 내린 판단을 한 문장으로 남깁니다. 두 번째 환경 조건은 3차시에 이어서 완성합니다.'] },
   'l3-reopen': { instructions: ['처음 남긴 질문이 지금의 탐사 목표와 어떻게 이어졌는지 확인하세요. 자료를 확인한 뒤 달라진 계획도 찾아보세요.', '제안서를 살펴볼 세 가지 기준을 읽고 보완할 곳을 고르세요.', '지난 시간의 제안서와 환경표를 이어 쓰세요.'] },
   'l3-complete': { instructions: ['탐사가 왜 필요한지, 무엇을 어떻게 알아볼지, 어떤 도움을 기대하는지 다듬으세요.', '환경 정보와 출처를 보완하세요. 탐사지의 실제 환경과 기지 안에서 조절할 조건을 구분하세요.', '계획마다 근거를 붙이고 아직 확인되지 않은 기대 효과와 환경 조건을 표시하세요.'] },
   'l3-critique': { instructions: ['제안서와 환경표에 대해 AI나 동료에게 질문을 받고 중요한 질문 하나를 고르세요.', '그 질문이 우리 제안의 어느 부분을 짚는지 확인하세요. 반영할지, 반영하지 않을지, 더 확인할지 고르고 근거를 쓰세요.', '반영할 내용은 같은 제안서에서 고치세요.'] },
@@ -283,7 +283,7 @@ function recordText(values: GroupValues, fields: [string, string][]): string {
 }
 function readingPack(values: GroupValues): string {
   const card = getReadingCard(values.destination);
-  if (!card) return recordText(values, [['otherDestination', '선택한 탐사지'], ['additionalRef', '추가 자료 출처'], ['additionalFact', '확인한 사실']]);
+  if (!card) return recordText(values, [['destination', '선택한 탐사지'], ['additionalRef', '추가 자료 출처'], ['additionalFact', '확인한 사실']]);
   const relevantSources = card.sourceIds.map(getSource).filter((source): source is LinkedSource => Boolean(source));
   return JSON.stringify({ recordId: card.recordId, title: card.title, body: card.body, facts: card.facts, cannotAnswer: card.cannotAnswer, environment: card.environment, sources: relevantSources }, null, 2);
 }
@@ -314,7 +314,10 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
   const table = ['탐사명\t발사연도\t주관국과 기관\t목적지\t계획한 방식\t대표 수행 결과\t주요 내용', ...promptMissions.filter(Boolean).map((mission) => [mission.title, mission.year, mission.agency, mission.destination, mission.method, mission.result, mission.description].join('\t'))].join('\n');
   const replacements: Record<string, string> = {
     EXPLORATION_DATA: table + (promptValues.selectedClaim ? '\n\n[AI와 비교할 우리 모둠의 문장]\n' + promptValues.selectedClaim : '') + (promptValues.factRef ? '\n\n[우리 모둠이 비교한 탐사]\n' + promptValues.factRef : ''),
-    MISSION_DRAFT: recordText(promptValues, proposalFields), SOURCE_PACK: readingPack(values),
+    MISSION_DRAFT: lessonNumber===2
+      ? recordText(promptValues, [['destination','탐사지'],['gap','1차시 질문'],['additionalFact','추가 자료에서 확인한 사실'],['question','미션 질문'],['data','얻을 자료'],['method','자료를 얻는 방법']])
+      : recordText(promptValues, proposalFields),
+    SOURCE_PACK: readingPack(values),
     PROPOSAL: recordText(promptValues, proposalFields), ENVIRONMENT_RECORD: recordText(values, environmentFields), EVIDENCE_RECORD: recordText(values, verificationFields),
   };
   return card.template.replace(/\{\{([A-Z_]+)\}\}/g, (_, key: string) => replacements[key] ?? '[확인할 자료를 넣으세요]');
