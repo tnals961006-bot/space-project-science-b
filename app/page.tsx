@@ -291,9 +291,10 @@ export default function App(){
     const card=aiCards[level-1],peer=peerFallback.entries[level-1],missing=level===1?comparisonMissingItems(values):[];
     const ready=level===1?missing.length===0:['question','data','method'].every(k=>values[k]?.trim());
     return <div className="ai-box">
-      <span className="eyebrow">{level===1?'우리 생각과 AI 생각 비교':'AI 또는 동료 검토'}</span><h2>{card.title}</h2>
-      <p>{level===1?'우리가 먼저 쓴 생각과 AI가 한 말을 비교한 뒤, 활동 3의 탐사 자료를 보고 우리 생각을 그대로 둘지 고칩니다.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
+      <span className="eyebrow">{level===1?'우리 생각과 AI 생각 비교':level===2?'AI에게 묻기':'AI 또는 동료 검토'}</span><h2>{level===2?'우리 초안을 AI에게 보내고, 확인할 문장 하나 고르기':card.title}</h2>
+      <p>{level===1?'우리가 먼저 쓴 생각과 AI가 한 말을 비교한 뒤, 활동 3의 탐사 자료를 보고 우리 생각을 그대로 둘지 고칩니다.':level===2?'AI에게 우리 계획을 보여 주고, 다음 활동에서 자료로 확인할 문장 하나만 고릅니다.':'우리 생각을 먼저 쓰고 검토를 받으세요. 답변에서 중요한 주장이나 질문 하나를 골라 자료와 비교해요.'}</p>
       {level===1&&<p className="ai-purpose"><b>핵심</b> AI가 정답인지 맞히는 활동이 아니에요. <strong>우리 생각과 AI 생각을 같은 탐사 자료로 확인</strong>하는 활동입니다.</p>}
+      {level===2&&<section className="ai-compare-focus"><p className="eyebrow">딱 세 가지만</p><ol className="ai-compare-steps"><li><b>1</b> 아래 버튼으로 우리 초안이 들어간 질문을 복사해 AI에 보내기</li><li><b>2</b> AI 답에서 우리 계획에 중요한 문장 하나 찾기</li><li><b>3</b> 그 문장을 아래 기록칸에 옮기기</li></ol></section>}
       {level===1&&<>
         <section className="ai-compare-focus">
           <p className="eyebrow">지금 비교할 것</p>
@@ -316,15 +317,14 @@ export default function App(){
         <Readback title="활동 3에서 비교한 두 탐사 자료와 근거" value={[comparisonSource(values),values.fact].filter(Boolean).join('\n')}/>
         {values.selectedClaimKind==='change'&&<Readback title="우리 문장을 만든 근거" value={values.claimReason}/>}
       </>}
-      <div className="prompt-card"><b>{level===1?'1. AI에게 질문하기':'질문에 포함할 내용'}</b><p>{level===1?'활동 3에서 고른 우리 문장과 두 탐사 자료가 함께 복사됩니다.':level===2?'우리 모둠의 초안과 선택한 탐사지의 확인 자료':'현재 제안서, 환경 조사표, 검증 기록'}</p>
+      <div className="prompt-card"><b>{level===1||level===2?'1. AI에게 질문하기':'질문에 포함할 내용'}</b><p>{level===1?'활동 3에서 고른 우리 문장과 두 탐사 자료가 함께 복사됩니다.':level===2?'우리 모둠의 초안과 선택한 탐사지의 확인 자료':'현재 제안서, 환경 조사표, 검증 기록'}</p>
         <p className="hint">{level===1?'복사한 질문을 학교에서 허용한 AI에 붙여 넣고 답을 받으세요. 이름이나 학번은 보내지 않습니다.':'개인의 첫 생각과 성찰은 복사하지 않아요. 직접 쓴 탐사 기록에도 이름과 학번을 넣지 마세요.'}</p>
-        <button className="primary" disabled={!ready||busy||!!authError||!!state?.student.closed} onClick={()=>void copyAi(level)}><Copy size={16}/>{level===1?'AI에 보낼 질문 복사':level<3?'보관하고 질문 복사':'질문 복사'}</button>
+        <button className="primary" disabled={!ready||busy||!!authError||!!state?.student.closed} onClick={()=>void copyAi(level)}><Copy size={16}/>{level===1||level===2?'AI에 보낼 질문 복사':'질문 복사'}</button>
         {!ready&&(level===1?<div className="comparison-missing" role="status"><b>아직 필요한 기록</b><ul>{missing.map(item=><li key={item}>{item}</li>)}</ul><button className="text-btn" onClick={()=>void navigate(0,2)}>두 탐사 비교로 돌아가기</button></div>:<p className="hint">먼저 미션 질문과 얻을 자료, 방법을 저장하세요.</p>)}
         <details><summary>보낼 질문 전체 확인</summary><pre className="prompt-preview">{buildAiPrompt(level,values)}</pre></details>
       </div>
-      {level===2&&<button className="secondary wide" disabled={!ready||!!authError||!!state?.student.closed} onClick={()=>void snapshot('2차시 AI 사용 전')}><Save size={16}/>동료와 검토하기 전에도 초안 보관</button>}
-      <p className="notice">{level===1?'AI 답을 받으면 아래 기록에서 우리 문장과 비슷한 AI 문장 하나만 옮기면 됩니다.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
-      {level>1&&<details className="reading-card" open><summary>AI 접속이 어려우면 동료와 검토하세요.</summary><ol>{peer.instructions.map(t=><li key={t}>{t}</li>)}</ol>{peer.questions.map(q=><blockquote key={q}>{q}</blockquote>)}</details>}
+      <p className="notice">{level===1?'AI 답을 받으면 아래 기록에서 우리 문장과 비슷한 AI 문장 하나만 옮기면 됩니다.':level===2?'AI 답을 받으면 아래 기록에서 자료로 확인할 문장 하나만 옮기면 됩니다.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
+      {level===3&&<details className="reading-card" open><summary>AI 접속이 어려우면 동료와 검토하세요.</summary><ol>{peer.instructions.map(t=><li key={t}>{t}</li>)}</ol>{peer.questions.map(q=><blockquote key={q}>{q}</blockquote>)}</details>}
       {level===3&&<><CriteriaCards/>{planEditor(true)}</>}
     </div>;
   }
