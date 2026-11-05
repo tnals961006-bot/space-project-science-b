@@ -145,8 +145,8 @@ export const stages: StageDef[] = [
     goal: activityLessons[1].goal, totalMinutes: 45,
     steps: [
       step(2, 0, {
-        name: '지난 질문 이어받기', resource: 'previous',
-        prompt: '1차시 질문을 다시 보고, 오늘 이어서 탐사할 곳을 확인하세요.',
+        name: '1차시 마무리하고 이어가기', resource: 'previous',
+        prompt: '1차시에서 남은 기록을 먼저 끝낸 뒤, 우리 질문을 이어서 봅니다.',
         fields: [],
       }),
       step(2, 1, {
