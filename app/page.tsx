@@ -222,7 +222,69 @@ export default function App(){
     }
     return {...current,parts};
   }
-  const lessonFlow=stage===0?lesson1Flow():null;
+  function lesson2Flow(){
+    const item=(focus:string,title:string,detail:string)=>({focus,title,detail});
+    let current=item('','다음 활동으로 이동하세요.','');
+    let parts:{label:string;done:boolean}[]=[];
+    if(step===0){
+      if(!values.destination?.trim()) current=item('destination','우리 모둠 질문을 보고 탐사할 곳을 정하세요.',values.gap?.trim()?('1차시 질문: '+values.gap):'1차시에서 남긴 질문을 위에서 확인하세요.');
+      else if(!values.selectionReason?.trim()) current=item('selectionReason','왜 그곳을 골랐는지 한 줄로 쓰세요.',values.gap?.trim()?('우리 질문 “'+values.gap+'”과 연결해 씁니다.'):'우리 질문과 연결해 씁니다.');
+      else current=item('','준비 완료','다음 활동에서 미션 초안을 만듭니다.');
+      parts=[{label:'질문 확인',done:!!values.gap?.trim()},{label:'탐사지',done:!!values.destination?.trim()},{label:'이유',done:!!values.selectionReason?.trim()}];
+    }else if(step===1){
+      const order=[
+        ['additionalRef','확인한 추가 자료를 적으세요.','기관명·자료명 또는 링크만 간단히 남깁니다.'],
+        ['additionalFact','그 자료에서 새로 알게 된 사실 하나를 쓰세요.','문장을 길게 옮기지 말고 필요한 사실만 씁니다.'],
+        ['question','우리 미션 질문을 한 문장으로 만드세요.','어디에서 무엇을 조사해 무엇을 알아볼지 씁니다.'],
+        ['data','질문에 답하려면 어떤 자료가 필요한지 쓰세요.','관찰하거나 측정할 것을 한두 개만 정합니다.'],
+        ['method','그 자료를 어떻게 얻을지 쓰세요.','장비 이름을 몰라도 관찰·촬영·측정처럼 방법을 설명하면 됩니다.'],
+      ];
+      const missing=order.find(([key])=>!values[key]?.trim());
+      current=missing?item(missing[0],missing[1],missing[2]):item('','미션 초안 완료','다음 활동에서 이 초안을 AI에게 보냅니다.');
+      parts=[
+        {label:'자료 확인',done:!!values.additionalRef?.trim()&&!!values.additionalFact?.trim()},
+        {label:'미션 질문',done:!!values.question?.trim()},
+        {label:'얻을 자료',done:!!values.data?.trim()},
+        {label:'방법',done:!!values.method?.trim()},
+      ];
+    }else if(step===2){
+      current=!values.claim2?.trim()?item('claim2','AI 답에서 확인할 문장 하나만 고르세요.','AI 답 전체를 분석하지 않습니다. 맞는지 확인하면 우리 계획이 달라질 수 있는 문장 하나만 옮깁니다.'):item('','AI 문장 선택 완료','다음 활동에서 우리가 읽은 자료와 비교합니다.');
+      parts=[{label:'AI에 질문',done:!!values.question?.trim()&&!!values.data?.trim()&&!!values.method?.trim()},{label:'문장 1개',done:!!values.claim2?.trim()}];
+    }else if(step===3){
+      const order=[
+        ['verifySource','AI 문장과 비교할 자료 내용을 쓰세요.','우리가 실제로 읽은 자료에서 확인한 내용만 씁니다.'],
+        ['verdict','자료와 비교한 결과를 고르세요.','맞음·일부 맞음·수정 필요·확인 불가 중 하나를 고릅니다.'],
+        ['reason','왜 그렇게 판단했는지 쓰세요.','AI 문장과 자료의 같은 점 또는 다른 점을 씁니다.'],
+        ['decision','우리 계획에서 어떻게 할지 고르세요.','채택·수정·제외·보류 중 하나를 고릅니다.'],
+        ['revision','그래서 계획을 어떻게 유지하거나 고쳤는지 쓰세요.','실제로 바뀐 내용을 한 문장으로 남깁니다.'],
+      ];
+      const missing=order.find(([key])=>!values[key]?.trim());
+      current=missing?item(missing[0],missing[1],missing[2]):item('','검증과 수정 완료','마지막으로 환경 조건 하나를 조사합니다.');
+      parts=[
+        {label:'자료 확인',done:!!values.verifySource?.trim()},
+        {label:'판정',done:!!values.verdict?.trim()&&!!values.reason?.trim()},
+        {label:'계획 반영',done:!!values.decision?.trim()&&!!values.revision?.trim()},
+      ];
+    }else{
+      const order=[
+        ['env1','우리 미션에 중요한 환경 조건 하나를 고르세요.','중력·온도·대기·방사선·물·햇빛 등에서 하나만 고릅니다.'],
+        ['envInfo1','그 환경 조건에 대해 확인한 정보를 쓰세요.','수치가 있다면 단위와 장소를 함께 씁니다.'],
+        ['envSource1','환경 정보의 출처를 남기세요.','기관명·자료명 또는 링크를 적습니다.'],
+        ['envResponse1','이 조건 때문에 생길 어려움과 대비를 쓰세요.','완벽한 해결책이 아니라 현재 생각이면 충분합니다.'],
+        ['myVerdict','마지막으로 각자 오늘의 판단을 한 문장으로 쓰세요.','모둠 답을 복사하지 말고 내가 확인한 자료와 판단을 연결합니다.'],
+      ];
+      const missing=order.find(([key])=>(key==='myVerdict'?!personal[key]?.trim():!values[key]?.trim()));
+      current=missing?item(missing[0],missing[1],missing[2]):item('','2차시 완료','환경 조건 두 번째 항목은 3차시에 이어서 완성합니다.');
+      parts=[
+        {label:'환경 조건',done:!!values.env1?.trim()},
+        {label:'정보·출처',done:!!values.envInfo1?.trim()&&!!values.envSource1?.trim()},
+        {label:'어려움·대비',done:!!values.envResponse1?.trim()},
+        {label:'나의 판단',done:!!personal.myVerdict?.trim()},
+      ];
+    }
+    return {...current,parts};
+  }
+  const lessonFlow=stage===0?lesson1Flow():stage===1?lesson2Flow():null;
 
   function planEditor(includeEnvironment=false) {return <section className="plan-editor"><h3>기존 제안서에서 직접 고치세요.</h3><p className="hint">검증한 내용과 연결되는 항목만 열어 고치세요. 바꾸지 않았다면 그 이유를 남기세요.</p><details className="reading-card"><summary>질문과 탐사 방법</summary>{fieldsByKeys(['destination','otherDestination','selectionReason','question','goal','target','data','method','difficulty','technology','response'])}</details>{includeEnvironment&&<details className="reading-card"><summary>2차시에 시작한 환경 조사표</summary><p className="hint">탐사지를 바꿨다면 환경의 값과 조건, 출처가 새 탐사지에도 맞는지 확인하세요.</p>{fieldsByKeys(['env1','envInfo1','envSource1','envResponse1','env2','envInfo2','envSource2','envResponse2'])}</details>}</section>;}
   function aiBox(level:number){
