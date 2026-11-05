@@ -16,6 +16,9 @@ const coachFields:Record<string,[string,string]> = {
   'AI 문장 확인':['l1-compare','claim1'], 'AI 비교 마무리':['l1-compare','check1'],
   '탐사지 선택':['l1-conclude','destination'], '의의 해석':['l1-conclude','evidenceRef'],
   '개인 결론':['l1-conclude','first'], '개인 결론 보완':['l1-conclude','conclusion'],
+  '미션 초안':['l2-draft','question'], 'AI 확인 문장':['l2-consult','claim2'],
+  '2차시 자료 검증':['l2-verify','verifySource'], '2차시 계획 반영':['l2-verify','revision'],
+  '환경 출처':['l2-revise','envSource1'],
 };
 export default function Teacher({notify,onStudentPreview}:Props){
   const [loggedIn,setLoggedIn]=useState(()=>typeof window!=='undefined'&&hasTeacherSession());
@@ -127,6 +130,10 @@ export default function Teacher({notify,onStudentPreview}:Props){
       if(v.evidenceRef&&!v.meaning) add({priority:1,target,kind:'의의 해석',issue:'의의와 영향 카드는 골랐지만 사실의 의미가 아직 설명되지 않았어요.',prompt:'이 카드의 사실이 왜 우주 탐사의 가치나 영향이라고 볼 수 있을까?',resource:evidenceName(v.evidenceRef)},v);
       if(v.change&&/(항상|모두|전부|무조건|전체 우주|우주 탐사는 점점|갈수록)/.test(v.change)) add({priority:0,target,kind:'과도한 일반화',issue:'두 사례를 넘어 전체 우주 탐사로 넓혀 말했을 가능성이 있어요.',prompt:'우리가 본 두 사례만으로 어디까지 말할 수 있을까?',resource:'두 탐사 사례의 범위'},v);
       if(v.gapStatement&&/(인류.*모른|아무도.*모른|아직.*알려지지)/.test(v.gapStatement)) add({priority:0,target,kind:'자료 범위',issue:'자료에 없는 내용을 인류가 모르는 사실로 단정했을 가능성이 있어요.',prompt:'이 자료에 없다는 것과 인류가 아직 모른다는 것은 같은 뜻일까?',resource:'수업용 자료의 범위 안내'},v);
+      if(v.question&&(!v.data||!v.method)) add({priority:1,target,kind:'미션 초안',issue:'미션 질문은 정했지만 얻을 자료나 방법이 아직 비어 있어요.',prompt:'이 질문에 답하려면 무엇을 직접 관찰하거나 측정해야 할까?',resource:'미션 질문, 얻을 자료, 자료를 얻는 방법'},v);
+      if(v.claim2&&!v.verifySource) add({priority:0,target,kind:'AI 확인 문장',issue:'AI에서 확인할 문장은 골랐지만 자료와 비교한 기록이 아직 없어요.',prompt:'이 AI 문장을 우리가 읽은 자료의 어느 부분과 직접 비교할 수 있을까?',resource:'추가 자료와 AI에서 고른 문장'},v);
+      if(v.verdict&&!v.revision) add({priority:1,target,kind:'2차시 계획 반영',issue:'자료와 비교한 판정은 있지만 계획에 무엇을 반영했는지가 비어 있어요.',prompt:'이 판정 때문에 우리 방법을 그대로 둘까, 무엇을 고칠까?',resource:'판정과 미션 초안'},v);
+      if(v.env1&&v.envInfo1&&!v.envSource1) add({priority:1,target,kind:'환경 출처',issue:'환경 정보는 적었지만 어디에서 확인했는지가 비어 있어요.',prompt:'이 환경 정보는 어느 기관이나 자료에서 확인했어?',resource:'환경 조건 1과 확인한 자료'},v);
     }
 
     const classHasConcluding=(data.teams||[]).some((t:any)=>{const v=recordMap(t.records||[]);return !!(v.destination||v.evidenceRef||v.meaning);});
