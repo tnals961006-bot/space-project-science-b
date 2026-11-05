@@ -5,7 +5,7 @@ import Landing from './landing';
 import Teacher from './teacher';
 import {api,hasStudentSession,clearStudentSession,isLocalReviewOnly,setClassroomSessionScope} from '../lib/classroom-client';
 import {allFields,stages,phaseNames,proposalKeys,FieldDef} from './course';
-import {aiCards,buildAiPrompt,peerFallback,storyTransition,comparisonComplete,comparisonSource,comparisonText,readComparison,writeComparison,ComparisonIds,comparisonMissingItems,recordValueText,readMissionEvidence} from './teaching-content';
+import {aiCards,buildAiPrompt,peerFallback,storyTransition,comparisonComplete,comparisonSource,comparisonText,readComparison,writeComparison,ComparisonIds,comparisonMissingItems,recordValueText,readMissionEvidence,getReadingCard} from './teaching-content';
 import {ClassroomState,Row,Snapshot,Field,Proposal,RecordList,Readback,InquiryTrail,SaveField,recordMap,pendingDrafts,readDraft,finishDraft,download,clean,useFieldRecord} from './record-ui';
 import {ApolloReading,CriteriaCards,DataExplorer,DestinationCards,EvidenceCards,FullMaterials,PresentationGuide,ReviewGuide,VerificationGuide} from './resource-ui';
 
@@ -13,7 +13,7 @@ type Mode='home'|'student'|'demo'|'teacher'|'review'|'materials';
 const REVIEW_STORAGE='SPACE_CLASSROOM_REVIEW_V2';
 const emptyReview=():ClassroomState=>({student:{id:'review',number:1,teamId:'review-team',classId:'review-class',className:'수업 내용 체험',teamLabel:'체험 모둠'},group:[],personal:[],snapshots:[],published:false});
 const label=(key:string)=>clean(allFields.find(f=>f.key===key)?.label||key);
-const requiredByLesson=[['comparison','fact','gap','destination','evidenceRef','conclusion'],['additionalRef','additionalFact','task','question','data','method','claim2','verifySource','verdict','reason','decision','revision','env1','envInfo1','envSource1','envResponse1','env2','envInfo2','envSource2','envResponse2','myVerdict'],['expectation','limitation','critiqueReason','recommendReason','reflection']];
+const requiredByLesson=[['comparison','fact','gap','destination','evidenceRef','conclusion'],['destination','additionalRef','additionalFact','question','data','method','claim2','verifySource','verdict','reason','decision','revision','env1','envInfo1','envSource1','envResponse1','myVerdict'],['expectation','limitation','critiqueReason','recommendReason','reflection']];
 
 function Brand(){return <div className="brand"><span className="brand-mark"><Orbit size={24}/></span><span>SPACE<span className="brand-sub">프로젝트</span></span></div>;}
 function loadReview():ClassroomState {
@@ -139,7 +139,18 @@ export default function App(){
     if(missing.length){notify('먼저 확인할 기록: '+missing.join(', '));return;}
     await copy(buildAiPrompt(level,current));
   }
-  function fields(definitions:FieldDef[],recoverHidden=false){if(!state)return null;const visible=definitions.filter(d=>(!d.hidden||recoverHidden)&&(d.key!=='otherDestination'||recordMap(state.group).destination==='다른 탐사지'));const focus=stage===0&&panel==='lesson'?lesson1Flow().focus:'';return visible.map(d=><div className={'field-flow-wrap '+(focus===d.key?'is-current':'')} key={state.student.id+':'+(d.personal?'personal':state.student.teamId)+':'+d.key}>{d.section&&<h3 className="field-section">{d.section}</h3>}<Field def={d} row={(d.personal?state.personal:state.group).find(r=>r.key===d.key)} student={state.student} save={save} disabled={!!state.student.closed||!!authError} record={d.key==='comparison'?comparisonRecord:undefined} comparisonValue={comparisonRecord.value} legacyReference={d.key==='comparison'?state.group.find(r=>r.key==='factRef')?.value:undefined} groupValues={recordMap(state.group)} readOnly={!!d.hidden}/></div>);}
+  function fields(definitions:FieldDef[],recoverHidden=false){if(!state)return null;
+    const lesson2Keys:Record<number,Set<string>>={
+      0:new Set(['destination','selectionReason']),
+      1:new Set(['additionalRef','additionalFact','question','data','method']),
+      2:new Set(['claim2']),
+      3:new Set(['verifySource','verdict','reason','decision','revision']),
+      4:new Set(['env1','envInfo1','envSource1','envResponse1','myVerdict']),
+    };
+    const visible=definitions.filter(d=>(!d.hidden||recoverHidden)&&(d.key!=='otherDestination'||recordMap(state.group).destination==='다른 탐사지')&&(stage!==1||panel!=='lesson'||recoverHidden||lesson2Keys[step]?.has(d.key)));
+    const focus=panel==='lesson'?(stage===0?lesson1Flow().focus:stage===1?lesson2Flow().focus:''):'';
+    return visible.map(d=><div className={'field-flow-wrap '+(focus===d.key?'is-current':'')} key={state.student.id+':'+(d.personal?'personal':state.student.teamId)+':'+d.key}>{d.section&&<h3 className="field-section">{d.section}</h3>}<Field def={d} row={(d.personal?state.personal:state.group).find(r=>r.key===d.key)} student={state.student} save={save} disabled={!!state.student.closed||!!authError} record={d.key==='comparison'?comparisonRecord:undefined} comparisonValue={comparisonRecord.value} legacyReference={d.key==='comparison'?state.group.find(r=>r.key==='factRef')?.value:undefined} groupValues={recordMap(state.group)} readOnly={!!d.hidden}/></div>);
+  }
   const fieldsByKeys=(keys:string[])=>fields(keys.map(k=>allFields.find(f=>f.key===k)).filter((f):f is FieldDef=>!!f));
   const values=recordMap(state?.group),personal=recordMap(state?.personal),current=stages[stage].steps[step];
   const drafts=state?pendingDrafts(state.student.id):[];
