@@ -11,17 +11,18 @@ type Feedback = (teamId: string, value: string) => Promise<boolean>;
 type Focus = {fields: string[]; question: string};
 const focus = (fields: string, question: string): Focus => ({fields: fields.split(' '), question});
 const activities: Record<string, Focus> = {
-  'l2-draft': focus('additionalFact question', '새로 찾은 사실이 우리 미션 질문과 어떻게 이어져?'),
+  'l2-draft': focus('destination selectionReason additionalFact question', '이 탐사지와 자료가 우리 질문과 어떻게 이어져?'),
   'l2-verify': focus('verifySource reason', '자료의 어떤 조건을 확인하고 이 판단을 내렸어?'),
-  'l2-revise': focus('revision envResponse1', '환경 자료를 확인한 뒤 계획을 어떻게 고쳤어?'),
+  'l2-revise': focus('myVerdict', '어떤 사실을 근거로 계획을 유지하거나 고쳐야 한다고 판단했어?'),
   intro: focus('first', '우주 탐사로 무엇을 알아보고 싶어? 그 이유는 뭐야?'),
   apollo: focus('apolloReasonA apolloReasonB', '자료에 직접 나온 부분은 어디고, 우리가 의미를 붙인 부분은 어디야?'),
   data: focus('change gap', '어느 두 기록을 보고 이 차이를 설명했어? 그 자료로 아직 알 수 없는 점은 뭐야?'),
   ai1: focus('selectedClaim claim1', '우리가 고른 문장과 AI 문장이 같은 내용을 비교하고 있어?'),
-  evidence: focus('selectionReason conclusion', '처음 생각에 어떤 자료의 사실을 더하고 싶어?'),
+  evidence: focus('meaning conclusion', '처음 생각에 어떤 자료의 사실을 더하고 싶어?'),
   previous: focus('gap selectionReason', '지난 질문을 알아보려면 무엇부터 조사할까?'),
   ai2: focus('prompt2 claim2', '이 주장 중 탐사 방법을 정하기 전에 확인해야 할 부분은 뭐야?'),
   summary2: focus('myEvidence myVerdict', '어떤 근거를 보고 그렇게 판단했어?'),
+  environment3: focus('envInfo1 envSource1 envResponse1', '이 환경 조건 때문에 계획에서 무엇을 보완해야 할까?'),
   proposal: focus('question revision', '제안서에서 근거를 더 보태고 싶은 부분은 어디야?'),
   editProposal: focus('expectation limitation', '이 계획으로 알아낼 수 있는 것과 아직 어려운 것은 뭐야?'),
   ai3: focus('critique critiqueReason', '이 질문을 반영하거나 보류할 근거가 있어?'),

@@ -14,11 +14,11 @@ const coachFields:Record<string,[string,string]> = {
   '근거 연결':['l1-explore','change'], '질문 만들기':['l1-explore','gapStatement'],
   '과도한 일반화':['l1-explore','change'], '자료 범위':['l1-explore','gapStatement'],
   'AI 문장 확인':['l1-compare','claim1'], 'AI 비교 마무리':['l1-compare','check1'],
-  '탐사지 선택':['l1-conclude','destination'], '의의 해석':['l1-conclude','evidenceRef'],
+  '탐사지 선택':['l2-draft','destination'], '의의 해석':['l1-conclude','evidenceRef'],
   '개인 결론':['l1-conclude','first'], '개인 결론 보완':['l1-conclude','conclusion'],
   '미션 초안':['l2-draft','question'], 'AI 확인 문장':['l2-consult','claim2'],
   '2차시 자료 검증':['l2-verify','verifySource'], '2차시 계획 반영':['l2-verify','revision'],
-  '환경 출처':['l2-revise','envSource1'],
+  '환경 출처':['l3-reopen','envSource1'],
 };
 export default function Teacher({notify,onStudentPreview}:Props){
   const [loggedIn,setLoggedIn]=useState(()=>typeof window!=='undefined'&&hasTeacherSession());
@@ -136,7 +136,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
       if(v.env1&&v.envInfo1&&!v.envSource1) add({priority:1,target,kind:'환경 출처',issue:'환경 정보는 적었지만 어디에서 확인했는지가 비어 있어요.',prompt:'이 환경 정보는 어느 기관이나 자료에서 확인했어?',resource:'환경 조건 1과 확인한 자료'},v);
     }
 
-    const classHasConcluding=(data.teams||[]).some((t:any)=>{const v=recordMap(t.records||[]);return !!(v.destination||v.evidenceRef||v.meaning);});
+    const classHasConcluding=(data.teams||[]).some((t:any)=>{const v=recordMap(t.records||[]);return !!(v.evidenceRef||v.meaning);});
     if(classHasConcluding){
       for(const st of data.students||[]){
         const v=recordMap(st.records||[]);

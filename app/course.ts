@@ -83,7 +83,7 @@ function step(lesson: number, index: number, value: Pick<StepDef, 'name' | 'reso
 export const stages: StageDef[] = [
   {
     number: 1, title: '탐사 자료에서 질문 찾기', short: '질문 발견',
-    subtitle: '탐사 자료를 비교해 질문을 만들고, 조사할 곳을 정해요.',
+    subtitle: '탐사 자료를 비교해 질문을 만들고, 근거를 들어 우주 탐사의 이유를 설명해요.',
     goal: activityLessons[0].goal, totalMinutes: 45,
     steps: [
       step(1, 0, {
@@ -127,11 +127,8 @@ export const stages: StageDef[] = [
       }),
       step(1, 4, {
         name: '오늘의 결론 쓰기', resource: 'evidence',
-        prompt: '우리 질문을 조사할 곳을 정한 뒤, 영향카드의 사실을 근거로 우주를 탐사하는 이유를 쓰세요.',
+        prompt: '영향카드에서 확인한 사실을 근거로 우주를 탐사하는 이유를 쓰고, 처음 생각과 비교하세요.',
         fields: [
-          f('destination', '우리 질문을 알아볼 곳', '우리 모둠이 조사해 보고 싶은 장소를 직접 정하세요.', undefined, { input: 'destination-free', scaffold: '위에 보이는 우리 모둠 질문을 더 알아보기 좋은 장소를 직접 정합니다.' }),
-          f('otherDestination', '다른 탐사지를 골랐다면 이름과 근거', '', undefined, { ...optionalLine, scaffold: '다른 탐사지: ______ / 고른 근거: ______' }),
-          f('selectionReason', '이곳을 고른 이유', '위에 보이는 우리 모둠 질문과 연결해 쓰세요.', undefined, { ...oneLine, scaffold: '우리 모둠 질문 “______”을 더 알아보기 위해 ______을 골랐다.', placeholder: '화면 위에 다시 보이는 우리 모둠 질문과 연결해 쓰세요.' }),
           f('evidenceRef', '읽은 영향카드', '우주를 탐사하는 이유를 설명할 때 예로 들 카드 1개를 고르세요.', evidenceCards.map(card => card.id)),
           f('meaning', '카드에서 알게 된 사실', '읽은 카드에 적힌 사실을 한 문장으로 쓰세요.', undefined, { scaffold: '______ 카드에서 ______을 알게 되었다.', placeholder: '카드 이름과 카드에서 확인한 사실을 쓰세요.' }),
           p('conclusion', '우리는 왜 우주를 탐사할까?', '위에 쓴 사실을 근거로 각자의 생각을 쓰세요. 처음 생각과 같아도 괜찮아요.', undefined, { scaffold: '카드에서 ______을 알게 되었다. 이를 근거로, 나는 ______을 위해 우주를 탐사한다고 생각한다.', placeholder: '카드의 사실을 예로 들어 우주를 탐사하는 이유를 쓰세요.' }),
@@ -142,17 +139,20 @@ export const stages: StageDef[] = [
   },
   {
     number: 2, title: '탐사계획서 초안 쓰기', short: '계획서 작성',
-    subtitle: '탐사계획서 초안을 쓰고, AI의 제안을 자료로 확인해 계획을 고쳐요.',
+    subtitle: '우리 질문을 조사할 탐사지를 고르고, 탐사계획서 초안을 쓴 뒤 AI의 제안을 검토해요.',
     goal: activityLessons[1].goal, totalMinutes: 45,
     steps: [
       step(2, 0, {
-        name: '탐사계획서 초안 쓰기', resource: 'destinations',
-        prompt: '자료를 근거로 탐사 질문·관찰할 대상·조사 방법을 정해 탐사계획서 초안을 쓰세요.',
+        name: '탐사지 고르고 계획서 쓰기', resource: 'destinations',
+        prompt: '1차시 질문을 조사할 탐사지를 고르고, 자료를 읽어 탐사 질문·관찰할 대상·조사 방법을 정하세요.',
         fields: [
-          f('additionalRef', '읽은 자료의 이름·출처', '펼쳐 읽은 자료의 제목 또는 기관명·링크를 적으세요.', undefined, { ...oneLine, section: '1. 자료에서 근거 찾기', scaffold: '확인한 자료: ______' }),
+          f('destination', '우리 질문을 알아볼 곳', '우리 모둠이 조사해 보고 싶은 장소를 직접 정하세요.', undefined, { input: 'destination-free', section: '1. 탐사지 고르기', scaffold: '위에 보이는 우리 모둠 질문을 더 알아보기 좋은 장소를 직접 정합니다.' }),
+          f('otherDestination', '다른 탐사지를 골랐다면 이름과 근거', '', undefined, { ...optionalLine, scaffold: '다른 탐사지: ______ / 고른 근거: ______' }),
+          f('selectionReason', '이곳을 고른 이유', '위에 보이는 우리 모둠 질문과 연결해 쓰세요.', undefined, { ...oneLine, scaffold: '우리 모둠 질문 “______”을 더 알아보기 위해 ______을 골랐다.', placeholder: '화면 위에 다시 보이는 우리 모둠 질문과 연결해 쓰세요.' }),
+          f('additionalRef', '읽은 자료의 이름·출처', '펼쳐 읽은 자료의 제목 또는 기관명·링크를 적으세요.', undefined, { ...oneLine, section: '2. 자료에서 근거 찾기', scaffold: '확인한 자료: ______' }),
           f('additionalFact', '우리 질문에 도움이 되는 사실 1개', '자료에서 실제로 확인한 내용 한 가지만 쓰세요.', undefined, { ...oneLine, scaffold: '자료에서 ______을 확인했다.' }),
           f('task', '더 조사할 내용', '', undefined, { ...optionalLine }),
-          f('question', '탐사 질문 · 무엇을 알아볼까?', '1차시 질문을 우리 탐사지에서 조사할 수 있는 질문으로 좁혀 쓰세요.', undefined, { ...oneLine, section: '2. 탐사계획서 초안 쓰기', scaffold: '우리는 ______에서 ______을 조사해 ______을 알아볼까?' }),
+          f('question', '탐사 질문 · 무엇을 알아볼까?', '1차시 질문을 우리 탐사지에서 조사할 수 있는 질문으로 좁혀 쓰세요.', undefined, { ...oneLine, section: '3. 탐사계획서 초안 쓰기', scaffold: '우리는 ______에서 ______을 조사해 ______을 알아볼까?' }),
           f('missionName', '우리 미션 이름', '이름은 나중에 정해도 됩니다.', undefined, optionalLine),
           f('goal', '탐사 목표', '', undefined, optionalLine),
           f('target', '관측할 대상', '', undefined, optionalLine),
@@ -187,19 +187,11 @@ export const stages: StageDef[] = [
         ],
       }),
       step(2, 3, {
-        name: '환경 조사 시작하고 내 판단 남기기', resource: 'environment2',
-        prompt: '우리 미션에 중요한 환경 조건 하나만 조사하고, 각자 오늘의 판단을 남기세요.',
+        name: '근거를 들어 나의 판단 쓰기', resource: 'summary2',
+        prompt: '내가 확인한 자료를 근거로, 우리 계획을 유지하거나 수정하거나 보류해야 한다고 생각한 이유를 각자 쓰세요.',
         fields: [
-          f('env1', '우리 미션에 중요한 환경 조건 1개', '중력, 온도, 대기, 방사선, 물, 햇빛 등을 생각해 보세요.', undefined, { section: '1 환경 조건 하나 조사하기', ...oneLine }),
-          f('envInfo1', '확인한 환경 정보', '수치가 있다면 단위와 장소도 함께 적으세요.'),
-          f('envSource1', '환경 정보의 출처', '기관명·자료명 또는 링크를 남기세요.', undefined, oneLine),
-          f('envResponse1', '예상되는 어려움과 대비', '', undefined, { ...oneLine, scaffold: '이 조건 때문에 ______이 어려울 수 있어 ______로 대비한다.' }),
-          f('env2', '환경 2 항목과 중요한 이유', '', undefined, { section: '환경 2', ...optionalLine }),
-          f('envInfo2', '환경 2 정보와 적용 조건', '', undefined, optionalLine),
-          f('envSource2', '환경 2 자료번호와 확인 상태', '', undefined, optionalLine),
-          f('envResponse2', '환경 2 예상 어려움과 대비 방법', '', undefined, optionalLine),
           p('myEvidence', '내가 확인한 근거', '', undefined, optionalLine),
-          p('myVerdict', '오늘 내가 내린 판단', '', undefined, { section: '2 나의 판단 한 문장', ...oneLine, scaffold: '나는 ______ 자료를 확인했고, 그래서 우리 계획을 ______해야 한다고 판단했다.' }),
+          p('myVerdict', '나의 판단과 근거', '자료 이름과 확인한 사실을 넣고, 계획을 유지·수정·보류할지 내 생각을 쓰세요.', undefined, { ...oneLine, scaffold: '나는 ______ 자료에서 ______을 확인했으므로, 우리 계획을 ______해야 한다고 판단했다.' }),
           p('myApplication', '내 의견이 반영된 부분', '', undefined, optionalLine),
           p('myRoute', '나의 검토 방법', '', ['직접 AI 대화'], optional),
         ],
@@ -212,12 +204,22 @@ export const stages: StageDef[] = [
     goal: activityLessons[2].goal, totalMinutes: 45,
     steps: [
       step(3, 0, {
-        name: '보완점 찾기', resource: 'proposal',
-        prompt: '처음 질문과 추가 자료, 검증한 내용을 함께 읽으세요. 세 가지 기준으로 제안서에서 먼저 보완할 곳을 고르세요.', fields: [],
+        name: '환경 조사하고 보완점 찾기', resource: 'environment3',
+        prompt: '우리 탐사지의 중요한 환경 조건을 조사하고, 그 조건 때문에 계획에서 보완할 점을 찾으세요.',
+        fields: [
+          f('env1', '우리 미션에 중요한 환경 조건 1개', '중력, 온도, 대기, 방사선, 물, 햇빛 등을 생각해 보세요.', undefined, { section: '1 환경 조건 하나 조사하기', ...oneLine }),
+          f('envInfo1', '확인한 환경 정보', '수치가 있다면 단위와 장소도 함께 적으세요.'),
+          f('envSource1', '환경 정보의 출처', '기관명·자료명 또는 링크를 남기세요.', undefined, oneLine),
+          f('envResponse1', '예상되는 어려움과 대비', '', undefined, { ...oneLine, scaffold: '이 조건 때문에 ______이 어려울 수 있어 ______로 대비한다.' }),
+          f('env2', '환경 2 항목과 중요한 이유', '', undefined, { section: '환경 2', ...optionalLine }),
+          f('envInfo2', '환경 2 정보와 적용 조건', '', undefined, optionalLine),
+          f('envSource2', '환경 2 자료번호와 확인 상태', '', undefined, optionalLine),
+          f('envResponse2', '환경 2 예상 어려움과 대비 방법', '', undefined, optionalLine),
+        ],
       }),
       step(3, 1, {
         name: '제안서 보완', resource: 'editProposal',
-        prompt: '앞 차시의 제안서와 환경표를 직접 고치세요. 탐사지의 실제 환경과 장비나 기지 안에서 조절할 조건을 구분하세요.',
+        prompt: '2차시 탐사계획서에 방금 조사한 환경 조건과 대비 방법을 반영하세요. 탐사지의 실제 환경과 장비나 기지 안에서 조절할 조건을 구분하세요.',
         fields: [
           f('expectation', '새로 얻고 싶은 지식과 기대하는 도움', '아직 기대하는 효과를 이미 얻은 성과처럼 쓰지 마세요.'),
           f('limitation', '이 계획으로 확인할 수 없는 점', '더 필요한 자료나 남은 조건을 적으세요.'),

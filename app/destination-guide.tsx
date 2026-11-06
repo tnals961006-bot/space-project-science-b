@@ -101,18 +101,18 @@ export default function DestinationGuide({question, destination, onReturn}: {que
       <span className="eyebrow">선택을 돕는 참고 자료</span>
       <h2>어디에서 무엇을 알아볼까?</h2>
       <p>관심 있는 곳 <strong>두 곳만</strong> 펼쳐 비교해 보세요. 아래 예시는 출발점입니다. <strong>직접 조사한 다른 탐사지도 고를 수 있어요.</strong></p>
-      <ol><li><b>읽기</b> 확인된 사실과 출처를 읽어요.</li><li><b>비교하기</b> 우리 질문을 알아보기에 어느 곳이 더 적절한지 이야기해요.</li><li><b>정하기</b> 활동 5로 돌아가 탐사지와 고른 이유를 써요.</li></ol>
+      <ol><li><b>읽기</b> 확인된 사실과 출처를 읽어요.</li><li><b>비교하기</b> 우리 질문을 알아보기에 어느 곳이 더 적절한지 이야기해요.</li><li><b>정하기</b> 2차시 첫 활동으로 돌아가 탐사지와 고른 이유를 써요.</li></ol>
       <p className="guide-optional">참고용 · 별도 제출 없음 · 원문 링크는 새 탭에서 열립니다.</p>
     </section>
     {(question?.trim()||destination?.trim())&&<section className="guide-readback" aria-label="우리 모둠의 현재 기록">{question?.trim()&&<p><b>우리 모둠 질문</b>{question}</p>}{destination?.trim()&&<p><b>현재 탐사지</b>{destination}</p>}</section>}
-    <section aria-labelledby="starter-candidates"><div className="guide-section-title"><h2 id="starter-candidates">먼저 살펴볼 세 곳</h2><p>2차시에도 이어 읽을 수 있는 자료가 준비되어 있어요.</p></div><div className="candidate-grid">{candidates.slice(0,3).map(renderCandidate)}</div></section>
+    <section aria-labelledby="starter-candidates"><div className="guide-section-title"><h2 id="starter-candidates">먼저 살펴볼 세 곳</h2><p>탐사계획서 초안을 쓸 때 읽을 수 있는 자료가 준비되어 있어요.</p></div><div className="candidate-grid">{candidates.slice(0,3).map(renderCandidate)}</div></section>
     <section aria-labelledby="more-candidates"><div className="guide-section-title"><h2 id="more-candidates">관심을 넓혀 볼 네 곳</h2><p>물·대기·태양계의 재료가 궁금하다면 살펴보세요.</p></div><div className="candidate-grid">{candidates.slice(3).map(renderCandidate)}</div></section>
     <section className="guide-research" aria-labelledby="research-help"><h2 id="research-help">다른 곳을 조사해도 좋아요</h2><p>장소 이름만 정하기 어렵다면 <strong>‘물 · 빛 · 온도 · 대기 · 암석’ 중 궁금한 것 하나</strong>부터 골라 보세요.</p>
       <ol><li><b>검색어 좁히기</b><p>‘화성’보다 ‘화성 지하 얼음 NASA’처럼 <strong>장소 + 알아볼 내용 + 기관</strong>으로 찾아요.</p></li><li><b>원문 확인하기</b><p>검색 요약이나 AI 답에서 끝내지 말고, 기관의 원문을 열어 확인해요. 영어는 브라우저의 한국어 번역을 써도 좋아요.</p></li><li><b>출처와 조건 남기기</b><p><strong>기관명 · 자료 제목 · 링크 · 확인한 사실</strong>을 적어요. 수치에는 단위와 측정 장소·시점을 함께 확인하고, 추정은 추정이라고 표시해요.</p></li></ol>
       <a href="https://astro.kasi.re.kr/kor/post/solarSystemOverview/71368" target="_blank" rel="noopener noreferrer">한국어로 시작하기 · 한국천문연구원 태양계 안내 <ExternalLink size={15}/><span className="sr-only"> (새 탭)</span></a>
       <p className="hint">태양계의 구성과 천체 종류를 먼저 읽고, 사이트의 태양계 메뉴에서 관심 있는 천체를 찾아보세요. 세부 탐사 결과는 위 NASA 자료와 비교할 수 있어요.</p>
     </section>
-    <section className="guide-check"><h2>고르기 전에 세 가지만 확인!</h2><ul><li>우리 모둠이 알아보고 싶은 점이 있나요?</li><li>그곳을 고른 이유를 자료 속 사실로 설명할 수 있나요?</li><li>무엇을 관찰하거나 측정할지 한 가지 떠오르나요?</li></ul><p>자료를 보고 질문을 더 구체적으로 바꿔도 됩니다. 지금 고른 곳은 2차시 추가 조사 후 근거를 들어 바꿀 수 있어요.</p><button className="primary" onClick={onReturn}><ArrowLeft size={17}/>활동 5로 돌아가 탐사지 쓰기</button></section>
+    <section className="guide-check"><h2>고르기 전에 세 가지만 확인!</h2><ul><li>우리 모둠이 알아보고 싶은 점이 있나요?</li><li>그곳을 고른 이유를 자료 속 사실로 설명할 수 있나요?</li><li>무엇을 관찰하거나 측정할지 한 가지 떠오르나요?</li></ul><p>자료를 보고 질문을 더 구체적으로 바꿔도 됩니다. 자료를 더 읽은 뒤 근거를 들어 탐사지를 바꿀 수도 있어요.</p><button className="primary" onClick={onReturn}><ArrowLeft size={17}/>2차시 첫 활동으로 돌아가 탐사지 쓰기</button></section>
     <p className="guide-source-note">한국어 설명은 연결된 기관 자료를 요약했습니다. 질문과 관찰 방법은 수업용 제안이며, 실제 탐사 결과와 구분해 읽으세요. 출처 확인: 2026. 11. 6.</p>
   </div>;
 }

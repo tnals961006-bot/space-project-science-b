@@ -6,6 +6,7 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   root: root + 'pages',
   base: './',
+  server: { allowedHosts: ['terminal.local'] },
   plugins: [react(), {
     name: 'space-runtime-config',
     transformIndexHtml: { order: 'post', handler: () => [{ tag: 'script', attrs: { src: './config.js' }, injectTo: 'head-prepend' }] }
