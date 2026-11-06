@@ -10,7 +10,7 @@ type Candidate = {
 
 const candidates: Candidate[] = [
   {
-    id: 'moon', name: '달 남극', kind: '지구의 위성', theme: '물 · 햇빛 · 자원',
+    id: 'moon', name: '달 남극 (Lunar South Pole)', kind: '지구의 위성', theme: '물 · 햇빛 · 자원',
     fact: '달 극지의 햇빛이 닿지 않는 일부 지역에서 물 얼음의 증거가 확인되었습니다.',
     question: '얼음이 있는 곳과 햇빛을 받는 곳은 얼마나 떨어져 있을까?',
     observe: '얼음 분포 지도와 햇빛 지도를 비교하고, 후보 지점의 온도와 지형을 조사해 볼 수 있어요.',
@@ -20,7 +20,7 @@ const candidates: Candidate[] = [
     sources: [{title: 'NASA · 달의 물과 얼음', url: 'https://science.nasa.gov/moon/moon-water-and-ices/', lookFor: 'LCROSS 관측 결과와 남극의 얼음 분포 그림을 보세요. 물의 존재와 실제 이용 가능성은 구분하세요.'}],
   },
   {
-    id: 'mars', name: '화성 예제로 충돌구', kind: '행성의 특정 지역', theme: '과거의 물 · 암석',
+    id: 'mars', name: '화성 예제로 충돌구 (Jezero Crater, Mars)', kind: '행성의 특정 지역', theme: '과거의 물 · 암석',
     fact: '예제로 충돌구에는 오래전 강이 호수로 흘러들며 퇴적물을 쌓은 삼각주의 흔적이 남아 있습니다.',
     question: '삼각주의 서로 다른 층에는 어떤 크기의 알갱이와 광물이 있을까?',
     observe: '암석층을 촬영하고 알갱이 크기와 광물 성분을 비교해, 물이 흘렀던 환경을 추론할 수 있어요.',
@@ -33,7 +33,7 @@ const candidates: Candidate[] = [
     ],
   },
   {
-    id: 'europa', name: '유로파', kind: '목성의 위성', theme: '얼음 아래 바다',
+    id: 'europa', name: '유로파 (Europa)', kind: '목성의 위성', theme: '얼음 아래 바다',
     fact: '표면은 주로 물 얼음이며, 얼음층 아래에 액체 상태의 바다가 있다는 강한 증거가 있습니다.',
     question: '표면의 균열 주변과 다른 곳은 물질의 성분이 어떻게 다를까?',
     observe: '균열을 촬영하고 표면 성분을 비교하거나, 레이더로 얼음층 구조를 조사해 볼 수 있어요.',
@@ -43,7 +43,7 @@ const candidates: Candidate[] = [
     sources: [{title: 'NASA · 유로파의 특징', url: 'https://science.nasa.gov/jupiter/jupiter-moons/europa/europa-facts/', lookFor: 'Structure(구조), Surface(표면), Potential for Life(생명 가능성)에서 증거와 추정을 구분하세요.'}],
   },
   {
-    id: 'enceladus', name: '엔셀라두스', kind: '토성의 위성', theme: '물기둥 · 생명 조건',
+    id: 'enceladus', name: '엔셀라두스 (Enceladus)', kind: '토성의 위성', theme: '물기둥 · 생명 조건',
     fact: '남극 부근에서 수증기와 얼음 입자가 우주로 뿜어져 나옵니다. 카시니는 이 분출 물질을 분석했습니다.',
     question: '분출하는 물질의 성분은 위치나 관측 시기에 따라 다를까?',
     observe: '분출 물질의 성분과 입자량을 여러 위치·시기에 측정해 비교할 수 있어요.',
@@ -53,7 +53,7 @@ const candidates: Candidate[] = [
     sources: [{title: 'NASA · 엔셀라두스', url: 'https://science.nasa.gov/saturn/moons/enceladus/', lookFor: 'Overview(개요)에서 분출 물질로 알아낸 것과 내부 바다를 추론한 근거를 읽으세요.'}],
   },
   {
-    id: 'titan', name: '타이탄', kind: '토성의 위성', theme: '대기 · 호수 · 날씨',
+    id: 'titan', name: '타이탄 (Titan)', kind: '토성의 위성', theme: '대기 · 호수 · 날씨',
     fact: '두꺼운 대기가 있고, 표면에는 액체 메테인과 에테인으로 이루어진 강과 호수가 있습니다.',
     question: '호수 주변의 구름과 강수는 시간에 따라 어떻게 달라질까?',
     observe: '구름·호수를 반복 촬영하고, 대기의 온도와 성분을 측정해 비교할 수 있어요.',
@@ -63,7 +63,7 @@ const candidates: Candidate[] = [
     sources: [{title: 'NASA · 타이탄의 특징', url: 'https://science.nasa.gov/saturn/moons/titan/facts/', lookFor: 'Surface(표면), Atmosphere(대기)에서 호수의 성분과 대기의 특징을 찾으세요.'}],
   },
   {
-    id: 'venus', name: '금성의 대기', kind: '행성의 대기', theme: '온도 · 기압 · 온실효과',
+    id: 'venus', name: '금성의 대기 (Venus Atmosphere)', kind: '행성의 대기', theme: '온도 · 기압 · 온실효과',
     fact: '금성은 두꺼운 대기로 인해 강한 온실효과가 나타나며, 표면은 매우 뜨겁고 기압이 높습니다.',
     question: '높이에 따라 대기의 온도와 기압은 어떻게 달라질까?',
     observe: '대기 탐사 장치로 높이별 온도·기압·성분을 측정하는 방법을 생각해 볼 수 있어요.',
@@ -73,7 +73,7 @@ const candidates: Candidate[] = [
     sources: [{title: 'NASA · 금성의 특징', url: 'https://science.nasa.gov/venus/venus-facts/', lookFor: 'Atmosphere(대기)에서 온실효과와 표면 환경을 먼저 확인하고, 높이별 값은 추가 자료를 찾으세요.'}],
   },
   {
-    id: 'bennu', name: '소행성 베누', kind: '소행성', theme: '태양계의 재료 · 시료',
+    id: 'bennu', name: '소행성 베누 (Asteroid Bennu)', kind: '소행성', theme: '태양계의 재료 · 시료',
     fact: '베누는 탄소가 풍부한 소행성입니다. 지구로 가져온 시료에서 유기물과 물과의 반응을 보여 주는 광물 등이 확인되었습니다.',
     question: '베누의 서로 다른 위치에서 얻은 시료는 성분이 같을까?',
     observe: '여러 지점의 표면 성분을 비교하고, 시료를 가져와 분석하는 탐사를 구상할 수 있어요.',
