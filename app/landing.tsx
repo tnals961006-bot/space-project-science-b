@@ -1,6 +1,7 @@
 'use client';
 
-import { ArrowRight, ArrowUpRight, BookOpen, GraduationCap, Ticket } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, BookOpen, GraduationCap, Pause, Play } from 'lucide-react';
 
 export type LandingProps = {
   code: string;
@@ -25,6 +26,28 @@ const journey = [
   { title: '보완하고 발표하기', description: '탐사지의 환경을 조사해 계획서를 보완하고 발표해요.' },
 ];
 
+function SpaceScene() {
+  return <div className="space-scene" aria-hidden="true">
+    <div className="space-scene-image" />
+    <div className="space-scene-light" />
+    <div className="space-probe-track">
+      <svg className="space-probe" viewBox="0 0 100 70" fill="none">
+        <defs>
+          <linearGradient id="probe-panel" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#91b4c5"/><stop offset="1" stopColor="#20384d"/></linearGradient>
+          <linearGradient id="probe-body" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff4d4"/><stop offset="1" stopColor="#a99679"/></linearGradient>
+        </defs>
+        <path d="M14 38H85" stroke="#e4dccb" strokeWidth="2"/>
+        <path d="M6 24H36V48H6zM64 24H94V48H64z" fill="url(#probe-panel)" stroke="#a7bcc9"/>
+        <path d="M16 24V48M26 24V48M74 24V48M84 24V48M6 32H36M6 40H36M64 32H94M64 40H94" stroke="#d0e2e9" strokeWidth=".65" opacity=".7"/>
+        <path d="M42 28L53 24L60 32V45L49 50L42 43z" fill="url(#probe-body)" stroke="#f3e6cb"/>
+        <path d="M49 28V18M49 46V60" stroke="#ddd9cf" strokeWidth="1.5"/>
+        <path d="M38 14Q49 29 61 14z" fill="#eee5d4" stroke="#fff6e5"/>
+        <path d="M49 14L53 6" stroke="#f1e8d6"/>
+      </svg>
+    </div>
+  </div>;
+}
+
 export default function Landing({
   code,
   onCodeChange,
@@ -32,16 +55,15 @@ export default function Landing({
   busy,
   welcome,
   onResume,
-  onReview,
   onTeacher,
   onStartReview,
   joinError,
   reviewOnly = false,
   simpleEntryPreview = false,
   entryClasses = [4, 6],
-  entryLabel,
 }: LandingProps) {
-  const welcomeLabel = welcome.replace(/[\u00b7\u318d]/g, ' ');
+  const [motionPaused, setMotionPaused] = useState(false);
+  const welcomeLabel = welcome.replace(/[\u00b7\u318d]/g, ' ').replace(/(?:으로 )?이어 쓰기$/, '').trim();
   const effectiveReviewOnly = reviewOnly && !simpleEntryPreview;
   const defaultEntryClass = String(entryClasses[0] ?? 4);
   const [entryClass = defaultEntryClass, entryNumber = ''] = code.includes('-') ? code.split('-', 2) : [defaultEntryClass, ''];
@@ -49,12 +71,12 @@ export default function Landing({
   const setEntryPart = (classNo: string, number: string) => onCodeChange(`${classNo}-${number.replace(/\D/g, '').slice(0, 2)}`);
 
   return (
-    <main className="space-landing space-landing-redesign" id="space-landing-main">
+    <main className="space-landing space-cinematic" id="space-landing-main" data-motion={motionPaused ? 'paused' : 'playing'}>
+      <SpaceScene />
       <section className="space-arrival" aria-labelledby="space-arrival-title">
         <div className="space-landing-inner">
           <div className="space-hero-grid">
             <div className="space-hero-copy">
-              <p className="space-eyebrow">SPACE · 우주 탐사 프로젝트</p>
               <h1 id="space-arrival-title">
                 우리는 어디를
                 <br />
@@ -69,10 +91,6 @@ export default function Landing({
           </div>
 
           <section className="space-entry-ticket" aria-labelledby="space-entry-title">
-            <div className="space-ticket-stub" aria-hidden="true">
-              <Ticket size={30} strokeWidth={1.5} />
-              <span>수업<br />{effectiveReviewOnly ? '체험' : '입장'}</span>
-            </div>
             <div className="space-entry-content">
               <div className="space-entry-heading">
                 <h2 id="space-entry-title">{effectiveReviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호를 입력하세요' : '나의 탐사실 입장'}</h2>
@@ -167,42 +185,33 @@ export default function Landing({
         </div>
       </section>
 
-      <section className="space-journey" aria-labelledby="space-journey-title">
+      <section className="space-journey" aria-label="차시별 활동">
         <div className="space-landing-inner">
-          <div className="space-journey-heading">
-            <h2 id="space-journey-title">우리의 탐사 여정</h2>
-          </div>
           <div className="space-journey-grid">
             {journey.map((lesson, index) => (
-              <button
+              <div
                 className="space-journey-card"
-                type="button"
                 key={lesson.title}
-                onClick={() => onStartReview(index)}
-                disabled={busy}
-                aria-label={`${index + 1}차시 ${lesson.title} 활동 미리 보기`}
               >
                 <span className="space-journey-top">
                   <span>{index + 1}차시</span>
                 </span>
                 <strong>{lesson.title}</strong>
-                <span className="space-journey-description">{lesson.description}</span>
-                <span className="space-preview-label">
-                  활동 미리 보기
-                  <ArrowUpRight size={18} aria-hidden="true" />
-                </span>
-              </button>
+              </div>
             ))}
           </div>
-          <p className="space-journey-note">미리 보기에서는 실제 학급에 기록이 남지 않아요.</p>
         </div>
       </section>
 
       <footer className="space-landing-footer">
         <div className="space-landing-inner">
+          <button type="button" className="space-motion-toggle" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}>
+            {motionPaused ? <Play size={14} aria-hidden="true"/> : <Pause size={14} aria-hidden="true"/>}
+            <span>배경 움직임 {motionPaused ? '켜기' : '멈추기'}</span>
+          </button>
           <div className="space-footer-links">
-            <button type="button" onClick={onReview} disabled={busy}>
-              <BookOpen size={16} aria-hidden="true" />검토 안내
+            <button type="button" onClick={() => onStartReview(0)} disabled={busy}>
+              <BookOpen size={16} aria-hidden="true" />수업 자료 미리 보기
             </button>
             <button type="button" onClick={onTeacher} disabled={busy}>
               <GraduationCap size={17} aria-hidden="true" />교사 공간
