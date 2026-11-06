@@ -145,11 +145,6 @@ export const stages: StageDef[] = [
     goal: activityLessons[1].goal, totalMinutes: 45,
     steps: [
       step(2, 0, {
-        name: '1차시 마무리하고 이어가기', resource: 'previous',
-        prompt: '1차시에서 남은 기록을 먼저 끝낸 뒤, 우리 질문을 이어서 봅니다.',
-        fields: [],
-      }),
-      step(2, 1, {
         name: '우리 미션 초안 만들기', resource: 'destinations',
         prompt: '자료 하나를 읽고, 우리 질문에 답하기 위한 미션 초안을 짧게 만드세요.',
         fields: [
@@ -167,7 +162,7 @@ export const stages: StageDef[] = [
           f('response', '어려움에 대비할 방법', '', undefined, optionalLine),
         ],
       }),
-      step(2, 2, {
+      step(2, 1, {
         name: 'AI에게 묻고 문장 고르기', resource: 'ai2',
         prompt: '우리 초안을 AI에 보내고, 자료로 확인할 문장 하나만 고르세요.',
         fields: [
@@ -176,7 +171,7 @@ export const stages: StageDef[] = [
           f('claim2', 'AI 답에서 확인할 문장 1개', '맞는지 확인하면 우리 계획이 달라질 수 있는 문장을 고르세요.', undefined, { ...oneLine, scaffold: 'AI 답에서 자료로 확인해 볼 문장 하나를 그대로 옮깁니다.' }),
         ],
       }),
-      step(2, 3, {
+      step(2, 2, {
         name: '자료로 확인하고 계획 고치기', resource: 'verify2',
         prompt: 'AI 문장 하나를 우리가 읽은 자료와 비교하고, 그 판단을 계획에 반영하세요.',
         fields: [
@@ -190,7 +185,7 @@ export const stages: StageDef[] = [
           f('revision', '그래서 유지하거나 고친 계획', '', undefined, { scaffold: '자료를 확인한 결과, 우리 계획의 ______을 그대로 둔다 / ______로 고친다.' }),
         ],
       }),
-      step(2, 4, {
+      step(2, 3, {
         name: '환경 조사 시작하고 내 판단 남기기', resource: 'environment2',
         prompt: '우리 미션에 중요한 환경 조건 하나만 조사하고, 각자 오늘의 판단을 남기세요.',
         fields: [
