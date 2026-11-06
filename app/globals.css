@@ -1260,7 +1260,7 @@ td .text-btn{font-size:var(--small-size)}
 .space-scene{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .space-scene-image{position:absolute;inset:-2%;background:linear-gradient(0deg,#07111e 4%,#07111e00 58%),linear-gradient(90deg,#07111e99 0%,#07111e33 46%,transparent 65%),var(--landing-scene) center top / cover no-repeat;transform-origin:78% 30%;animation:space-camera-drift 48s ease-in-out infinite alternate}
 .space-scene-light{position:absolute;width:270px;height:270px;top:-150px;right:20%;border-radius:50%;background:radial-gradient(circle,#fff4d3a3 0,#eebf7352 14%,#eebf731a 38%,transparent 68%);mix-blend-mode:screen;animation:space-light-drift 18s ease-in-out infinite alternate}
-.space-probe-track{position:absolute;top:27%;right:14%;width:66px;filter:drop-shadow(0 4px 7px #02081099);animation:space-probe-flight 38s ease-in-out infinite alternate}
+.space-probe-track{position:absolute;top:8%;left:62%;width:100px;filter:drop-shadow(0 0 8px #d7e9f040) drop-shadow(0 6px 9px #020810bb);animation:space-probe-flight 18s ease-in-out infinite alternate}
 .space-probe{width:100%;height:auto;display:block;transform:rotate(-25deg)}
 .space-cinematic .space-arrival{position:relative;flex:1;padding:0 0 30px;background:none}
 .space-cinematic .space-hero-grid{display:flex;align-items:center;min-height:clamp(300px,43svh,460px);padding:36px 0 30px}
@@ -1299,9 +1299,9 @@ td .text-btn{font-size:var(--small-size)}
 .space-cinematic[data-motion="paused"] :is(.space-scene-image,.space-scene-light,.space-probe-track){animation-play-state:paused}
 @keyframes space-camera-drift{from{transform:scale(1)}to{transform:scale(1.045) translateX(-.6%)}}
 @keyframes space-light-drift{from{opacity:.55}to{opacity:1}}
-@keyframes space-probe-flight{0%{transform:translate(50px,-35px) scale(.85)}50%{transform:translate(-40px,10px) scale(1)}100%{transform:translate(-150px,58px) scale(1.12)}}
+@keyframes space-probe-flight{0%{transform:translate(95px,-30px) scale(.9)}50%{transform:translate(20px,16px) scale(1)}100%{transform:translate(-50px,65px) scale(1.08)}}
 @keyframes space-title-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@media(min-width:1600px){.space-cinematic .space-probe-track{right:18%}.space-cinematic .space-hero-grid{min-height:460px}.home-mode .space-topbar{padding-inline:max(84px,calc((100vw - 1232px)/2))}}
+@media(min-width:1600px){.space-cinematic .space-probe-track{left:64%}.space-cinematic .space-hero-grid{min-height:460px}.home-mode .space-topbar{padding-inline:max(84px,calc((100vw - 1232px)/2))}}
 @media(max-width:1100px){
 .space-cinematic .space-entry-content{grid-template-columns:1fr;gap:15px;padding:23px 28px}
 .space-cinematic .space-entry-heading p{max-width:none}
@@ -1315,7 +1315,7 @@ td .text-btn{font-size:var(--small-size)}
 .space-cinematic .space-hero-copy{max-width:600px}
 .space-cinematic .space-hero-copy h1{font-size:clamp(36px,7vw,54px)}
 .space-cinematic .space-scene-image{background-position:60% top;background-size:auto 650px}
-.space-cinematic .space-probe-track{top:6%;right:12%;width:45px;animation-name:space-probe-flight-small}
+.space-cinematic .space-probe-track{top:1%;left:auto;right:12%;width:70px;animation-name:space-probe-flight-small}
 .space-cinematic .space-intro{font-size:17px;margin-top:22px;padding-left:14px}
 .space-cinematic .space-intro-break{display:inline}
 .space-cinematic .space-entry-heading h2{font-size:22px}
@@ -1348,4 +1348,23 @@ td .text-btn{font-size:var(--small-size)}
 .space-cinematic :is(.space-scene-image,.space-scene-light,.space-probe-track,.space-hero-copy){animation:none;transform:none}
 .space-cinematic .space-enter-button{transition:none}
 .space-cinematic .space-motion-toggle{display:none}
+}
+
+/* Restrained cover wordmark, with lesson copy sourced from the classroom. */
+.home-mode .brand-editorial{gap:21px;align-items:center;font-weight:500}
+.home-mode .brand-wordmark{font-size:27px;letter-spacing:.24em;line-height:1;margin-right:-.24em;font-weight:500;color:#f3f1ec}
+.home-mode .brand-caption{border-left:1px solid #8a98a65c;padding-left:20px;font-size:13px;letter-spacing:.12em;line-height:1.5;font-weight:400;color:#c4cbd3}
+.space-cinematic .space-journey-card strong{font-size:clamp(18px,1.65vw,23px);line-height:1.45;word-break:keep-all}
+.space-cinematic .space-journey-description{font-size:15px;line-height:1.75;margin:10px 0 0;color:#c5ced8;word-break:keep-all}
+.space-cinematic .space-journey-card:hover{background:transparent}
+@media(max-width:768px){
+.home-mode .brand-wordmark{font-size:23px;letter-spacing:.2em;margin-right:-.2em}
+.home-mode .brand-editorial{gap:15px}
+.home-mode .brand-caption{padding-left:15px;font-size:12px}
+.space-cinematic .space-journey-grid{grid-template-columns:1fr;padding:0}
+.space-cinematic .space-journey-card{display:grid;grid-template-columns:65px 1fr;align-items:baseline;padding:17px 0}
+.space-cinematic .space-journey-card+ .space-journey-card{border-left:0;border-top:1px solid #cfb57c30}
+.space-cinematic .space-journey-top{margin:0}
+.space-cinematic .space-journey-card strong{font-size:19px}
+.space-cinematic .space-journey-description{grid-column:2;margin-top:6px;font-size:14px}
 }

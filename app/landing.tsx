@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { stages } from './course';
 import { ArrowRight, BookOpen, GraduationCap, Pause, Play } from 'lucide-react';
 
 export type LandingProps = {
@@ -20,11 +21,8 @@ export type LandingProps = {
   entryLabel?: string;
 };
 
-const journey = [
-  { title: '질문 찾기', description: '탐사 자료와 AI의 설명을 비교하고, 우주를 탐사하는 이유를 생각해요.' },
-  { title: '탐사계획서 쓰기', description: '탐사지를 정하고 계획서를 쓴 뒤, 자료를 확인해 계획을 고쳐요.' },
-  { title: '보완하고 발표하기', description: '탐사지의 환경을 조사해 계획서를 보완하고 발표해요.' },
-];
+// Share lesson copy with the classroom so cover titles cannot drift.
+const journey = stages.map(({ number, title, subtitle }) => ({ number, title, description: subtitle }));
 
 function SpaceScene() {
   return <div className="space-scene" aria-hidden="true">
@@ -188,15 +186,16 @@ export default function Landing({
       <section className="space-journey" aria-label="차시별 활동">
         <div className="space-landing-inner">
           <div className="space-journey-grid">
-            {journey.map((lesson, index) => (
+            {journey.map((lesson) => (
               <div
                 className="space-journey-card"
                 key={lesson.title}
               >
                 <span className="space-journey-top">
-                  <span>{index + 1}차시</span>
+                  <span>{lesson.number}차시</span>
                 </span>
                 <strong>{lesson.title}</strong>
+                <p className="space-journey-description">{lesson.description}</p>
               </div>
             ))}
           </div>
