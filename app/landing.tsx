@@ -29,19 +29,7 @@ function SpaceScene() {
     <div className="space-scene-image" />
     <div className="space-scene-light" />
     <div className="space-probe-track">
-      <svg className="space-probe" viewBox="0 0 100 70" fill="none">
-        <defs>
-          <linearGradient id="probe-panel" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#91b4c5"/><stop offset="1" stopColor="#20384d"/></linearGradient>
-          <linearGradient id="probe-body" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff4d4"/><stop offset="1" stopColor="#a99679"/></linearGradient>
-        </defs>
-        <path d="M14 38H85" stroke="#e4dccb" strokeWidth="2"/>
-        <path d="M6 24H36V48H6zM64 24H94V48H64z" fill="url(#probe-panel)" stroke="#a7bcc9"/>
-        <path d="M16 24V48M26 24V48M74 24V48M84 24V48M6 32H36M6 40H36M64 32H94M64 40H94" stroke="#d0e2e9" strokeWidth=".65" opacity=".7"/>
-        <path d="M42 28L53 24L60 32V45L49 50L42 43z" fill="url(#probe-body)" stroke="#f3e6cb"/>
-        <path d="M49 28V18M49 46V60" stroke="#ddd9cf" strokeWidth="1.5"/>
-        <path d="M38 14Q49 29 61 14z" fill="#eee5d4" stroke="#fff6e5"/>
-        <path d="M49 14L53 6" stroke="#f1e8d6"/>
-      </svg>
+      <div className="space-probe" />
     </div>
   </div>;
 }
