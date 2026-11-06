@@ -1,6 +1,5 @@
 'use client';
 
-import { stages } from './course';
 import { ArrowRight, ArrowUpRight, BookOpen, GraduationCap, Ticket } from 'lucide-react';
 
 export type LandingProps = {
@@ -20,21 +19,11 @@ export type LandingProps = {
   entryLabel?: string;
 };
 
-const journey = stages.map(({ title, subtitle }) => ({ title, description: subtitle }));
-
-function SpacePlanet() {
-  return (
-    <div className="space-hero-art" aria-hidden="true">
-      <div className="space-starfield" />
-      <div className="space-planet-glow" />
-      <div className="space-orbit space-orbit-wide" />
-      <div className="space-orbit" />
-      <div className="space-planet" />
-      <div className="space-satellite" />
-      <div className="space-orbit-dot" />
-    </div>
-  );
-}
+const journey = [
+  { title: '질문 찾기', description: '탐사 자료와 AI의 설명을 비교하고, 우주를 탐사하는 이유를 생각해요.' },
+  { title: '탐사계획서 쓰기', description: '탐사지를 정하고 계획서를 쓴 뒤, 자료를 확인해 계획을 고쳐요.' },
+  { title: '보완하고 발표하기', description: '탐사지의 환경을 조사해 계획서를 보완하고 발표해요.' },
+];
 
 export default function Landing({
   code,
@@ -60,35 +49,34 @@ export default function Landing({
   const setEntryPart = (classNo: string, number: string) => onCodeChange(`${classNo}-${number.replace(/\D/g, '').slice(0, 2)}`);
 
   return (
-    <main className="space-landing" id="space-landing-main">
+    <main className="space-landing space-landing-redesign" id="space-landing-main">
       <section className="space-arrival" aria-labelledby="space-arrival-title">
         <div className="space-landing-inner">
           <div className="space-hero-grid">
             <div className="space-hero-copy">
-              <p className="space-eyebrow">우리의 우주 탐사 미션</p>
+              <p className="space-eyebrow">SPACE · 우주 탐사 프로젝트</p>
               <h1 id="space-arrival-title">
-                기록에서 질문을,
+                우리는 어디를
                 <br />
-                <span>질문에서 탐사를.</span>
+                <span>어떻게 탐사할까?</span>
               </h1>
               <p className="space-intro">
-                탐사 기록에서 질문을 찾고,
+                탐사 자료를 읽고, 근거를 확인해
                 <br className="space-intro-break" />
-                근거를 확인하며 우리 미션을 설계해요.
+                우리 모둠의 탐사계획서를 만듭니다.
               </p>
             </div>
-            <SpacePlanet />
           </div>
 
           <section className="space-entry-ticket" aria-labelledby="space-entry-title">
             <div className="space-ticket-stub" aria-hidden="true">
               <Ticket size={30} strokeWidth={1.5} />
-              <span>{effectiveReviewOnly ? '수업' : '나의'}<br />{effectiveReviewOnly ? '체험' : '입장권'}</span>
+              <span>수업<br />{effectiveReviewOnly ? '체험' : '입장'}</span>
             </div>
             <div className="space-entry-content">
               <div className="space-entry-heading">
-                <h2 id="space-entry-title">{effectiveReviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호로 탐사실 입장' : '나의 탐사실 입장'}</h2>
-                <p>{effectiveReviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? (entryLabel || `3학년 ${entryClasses.join('·')}반과 자신의 번호를 입력하세요.`) : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
+                <h2 id="space-entry-title">{effectiveReviewOnly ? '수업 내용 검토' : simpleEntryPreview ? '반과 번호를 입력하세요' : '나의 탐사실 입장'}</h2>
+                <p id={simpleEntryPreview ? 'space-code-help' : undefined}>{effectiveReviewOnly ? '1~3차시 자료와 활동을 열고 직접 작성해 볼 수 있어요.' : simpleEntryPreview ? '같은 반·번호로 들어오면 지난 기록을 이어 쓸 수 있어요.' : '선생님에게 받은 개인 접속 코드를 입력하세요.'}</p>
               </div>
               {effectiveReviewOnly ? (
                 <div className="space-review-entry">
@@ -162,7 +150,7 @@ export default function Landing({
                   </div>
                 )}
                 <button className="space-enter-button" type="submit" disabled={busy || (simpleEntryPreview ? !simpleEntryValid : !code.trim())}>
-                  <span>{busy ? '입장하는 중' : '탐사실 입장하기'}</span>
+                  <span>{busy ? '입장하는 중' : '수업 시작하기'}</span>
                   <ArrowRight size={20} aria-hidden="true" />
                 </button>
               </form>
@@ -196,7 +184,6 @@ export default function Landing({
               >
                 <span className="space-journey-top">
                   <span>{index + 1}차시</span>
-                  <span className="space-journey-number">0{index + 1}</span>
                 </span>
                 <strong>{lesson.title}</strong>
                 <span className="space-journey-description">{lesson.description}</span>
@@ -213,7 +200,6 @@ export default function Landing({
 
       <footer className="space-landing-footer">
         <div className="space-landing-inner">
-          <p>함께 탐구하고, 각자의 생각을 남깁니다.</p>
           <div className="space-footer-links">
             <button type="button" onClick={onReview} disabled={busy}>
               <BookOpen size={16} aria-hidden="true" />검토 안내
