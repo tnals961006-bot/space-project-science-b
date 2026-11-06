@@ -1243,3 +1243,11 @@ td .text-btn{font-size:var(--small-size)}
 .draft-activity-guide .draft-output{padding-top:14px;border-top:1px solid #c8d9e3;font-size:15px}
 .draft-source .destination-cards{padding:16px}
 @media(max-width:900px){.draft-activity-guide ol{grid-template-columns:1fr}.draft-activity-guide{padding:18px}}
+
+/* Keep activity names intact at each text size. */
+.step-list button>span:nth-child(2){white-space:nowrap}
+.step-list .ai-badge{flex-shrink:0}
+@media screen and (min-width:769px){
+  .workspace{grid-template-columns:max-content minmax(0,1fr)}
+  .sidebar{min-width:220px}
+}
