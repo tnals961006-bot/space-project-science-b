@@ -1,5 +1,6 @@
 'use client';
 
+import { stages } from './course';
 import { ArrowRight, ArrowUpRight, BookOpen, GraduationCap, Ticket } from 'lucide-react';
 
 export type LandingProps = {
@@ -19,20 +20,7 @@ export type LandingProps = {
   entryLabel?: string;
 };
 
-const journey = [
-  {
-    title: '자료에서 질문 찾기',
-    description: '확인한 사실과 더 알아볼 질문을 구분해요.',
-  },
-  {
-    title: '우리 미션 설계하기',
-    description: '앞서 찾은 근거로 초안을 만들고 검증해요.',
-  },
-  {
-    title: '제안서 다듬고 나누기',
-    description: '같은 제안서를 보완해 우리의 탐사를 소개해요.',
-  },
-];
+const journey = stages.map(({ title, subtitle }) => ({ title, description: subtitle }));
 
 function SpacePlanet() {
   return (
@@ -195,7 +183,6 @@ export default function Landing({
         <div className="space-landing-inner">
           <div className="space-journey-heading">
             <h2 id="space-journey-title">우리의 탐사 여정</h2>
-            <p>세 번의 수업, 차시마다 45분</p>
           </div>
           <div className="space-journey-grid">
             {journey.map((lesson, index) => (

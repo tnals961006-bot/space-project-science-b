@@ -83,7 +83,7 @@ function step(lesson: number, index: number, value: Pick<StepDef, 'name' | 'reso
 export const stages: StageDef[] = [
   {
     number: 1, title: '탐사 자료에서 질문 찾기', short: '질문 발견',
-    subtitle: '탐사 자료에서 확인한 사실을 바탕으로 더 알아볼 질문을 만듭니다.',
+    subtitle: '탐사 자료를 비교해 질문을 만들고, 조사할 곳을 정해요.',
     goal: activityLessons[0].goal, totalMinutes: 45,
     steps: [
       step(1, 0, {
@@ -141,8 +141,8 @@ export const stages: StageDef[] = [
     ],
   },
   {
-    number: 2, title: '근거로 우리 미션 설계하기', short: '미션 설계',
-    subtitle: '탐사계획서 초안을 쓰고, AI의 문장을 자료로 확인해 계획을 고칩니다.',
+    number: 2, title: '탐사계획서 초안 쓰기', short: '계획서 작성',
+    subtitle: '탐사계획서 초안을 쓰고, AI의 제안을 자료로 확인해 계획을 고쳐요.',
     goal: activityLessons[1].goal, totalMinutes: 45,
     steps: [
       step(2, 0, {
@@ -207,8 +207,8 @@ export const stages: StageDef[] = [
     ],
   },
   {
-    number: 3, title: '제안서 보완하고 발표하기', short: '보완과 공유',
-    subtitle: '같은 제안서를 보완하고 근거를 들어 판단한 이유를 설명합니다.',
+    number: 3, title: '탐사계획서 보완하고 발표하기', short: '보완과 공유',
+    subtitle: '환경 조사와 검토 결과를 반영해 탐사계획서를 완성하고 발표해요.',
     goal: activityLessons[2].goal, totalMinutes: 45,
     steps: [
       step(3, 0, {
