@@ -162,7 +162,7 @@ export function EnvironmentTable({rows}:{rows:Row[]}) {
   const v=recordMap(rows);
   return <section className="environment-table"><h3>탐사지 환경 조사표</h3><p className="hint">조사한 장소와 시기, 수치의 단위를 함께 확인해요.</p>{[1,2].map(i=><div className="environment-row" key={i}><h4>{v['env'+i]||`환경 ${i}`}</h4><dl><dt>확인한 정보와 조건</dt><dd>{v['envInfo'+i]||'미작성'}</dd><dt>자료 번호와 출처</dt><dd>{v['envSource'+i]||'미작성'}</dd><dt>예상 어려움과 대응</dt><dd>{v['envResponse'+i]||'미작성'}</dd>{v['envReview'+i]&&<><dt>3차시에서 보완한 점</dt><dd>{v['envReview'+i]}</dd></>}</dl></div>)}</section>;
 }
-export function Proposal({rows,label='우리 모둠 제안서'}:{rows:Row[];label?:string}) {
+export function Proposal({rows,label='우리 모둠 탐사계획서'}:{rows:Row[];label?:string}) {
   const v=recordMap(rows);
   const sections=[['탐사 목표',v.goal],['선택한 까닭',v.selectionReason],['관찰하거나 측정할 대상',v.target],['얻으려는 자료',v.data],['자료를 얻는 방법과 이유',v.method],['예상 어려움',v.difficulty],['필요한 기술과 대응',[v.technology,v.response].filter(Boolean).join('\n')],['검증 후 반영한 내용',v.revision],['탐사의 의의와 영향',[v.evidenceRef?evidenceLabel(v.evidenceRef):'',v.meaning].filter(Boolean).join('\n')],['우리 미션에서 기대하는 것',v.expectation],['남은 한계와 확인할 점',v.limitation]];
   return <article className="proposal"><p className="eyebrow">{label}</p><h2>{v.missionName||'우리 탐사 미션'}</h2><p className="destination-pill">{v.destination==='다른 탐사지'?v.otherDestination||'탐사지 미작성':v.destination||'탐사지 선택 전'}</p><div className="proposal-question">{v.question||'우리 모둠의 질문을 작성해 주세요.'}</div><InquiryTrail rows={rows}/><div className="proposal-grid">{sections.map(([title,value])=><section key={title}><h4>{title}</h4><p>{value?.trim()||'아직 작성하지 않았어요.'}</p></section>)}</div><EnvironmentTable rows={rows}/></article>;

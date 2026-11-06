@@ -70,10 +70,10 @@ const optional = { optional: true };
 const optionalLine = { optional: true, compact: true };
 const apolloOptions = ['자료에서 직접 확인되는 사실', '자료를 바탕으로 내린 해석'];
 
-function step(lesson: number, index: number, value: Pick<StepDef, 'name' | 'resource' | 'prompt' | 'fields'>): StepDef {
+function step(lesson: number, index: number, value: Pick<StepDef, 'resource' | 'prompt' | 'fields'>): StepDef {
   const original = activityLessons[lesson - 1].steps[index];
   return {
-    id: original.id, minutes: original.minutes,
+    id: original.id, name: original.title, minutes: original.minutes,
     instructions: original.instructions, doneWhen: original.doneWhen,
     recordTargets: value.fields.map((field) => field.key), notebookRecordTargets: original.recordTargets,
     ...value,
@@ -87,12 +87,12 @@ export const stages: StageDef[] = [
     goal: activityLessons[0].goal, totalMinutes: 45,
     steps: [
       step(1, 0, {
-        name: '내 생각 쓰기', resource: 'intro',
+        resource: 'intro',
         prompt: '자료를 보기 전, 왜 우주를 탐사한다고 생각하는지 한 문장으로 쓰세요.',
         fields: [p('first', '우주를 탐사하는 이유', '', undefined, { ...oneLine, scaffold: '나는 우주를 탐사하는 이유가 ______이라고 생각한다.', placeholder: '빈칸에 들어갈 내 생각을 직접 써 보세요.' })],
       }),
       step(1, 1, {
-        name: '사실인지 해석인지 고르기', resource: 'apollo',
+        resource: 'apollo',
         prompt: '아폴로 13호 자료를 읽고 두 문장을 사실 또는 해석으로 분류하세요.',
         fields: [
           f('apolloA', '첫 문장의 종류', '', apolloOptions),
@@ -102,7 +102,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 2, {
-        name: '탐사 두 개 비교하기', resource: 'data',
+        resource: 'data',
         prompt: '탐사 두 개를 골라 같은 항목을 비교하고, 차이와 질문을 기록하세요.',
         fields: [
           f('comparison', '비교할 탐사 두 개', '서로 다른 탐사 두 개를 고르세요.', undefined, { input: 'mission-pair', section: '1 탐사 고르기', scaffold: '① 첫 번째 탐사 선택 → ② 두 번째 탐사 선택 → ③ 두 탐사의 같은 항목을 비교합니다.' }),
@@ -115,7 +115,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 3, {
-        name: 'AI와 비교하기', resource: 'ai1',
+        resource: 'ai1',
         prompt: '우리가 고른 문장과 같은 내용을 말한 AI 문장 1개를 찾아 비교하세요.',
         fields: [
           f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { hidden: true }),
@@ -126,7 +126,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(1, 4, {
-        name: '오늘의 결론 쓰기', resource: 'evidence',
+        resource: 'evidence',
         prompt: '영향카드에서 확인한 사실을 근거로 우주를 탐사하는 이유를 쓰고, 처음 생각과 비교하세요.',
         fields: [
           f('evidenceRef', '읽은 영향카드', '우주를 탐사하는 이유를 설명할 때 예로 들 카드 1개를 고르세요.', evidenceCards.map(card => card.id)),
@@ -143,7 +143,7 @@ export const stages: StageDef[] = [
     goal: activityLessons[1].goal, totalMinutes: 45,
     steps: [
       step(2, 0, {
-        name: '탐사지 고르고 계획서 쓰기', resource: 'destinations',
+        resource: 'destinations',
         prompt: '1차시 질문을 조사할 탐사지를 고르고, 자료를 읽어 탐사 질문·관찰할 대상·조사 방법을 정하세요.',
         fields: [
           f('destination', '우리 질문을 알아볼 곳', '우리 모둠이 조사해 보고 싶은 장소를 직접 정하세요.', undefined, { input: 'destination-free', section: '1. 탐사지 고르기', scaffold: '위에 보이는 우리 모둠 질문을 더 알아보기 좋은 장소를 직접 정합니다.' }),
@@ -164,7 +164,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(2, 1, {
-        name: 'AI에게 묻고 문장 고르기', resource: 'ai2',
+        resource: 'ai2',
         prompt: '탐사계획서 초안을 AI에 보내고, 자료로 확인할 문장 하나만 고르세요.',
         fields: [
           f('route2', '검토 방법', '', ['직접 AI 대화'], { hidden: true }),
@@ -173,7 +173,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(2, 2, {
-        name: '자료로 확인하고 계획 고치기', resource: 'verify2',
+        resource: 'verify2',
         prompt: 'AI 문장 하나를 우리가 읽은 자료와 비교하고, 그 판단을 계획에 반영하세요.',
         fields: [
           f('verifySource', '자료에서 확인한 내용', 'AI 문장과 직접 비교한 자료 내용을 쓰세요.', undefined, { section: '1 자료와 비교하기', scaffold: '자료에서는 ______이라고 확인했다.' }),
@@ -187,7 +187,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(2, 3, {
-        name: '근거를 들어 나의 판단 쓰기', resource: 'summary2',
+        resource: 'summary2',
         prompt: '내가 확인한 자료를 근거로, 우리 계획을 유지하거나 수정하거나 보류해야 한다고 생각한 이유를 각자 쓰세요.',
         fields: [
           p('myEvidence', '내가 확인한 근거', '', undefined, optionalLine),
@@ -204,7 +204,7 @@ export const stages: StageDef[] = [
     goal: activityLessons[2].goal, totalMinutes: 45,
     steps: [
       step(3, 0, {
-        name: '환경 조사하고 보완점 찾기', resource: 'environment3',
+        resource: 'environment3',
         prompt: '우리 탐사지의 중요한 환경 조건을 조사하고, 그 조건 때문에 계획에서 보완할 점을 찾으세요.',
         fields: [
           f('env1', '우리 미션에 중요한 환경 조건 1개', '중력, 온도, 대기, 방사선, 물, 햇빛 등을 생각해 보세요.', undefined, { section: '1 환경 조건 하나 조사하기', ...oneLine }),
@@ -218,7 +218,7 @@ export const stages: StageDef[] = [
         ],
       }),
       step(3, 1, {
-        name: '제안서 보완', resource: 'editProposal',
+        resource: 'editProposal',
         prompt: '2차시 탐사계획서에 방금 조사한 환경 조건과 대비 방법을 반영하세요. 탐사지의 실제 환경과 장비나 기지 안에서 조절할 조건을 구분하세요.',
         fields: [
           f('expectation', '새로 얻고 싶은 지식과 기대하는 도움', '아직 기대하는 효과를 이미 얻은 성과처럼 쓰지 마세요.'),
@@ -228,35 +228,35 @@ export const stages: StageDef[] = [
         ],
       }),
       step(3, 2, {
-        name: '비판 질문 검토', resource: 'ai3',
+        resource: 'ai3',
         prompt: 'AI나 동료에게 받은 질문 하나를 검토하세요. 근거를 보고 반영할지, 반영하지 않을지, 더 확인할지 결정하세요.',
         fields: [
           f('route3', '질문을 받은 방법', '', routes),
           f('critique', '검토한 질문 하나', '', undefined, oneLine),
           f('critiqueDecision', '우리 판단', '수용은 반영, 기각은 반영하지 않음, 보류는 추가 확인입니다.', ['수용', '기각', '보류']),
           f('critiqueReason', '확인한 근거와 판단 이유'),
-          f('critiqueRevision', '유지하거나 고친 제안서 내용', '실제 제안서의 해당 칸도 함께 고치세요.'),
+          f('critiqueRevision', '유지하거나 고친 탐사계획서 내용', '실제 탐사계획서의 해당 칸도 함께 고치세요.'),
         ],
       }),
       step(3, 3, {
-        name: '짝 모둠 발표', resource: 'present',
-        prompt: '모둠마다 3분 동안 제안서와 환경표를 보여 주며 발표하세요. 서로 질문을 주고받고 받은 의견을 검토하세요. 전체 모둠이 읽을 수 있게 제안서를 게시하세요.',
+        resource: 'present',
+        prompt: '모둠마다 3분 동안 탐사계획서와 환경표를 보여 주며 발표하세요. 서로 질문을 주고받고 받은 의견을 검토하세요. 전체 모둠이 읽을 수 있게 탐사계획서를 게시하세요.',
         fields: [
           f('peerStrength', '짝 모둠이 설득력 있다고 본 근거', '받은 의견을 한 줄로 남기세요.', undefined, oneLine),
           f('peerQuestion', '짝 모둠이 더 확인하고 싶어 한 점', '', undefined, oneLine),
-          f('peerResponse', '피드백을 반영한 내용 또는 보류한 이유', '고칠 내용이 있다면 같은 제안서에서 수정하세요.', undefined, optionalLine),
+          f('peerResponse', '피드백을 반영한 내용 또는 보류한 이유', '고칠 내용이 있다면 같은 탐사계획서에서 수정하세요.', undefined, optionalLine),
         ],
       }),
       step(3, 4, {
-        name: '전체 제안서 읽고 추천', resource: 'gallery',
-        prompt: '학급의 전체 제안서를 둘러보세요. 우리 모둠을 제외한 미션 하나를 골라 실제 근거와 함께 추천하세요.',
+        resource: 'gallery',
+        prompt: '학급의 전체 탐사계획서를 둘러보세요. 우리 모둠을 제외한 미션 하나를 골라 실제 근거와 함께 추천하세요.',
         fields: [
           p('recommend', '추천하는 모둠과 탐사지', '', undefined, oneLine),
           p('recommendReason', '추천 이유', '필요성, 근거, 환경에 대비하는 방법 중 어떤 내용이 설득력 있었나요?'),
         ],
       }),
       step(3, 5, {
-        name: '생각 돌아보기와 다음 탐사', resource: 'reflection',
+        resource: 'reflection',
         prompt: '첫 생각과 지금 생각을 비교하고 근거를 남기세요. 기록을 보관한 뒤 마지막 1분에 미래 탐사의 새로운 상황을 읽으세요.',
         fields: [
           p('reflection', '내 생각이 달라지거나 구체화된 점', '1차시 첫 생각을 읽고 근거가 된 자료 번호와 함께 쓰세요.'),
