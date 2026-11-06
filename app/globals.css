@@ -1282,7 +1282,7 @@ td .text-btn{font-size:var(--small-size)}
 .space-cinematic .space-simple-entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .space-cinematic .space-code-field label{font-size:15px;line-height:1.5;margin-bottom:7px;color:#f1eee6;font-weight:600}
 .space-cinematic .space-code-field :is(input,select){height:54px;min-height:54px;width:100%;font-size:18px;padding:10px 12px;background:#f7f2e8;border:1px solid #e6dbc7;border-radius:5px;color:#142638;color-scheme:light}
-.space-cinematic .space-code-field input::placeholder{color:#64717b;opacity:1}
+.space-cinematic .space-code-field input::placeholder{color:#5f6b75;opacity:1}
 .space-cinematic .space-code-field :is(input,select):focus-visible{outline:2px solid #ebcf9e;outline-offset:3px;border-color:#ebcf9e;box-shadow:none}
 .space-cinematic .space-enter-button{min-height:54px;padding:12px 18px;border-radius:5px;background:#f3d19e;border:1px solid #f3d19e;color:#12202b!important;font-size:18px;font-weight:650;gap:16px;transition:background .2s,box-shadow .2s}
 .space-cinematic .space-enter-button:hover:not(:disabled){background:#ffebcb;box-shadow:0 4px 22px #e9d6b826}
