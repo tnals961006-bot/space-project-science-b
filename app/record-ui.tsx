@@ -108,6 +108,7 @@ function FieldView({def,row,disabled=false,record,comparisonValue,legacyReferenc
     <div className="field-heading">{grouped?<span className="field-group-label" id={cacheKey+'-heading'}>{clean(def.label)}</span>:<label htmlFor={def.input==='mission-pair'?cacheKey+'-0':cacheKey}>{clean(def.label)}{def.optional&&<small className="optional-label"> 선택</small>}</label>}<span className={'field-owner '+(def.personal?'purple':'')}>{def.personal?<UserRound size={13}/>:<Users size={13}/>} {def.personal?'나의 기록':'모둠 기록'}</span></div>
     {def.hint&&<p className="hint">{clean(def.hint)}</p>}
     {def.scaffold&&<div className="writing-scaffold"><span>문장틀</span><p>{clean(def.scaffold)}</p></div>}
+    {def.example&&<div className="writing-scaffold"><span>예시답안 · 가상 탐사 자료</span><p><b>예시 자료</b><br/>{def.example.source}</p><p><b>이렇게 쓸 수 있어요</b><br/>{def.example.answer}</p><p className="hint">{def.example.note}</p></div>}
     {readOnly?<Readback title="보관 중인 이전 입력" value={recordValueText(def.key,value,context)}/>:def.input==='destination-free'?<>
       <textarea {...props} rows={2} placeholder="탐사지 이름을 직접 써 보세요."/>
       <div className="destination-examples"><span>막힐 때 참고할 예시</span><p>달 남극 · 화성 · 유로파</p><small>꼭 이 셋 중에서 고를 필요는 없습니다. 다른 행성, 위성, 소행성도 가능합니다.</small></div>

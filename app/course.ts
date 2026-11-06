@@ -47,6 +47,7 @@ export type FieldDef = {
   key: string; label: string; hint?: string; options?: string[]; personal?: boolean;
   optional?: boolean; compact?: boolean; section?: string; dependsOn?: string[];
   input?: 'mission-pair' | 'mission-evidence' | 'inquiry-gap' | 'explanation-choice' | 'destination-free'; placeholder?: string; scaffold?: string; hidden?: boolean;
+  example?: { source: string; answer: string; note: string };
 };
 export type StepDef = {
   id: string; name: string; minutes: number; resource: string; prompt: string;
@@ -119,7 +120,7 @@ export const stages: StageDef[] = [
         fields: [
           f('route1', 'AI 답을 확인한 방법', '', aiRoutes, { hidden: true }),
           f('claim1', 'AI 답에서 찾은 비슷한 내용의 문장', '', undefined, { ...oneLine, scaffold: '위의 우리 문장과 같은 내용을 말한 AI 문장 1개만 찾아 그대로 옮깁니다.', placeholder: '우리 문장과 비슷한 내용을 말한 AI 문장 1개를 옮겨 쓰세요.' }),
-          f('check1', '활동 3의 두 탐사 자료에서 확인한 내용', '', undefined, { scaffold: '활동 3에서 비교한 ______ 탐사 자료에서 ______을 확인했다.', placeholder: '탐사 이름과 자료에서 확인한 사실을 쓰세요.' }),
+          f('check1', '활동 3의 두 탐사 자료에서 확인한 내용', '우리 문장과 AI 문장이 자료와 맞는지 확인하세요. 두 탐사의 기록 중 판단에 필요한 내용을 탐사 이름과 함께 쓰세요.', undefined, { example: { source: '탐사 가: 표면 사진을 찍었다. / 탐사 나: 토양을 채취했다.', answer: '탐사 가는 표면 사진을 찍었고, 탐사 나는 토양을 채취했다는 내용을 자료에서 확인했다.', note: '작성 방법을 보여 주는 가상 자료입니다. 아래에는 우리 모둠이 활동 3에서 고른 실제 탐사 자료를 보고 쓰세요. 필요한 내용이 자료에 없다면 무엇이 없는지 써도 됩니다.' }, placeholder: '우리 문장과 AI 문장을 확인하는 데 필요한 자료 내용을 쓰세요.' }),
           f('compare1', '우리 문장과 AI 문장 비교', '', undefined, { ...oneLine, scaffold: '우리 문장과 AI 문장은 ______은 같고, ______은 다르다.', placeholder: '같은 점 또는 다른 점을 직접 찾아 쓰세요.' }),
           f('decision1', '우리 문장을 그대로 둘지 고칠지', '', undefined, { scaffold: '활동 3의 두 탐사 자료에서 ______을 확인했다. 그래서 우리 문장을 그대로 둔다 / ______로 고친다.', placeholder: '그대로 둘지 고칠지와 이유를 쓰세요.' }),
         ],
