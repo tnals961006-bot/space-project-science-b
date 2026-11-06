@@ -260,6 +260,10 @@ export const storyTransition = activity.storyTransition;
 const destinationAliases: Record<string, string> = {
   '달 남극': 'moon_south_pole', '달의 남극 지역': 'moon_south_pole',
   '화성': 'mars', '유로파': 'europa', '목성의 위성 유로파': 'europa',
+  '달 남극 (Lunar South Pole)': 'moon_south_pole', 'Lunar South Pole': 'moon_south_pole',
+  '화성 예제로 충돌구': 'mars', '화성 예제로 충돌구 (Jezero Crater, Mars)': 'mars',
+  'Jezero Crater, Mars': 'mars', 'Jezero Crater': 'mars',
+  '유로파 (Europa)': 'europa', 'Europa': 'europa',
 };
 export function getReadingCard(destination?: string): ReadingCard | undefined {
   if (!destination) return undefined;
