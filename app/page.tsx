@@ -368,7 +368,10 @@ export default function App(){
       {panel==='lesson'&&current.id==='l2-draft'&&<section className="draft-activity-guide" aria-label="10분 활동 안내">
         <h2>10분 동안 할 일</h2>
         <p>기술 수업으로 가져갈 <strong>탐사계획서</strong>를 시작합니다. 오늘은 <strong>무엇을 알아볼지, 무엇을 관찰할지, 어떻게 조사할지</strong> 정해 씁니다.</p>
-        <ol>{current.instructions.map(instruction=><li key={instruction}>{instruction}</li>)}</ol>
+        <ol>{current.instructions.map(instruction=>{
+          const [title,...description]=instruction.split(' — ');
+          return <li key={title}><h3>{title}</h3><p>{description.join(' — ')}</p></li>;
+        })}</ol>
         <p className="draft-output"><strong>완료 기준</strong> 자료 이름·확인한 사실과 탐사 질문·관찰 대상·조사 방법, 총 5칸을 쓰고 모둠원과 점검하세요. 이후 AI 검토와 환경 조사를 반영해 탐사계획서를 보완합니다.</p>
       </section>}
       {panel==='lesson'&&stage<=1&&lessonFlow&&<section className={'now-card '+(!lessonFlow.focus?'is-done':'')}><div className="now-card-label">지금 할 일</div><h2>{lessonFlow.title}</h2>{lessonFlow.detail&&<p>{lessonFlow.detail}</p>}<div className="now-progress">{lessonFlow.parts.map((part,i)=><span key={part.label} className={part.done?'done':''}><b>{part.done?'✓':i+1}</b>{part.label}</span>)}</div></section>}{values.teacherFeedback&&<div className="teacher-note"><GraduationCap size={18}/><div><b>선생님 피드백</b><p>{values.teacherFeedback}</p></div></div>}

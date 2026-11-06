@@ -1240,6 +1240,7 @@ td .text-btn{font-size:var(--small-size)}
 .draft-activity-guide p{margin:0;line-height:1.8}
 .draft-activity-guide ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:18px 0}
 .draft-activity-guide li{padding:16px;background:#fff;border:1px solid #d7e2e9;border-radius:10px;line-height:1.8}
+.draft-activity-guide li h3{margin:0 0 8px;font-size:1em;font-weight:700;line-height:1.5;word-break:keep-all}
 .draft-activity-guide .draft-output{padding-top:14px;border-top:1px solid #c8d9e3;font-size:15px}
 .draft-source .destination-cards{padding:16px}
 @media(max-width:900px){.draft-activity-guide ol{grid-template-columns:1fr}.draft-activity-guide{padding:18px}}
