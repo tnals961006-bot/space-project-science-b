@@ -141,22 +141,22 @@ export const stages: StageDef[] = [
   },
   {
     number: 2, title: '근거로 우리 미션 설계하기', short: '미션 설계',
-    subtitle: '질문에서 미션 초안을 만들고, AI의 문장을 자료로 확인해 계획을 고칩니다.',
+    subtitle: '탐사계획서 초안을 쓰고, AI의 문장을 자료로 확인해 계획을 고칩니다.',
     goal: activityLessons[1].goal, totalMinutes: 45,
     steps: [
       step(2, 0, {
-        name: '우리 미션 초안 만들기', resource: 'destinations',
-        prompt: '자료 하나를 읽고, 우리 질문에 답하기 위한 미션 초안을 짧게 만드세요.',
+        name: '탐사계획서 초안 쓰기', resource: 'destinations',
+        prompt: '자료를 근거로 탐사 질문·관찰할 대상·조사 방법을 정해 탐사계획서 초안을 쓰세요.',
         fields: [
-          f('additionalRef', '확인한 추가 자료', '기관명·자료명 또는 링크를 남기세요.', undefined, { ...oneLine, section: '1 자료 하나 확인하기', scaffold: '확인한 자료: ______' }),
-          f('additionalFact', '그 자료에서 새로 알게 된 사실', '', undefined, { ...oneLine, scaffold: '자료에서 ______을 확인했다.' }),
+          f('additionalRef', '읽은 자료의 이름·출처', '펼쳐 읽은 자료의 제목 또는 기관명·링크를 적으세요.', undefined, { ...oneLine, section: '1. 자료에서 근거 찾기 · 3분', scaffold: '확인한 자료: ______' }),
+          f('additionalFact', '우리 질문에 도움이 되는 사실 1개', '자료에서 실제로 확인한 내용 한 가지만 쓰세요.', undefined, { ...oneLine, scaffold: '자료에서 ______을 확인했다.' }),
           f('task', '더 조사할 내용', '', undefined, { ...optionalLine }),
-          f('question', '우리 미션 질문', '어디에서 무엇을 조사해 무엇을 알아볼지 질문으로 쓰세요.', undefined, { ...oneLine, section: '2 미션 초안 쓰기', scaffold: '우리는 ______에서 ______을 조사해 ______을 알아볼까?' }),
+          f('question', '탐사 질문 · 무엇을 알아볼까?', '1차시 질문을 우리 탐사지에서 조사할 수 있는 질문으로 좁혀 쓰세요.', undefined, { ...oneLine, section: '2. 탐사계획서 초안 쓰기 · 5분', scaffold: '우리는 ______에서 ______을 조사해 ______을 알아볼까?' }),
           f('missionName', '우리 미션 이름', '이름은 나중에 정해도 됩니다.', undefined, optionalLine),
           f('goal', '탐사 목표', '', undefined, optionalLine),
           f('target', '관측할 대상', '', undefined, optionalLine),
-          f('data', '얻을 자료', '', undefined, { ...oneLine, scaffold: '우리는 ______을 관찰하거나 측정한다.' }),
-          f('method', '자료를 얻는 방법', '', undefined, { scaffold: '______을 사용해 ______을 알아본다.' }),
+          f('data', '관찰·측정할 대상 · 무엇을 확인할까?', '질문에 답하려면 어떤 모습이나 값을 알아야 하는지 쓰세요.', undefined, { ...oneLine, scaffold: '질문에 답하기 위해 ______의 모습 / ______의 값을 확인한다.' }),
+          f('method', '조사 방법 · 어떻게 확인할까?', '촬영·측정·시료 채취 등으로 어떻게 자료를 얻을지 쓰세요.', undefined, { scaffold: '______을 사용해 ______을 관찰 / 측정 / 채취한다.' }),
           f('difficulty', '예상되는 어려움', '', undefined, optionalLine),
           f('technology', '필요할 것 같은 기술', '', undefined, optionalLine),
           f('response', '어려움에 대비할 방법', '', undefined, optionalLine),
@@ -164,7 +164,7 @@ export const stages: StageDef[] = [
       }),
       step(2, 1, {
         name: 'AI에게 묻고 문장 고르기', resource: 'ai2',
-        prompt: '우리 초안을 AI에 보내고, 자료로 확인할 문장 하나만 고르세요.',
+        prompt: '탐사계획서 초안을 AI에 보내고, 자료로 확인할 문장 하나만 고르세요.',
         fields: [
           f('route2', '검토 방법', '', ['직접 AI 대화'], { hidden: true }),
           f('prompt2', '실제로 사용한 질문', '', undefined, { hidden: true }),
