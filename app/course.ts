@@ -149,10 +149,10 @@ export const stages: StageDef[] = [
         name: '탐사계획서 초안 쓰기', resource: 'destinations',
         prompt: '자료를 근거로 탐사 질문·관찰할 대상·조사 방법을 정해 탐사계획서 초안을 쓰세요.',
         fields: [
-          f('additionalRef', '읽은 자료의 이름·출처', '펼쳐 읽은 자료의 제목 또는 기관명·링크를 적으세요.', undefined, { ...oneLine, section: '1. 자료에서 근거 찾기 · 3분', scaffold: '확인한 자료: ______' }),
+          f('additionalRef', '읽은 자료의 이름·출처', '펼쳐 읽은 자료의 제목 또는 기관명·링크를 적으세요.', undefined, { ...oneLine, section: '1. 자료에서 근거 찾기', scaffold: '확인한 자료: ______' }),
           f('additionalFact', '우리 질문에 도움이 되는 사실 1개', '자료에서 실제로 확인한 내용 한 가지만 쓰세요.', undefined, { ...oneLine, scaffold: '자료에서 ______을 확인했다.' }),
           f('task', '더 조사할 내용', '', undefined, { ...optionalLine }),
-          f('question', '탐사 질문 · 무엇을 알아볼까?', '1차시 질문을 우리 탐사지에서 조사할 수 있는 질문으로 좁혀 쓰세요.', undefined, { ...oneLine, section: '2. 탐사계획서 초안 쓰기 · 5분', scaffold: '우리는 ______에서 ______을 조사해 ______을 알아볼까?' }),
+          f('question', '탐사 질문 · 무엇을 알아볼까?', '1차시 질문을 우리 탐사지에서 조사할 수 있는 질문으로 좁혀 쓰세요.', undefined, { ...oneLine, section: '2. 탐사계획서 초안 쓰기', scaffold: '우리는 ______에서 ______을 조사해 ______을 알아볼까?' }),
           f('missionName', '우리 미션 이름', '이름은 나중에 정해도 됩니다.', undefined, optionalLine),
           f('goal', '탐사 목표', '', undefined, optionalLine),
           f('target', '관측할 대상', '', undefined, optionalLine),
