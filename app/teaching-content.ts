@@ -298,7 +298,7 @@ export function buildAiPrompt(lessonNumber: number, values: GroupValues = {}): s
     ['additionalRef', '추가로 읽은 자료'], ['additionalFact', '새로 확인한 사실'], ['task', '더 조사할 과제'],
     ['question', '미션 질문'], ['goal', '탐사 목표'], ['target', '관측 대상'], ['data', '얻을 자료'],
     ['method', '방법과 이유'], ['difficulty', '예상 어려움'], ['technology', '필요한 기술'], ['response', '대비 방법'],
-    ['evidenceRef', '선택한 영향 카드'], ['meaning', '확인한 사실과 의미'],
+    ['evidenceRef', '선택한 영향 카드'], ['meaning', '영향카드에서 확인한 사실'],
     ['expectation', '기대하는 지식과 도움'], ['limitation', '이 계획으로 확인할 수 없는 점'],
   ];
   const environmentFields: [string, string][] = [

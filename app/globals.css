@@ -1206,6 +1206,10 @@ td .text-btn{font-size:var(--small-size)}
 .conclusion-flow>.writing-pane,.conclusion-flow>.resource-pane{margin-bottom:0}
 .conclusion-flow .inline-evidence{background:#fcfdfb}
 .conclusion-flow .inline-evidence>.section-heading{margin-bottom:10px}
+.evidence-directions{margin:16px 0 22px;padding:14px 18px 14px 38px;background:#f3f7ef;border-left:3px solid #8da66e;border-radius:0 8px 8px 0;line-height:1.8}
+.evidence-directions li+li{margin-top:6px}
+.evidence-directions strong{color:var(--green)}
+.conclusion-flow .writing-pane>.readback{margin-bottom:20px}
 
 .destination-examples{margin-top:9px;padding:10px 12px;border:1px dashed #cfd8ca;border-radius:9px;background:#fafbf8}
 .destination-examples>span{display:block;font-size:11px;font-weight:800;color:#6f7e71;margin-bottom:3px}

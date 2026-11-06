@@ -41,7 +41,19 @@ export function DataExplorer({notify,selection,onSelectionChange,disabled=false}
   </div>;
 }
 
-export function EvidenceCards() {return <div><span className="eyebrow">다음 단계 · 내 생각의 근거 찾기</span><h2>영향 카드 하나를 읽어 보세요.</h2><p className="muted">탐사지를 고른 뒤 하는 활동입니다. 카드의 사실 하나를 골라 마지막 나의 생각의 근거로 사용합니다.</p>{evidenceCards.map(c=><details className="reading-card" key={c.id}><summary><span className="card-code">영향 카드 {evidenceNumber(c.id)}</span><b>{c.title}</b><ChevronDown size={16}/></summary><div><small>{c.materialType}</small><p>{c.fact}</p><blockquote>{c.question}</blockquote>{c.limitations&&<p className="notice">{c.limitations}</p>}<SourceLinks ids={c.sourceIds}/></div></details>)}</div>;}
+export function EvidenceCards() {
+  return <div>
+    <span className="eyebrow">영향카드 읽기</span>
+    <h2>우리는 왜 우주를 탐사할까?</h2>
+    <p className="muted">첫 활동의 질문에, 이번에는 카드에서 확인한 사실을 근거로 답해 봅니다.</p>
+    <ol className="evidence-directions">
+      <li>아래에서 관심 있는 카드 <strong>1개</strong>를 펼쳐 읽으세요.</li>
+      <li>카드에서 <strong>알게 된 사실</strong>을 쓰세요.</li>
+      <li>그 사실을 근거로 <strong>우주를 탐사하는 이유</strong>를 쓰세요.</li>
+    </ol>
+    {evidenceCards.map(c=><details className="reading-card" key={c.id}><summary><span className="card-code">영향 카드 {evidenceNumber(c.id)}</span><b>{c.title}</b><ChevronDown size={16}/></summary><div><small>{c.materialType}</small><p>{c.fact}</p><blockquote>{c.question}</blockquote>{c.limitations&&<p className="notice">{c.limitations}</p>}<SourceLinks ids={c.sourceIds}/></div></details>)}
+  </div>;
+}
 
 export function DestinationCards({selected,environmentOnly=false}:{selected?:string;environmentOnly?:boolean}) {
   const selectedCard=getReadingCard(selected);

@@ -127,7 +127,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
       if(v.claim1&&!v.check1) add({priority:0,target,kind:'AI 문장 확인',issue:'AI 문장은 옮겼지만 처음 탐사 자료에서 확인한 기록이 없어요.',prompt:'AI 문장과 우리 문장을 처음 탐사 자료의 어느 부분에서 확인할 수 있어?',resource:'처음 비교한 두 탐사 자료'},v);
       if(v.check1&&!v.decision1) add({priority:0,target,kind:'AI 비교 마무리',issue:'원자료 확인 칸에 작성한 내용이 있어요. 어디까지 썼는지 확인해 주세요.',prompt:'처음 탐사 자료를 확인하고 나니 우리 문장은 그대로 둘까, 고칠까? 왜?',resource:'우리 문장, AI 문장, 처음 탐사 자료'},v);
       if(v.destination&&!v.selectionReason) add({priority:1,target,kind:'탐사지 선택',issue:'탐사지는 골랐지만 앞에서 만든 질문과 선택 이유가 연결되지 않았어요.',prompt:'우리가 만든 추가 질문을 알아보는 데 왜 이 탐사지가 적절할까?',resource:'추가 질문과 탐사지 후보'},v);
-      if(v.evidenceRef&&!v.meaning) add({priority:1,target,kind:'의의 해석',issue:'의의와 영향 카드는 골랐지만 사실의 의미가 아직 설명되지 않았어요.',prompt:'이 카드의 사실이 왜 우주 탐사의 가치나 영향이라고 볼 수 있을까?',resource:evidenceName(v.evidenceRef)},v);
+      if(v.evidenceRef&&!v.meaning) add({priority:1,target,kind:'의의 해석',issue:'영향카드는 골랐지만 카드에서 알게 된 사실을 아직 쓰지 않았어요.',prompt:'읽은 카드에서 어떤 사실을 알게 되었어?',resource:evidenceName(v.evidenceRef)},v);
       if(v.change&&/(항상|모두|전부|무조건|전체 우주|우주 탐사는 점점|갈수록)/.test(v.change)) add({priority:0,target,kind:'과도한 일반화',issue:'두 사례를 넘어 전체 우주 탐사로 넓혀 말했을 가능성이 있어요.',prompt:'우리가 본 두 사례만으로 어디까지 말할 수 있을까?',resource:'두 탐사 사례의 범위'},v);
       if(v.gapStatement&&/(인류.*모른|아무도.*모른|아직.*알려지지)/.test(v.gapStatement)) add({priority:0,target,kind:'자료 범위',issue:'자료에 없는 내용을 인류가 모르는 사실로 단정했을 가능성이 있어요.',prompt:'이 자료에 없다는 것과 인류가 아직 모른다는 것은 같은 뜻일까?',resource:'수업용 자료의 범위 안내'},v);
       if(v.question&&(!v.data||!v.method)) add({priority:1,target,kind:'미션 초안',issue:'미션 질문은 정했지만 얻을 자료나 방법이 아직 비어 있어요.',prompt:'이 질문에 답하려면 무엇을 직접 관찰하거나 측정해야 할까?',resource:'미션 질문, 얻을 자료, 자료를 얻는 방법'},v);
@@ -140,7 +140,7 @@ export default function Teacher({notify,onStudentPreview}:Props){
     if(classHasConcluding){
       for(const st of data.students||[]){
         const v=recordMap(st.records||[]);
-        if(v.first&&!v.conclusion) add({priority:2,target:st.number+'번',kind:'개인 결론',issue:'첫 생각은 남겼지만 1차시 개인 결론이 아직 없어요.',prompt:'처음 생각과 비교해서, 지금은 어떤 자료 때문에 생각이 달라졌거나 더 분명해졌어?',resource:'의의와 영향 카드, 처음 생각'},v);
+        if(v.first&&!v.conclusion) add({priority:2,target:st.number+'번',kind:'개인 결론',issue:'첫 생각은 남겼지만 1차시 개인 결론이 아직 없어요.',prompt:'카드에서 알게 된 사실을 예로 들면, 우리는 왜 우주를 탐사한다고 생각해?',resource:'의의와 영향 카드, 처음 생각'},v);
         if(v.conclusion&&v.conclusion.trim().length<18) add({priority:2,target:st.number+'번',kind:'개인 결론 보완',issue:'개인 결론이 매우 짧아 근거가 드러나지 않을 수 있어요.',prompt:'어느 자료의 어떤 사실이 네 결론을 뒷받침해?',resource:'선택한 의의와 영향 카드'},v);
       }
     }
