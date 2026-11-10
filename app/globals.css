@@ -1170,6 +1170,13 @@ td .text-btn{font-size:var(--small-size)}
 .now-progress span.done{background:#e7f0df;color:#476b4a;border-color:#cadbbd}
 .now-progress b{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#eef1ec;font-size:10px}
 .now-progress .done b{background:#b8cea7}
+.lesson-three-mission{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,1fr);gap:22px;align-items:center;background:linear-gradient(135deg,#142f3e,#244b49);color:#f4f8f6;border-radius:17px;padding:22px 24px;margin:0 0 18px;box-shadow:0 12px 26px rgba(20,47,62,.12)}
+.lesson-three-mission span{display:block;color:#b9d9cd;font-size:12px;font-weight:800;letter-spacing:.05em;margin-bottom:5px}
+.lesson-three-mission h2{color:#fff;font-size:22px;line-height:1.45;margin:0 0 6px}
+.lesson-three-mission p{color:#d9e8e4;font-size:var(--small-size);line-height:1.7;margin:0}
+.lesson-three-mission ol{list-style:none;padding:0;margin:0;display:grid;gap:7px}
+.lesson-three-mission li{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;color:#eef5f2}
+.lesson-three-mission li b{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#d3e39f;color:#28463e;font-size:11px}
 .field-flow-wrap{border-radius:12px;transition:background .15s,border-color .15s}
 .field-flow-wrap.is-current{background:#fbfdf7;border:2px solid #bdd39e;padding:14px 14px 0;margin:0 -14px 18px}
 .field-flow-wrap.is-current .field-section{margin-top:0}
@@ -1184,6 +1191,7 @@ td .text-btn{font-size:var(--small-size)}
   .now-progress{gap:5px}
   .now-progress span{font-size:11px;padding:5px 7px}
   .field-flow-wrap.is-current{margin:0 -8px 15px;padding:10px 8px 0}
+  .lesson-three-mission{grid-template-columns:1fr;padding:18px;gap:14px}
 }
 
 /* Make lesson 1 AI step unmistakable */

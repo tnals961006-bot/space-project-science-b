@@ -199,18 +199,18 @@ export const stages: StageDef[] = [
     ],
   },
   {
-    number: 3, title: '탐사계획서 보완하고 발표하기', short: '보완과 공유',
-    subtitle: '탐사지의 환경 한 가지를 확인하고, 근거를 들어 짝 모둠에 탐사계획서를 설명해요.',
+    number: 3, title: '환경 근거로 탐사계획서 완성하기', short: '완성·공유',
+    subtitle: '탐사지 환경 자료를 근거로 어려움과 대비를 보완하고, 완성한 탐사계획서를 설명해요.',
     goal: activityLessons[2].goal, totalMinutes: activityLessons[2].totalMinutes,
     steps: [
       step(3, 0, {
         resource: 'environment3',
-        prompt: '2차시 초안을 펼치고 우리 탐사에 영향을 줄 환경 조건 한 가지를 찾으세요.',
+        prompt: '탐사지 환경 자료에서 사실 하나를 확인하고, 그 조건 때문에 생길 탐사 어려움과 대비를 계획서에 넣으세요.',
         fields: [
-          f('env1', '탐사에 중요한 환경 조건 하나', '햇빛, 온도, 대기, 물 등에서 고르세요.', undefined, oneLine),
-          f('envInfo1', '자료에서 확인한 환경 정보', '어느 장소의 정보인지 쓰고, 수치에는 단위를 붙이세요.', undefined, oneLine),
-          f('envSource1', '환경 정보의 출처', '자료 이름이나 기관명과 자료 번호를 적으세요.', undefined, oneLine),
-          f('envResponse1', '어떤 어려움이 생기고 어떻게 대비할까?', '', undefined, { ...oneLine, scaffold: '이곳은 ______해서, 우리는 ______할 계획이다.' }),
+          f('env1', '탐사계획에 반영할 환경 조건 하나', '중력, 온도, 대기, 방사선, 물, 햇빛 등에서 고르세요.', undefined, oneLine),
+          f('envInfo1', '자료에서 확인한 환경 사실', '어느 장소의 정보인지 쓰고, 수치에는 단위를 붙이세요.', undefined, oneLine),
+          f('envSource1', '그 사실을 확인한 자료', '자료 이름이나 기관명과 자료 번호를 적으세요.', undefined, oneLine),
+          f('envResponse1', '예상되는 탐사 어려움과 대비 방법', '탐사선·장비·대원 운영 관점에서 쓰세요.', undefined, { ...oneLine, scaffold: '이곳은 ______해서 탐사 중 ______이 어려울 수 있다. 따라서 ______로 대비한다.' }),
         ],
       }),
       step(3, 1, {
