@@ -113,7 +113,7 @@ export default function App(){
   }
   async function snapshot(name:string,quiet=false):Promise<boolean>{
     const ctx=contextGen.current;if(!await flush()||ctx!==contextGen.current)return false;const s=stateRef.current;if(!s)return false;
-    if((name==='2차시 끝'||name==='3차시 최종') && (modeRef.current==='student' || studentPreview) && !checkLesson2(s)) return false;
+    if((name==='2차시 끝'||name==='3차시 최종') && modeRef.current==='student' && !checkLesson2(s)) return false;
     try{if(modeRef.current==='demo'){const snap={id:(typeof crypto.randomUUID==='function'?crypto.randomUUID():'review-'+Date.now()+'-'+Math.random().toString(36).slice(2)),label:name,created:new Date().toISOString(),body:JSON.stringify(s.group)};updateState({...s,snapshots:[snap,...s.snapshots].slice(0,20)});}
       else{await api('snapshot',{label:name,expectedTeamId:s.student.teamId});const latest=await api('state');if(ctx!==contextGen.current)return false;acceptState(latest);}
       if(!quiet)notify(name+' 보관본을 남겼어요.');return true;
@@ -144,7 +144,7 @@ export default function App(){
     const saved=await flush();
     if(ctx!==contextGen.current || (!saved && !canReadWithoutSave())) return;
     const s=stateRef.current;
-    if(lesson===2 && stage!==2 && s && !s.student.closed && (modeRef.current==='student' || studentPreview)) {
+    if(lesson===2 && stage!==2 && s && !s.student.closed && modeRef.current==='student') {
       if(!saved || !checkLesson2(s)) return;
       if(!s.snapshots.some(item=>item.label==='2차시 끝') && !await snapshot('2차시 끝',true)) return;
       if(ctx!==contextGen.current || stateRef.current?.student.teamId!==s.student.teamId) return;
@@ -421,7 +421,7 @@ export default function App(){
     {mode==='materials'&&<main className="materials-page"><h1>과학B 전체 수업 자료</h1><button className="secondary" onClick={()=>changeMode('review')}>검토 안내로 돌아가기</button><FullMaterials notify={notify}/></main>}
     {mode==='teacher'&&<Teacher notify={notify} onStudentPreview={()=>{window.open(location.pathname+'?studentview=1&v=20261105b','_blank','noopener,noreferrer');}}/>}
     {(mode==='student'||mode==='demo')&&state&&<>
-      <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 학생과 같은 활동 화면</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
+      <div className={mode==='demo'?'demo-banner':'student-banner'}>{mode==='demo'?studentPreview?<><Users size={17}/><span>학생 화면 미리보기 / 차시 완료 조건 없이 모든 활동을 확인할 수 있어요.</span></>:<><BookOpen size={17}/><span>수업 내용 체험 / 입력은 이 기기에 저장돼요.</span></>:<><Users size={17}/><span>{state.student.className} / {state.student.number}번 / {state.student.teamLabel}</span></>}<button className="text-btn" onClick={()=>void openPanel('history')}>기록 보관</button></div>
       {authError&&<div className="auth-banner" role="alert"><p>{authError}</p><button className="secondary" onClick={()=>{changeMode('home');setWelcome('');}}>입장권으로 다시 접속</button><button className="secondary" onClick={()=>download('SPACE_저장전입력.json',JSON.stringify(drafts.map(x=>x.draft),null,2))}>입력 내려받기</button></div>}
       {state.student.closed&&<div className="notice">선생님이 작성을 마감했어요. 지금까지의 기록은 읽고 내려받을 수 있어요.</div>}
       <div className="course-tabs">{stages.map((s,i)=><button key={i} className={stage===i?'active':''} onClick={()=>void navigate(i)}><span>{i+1}차시</span><b>{s.short}</b></button>)}</div>
