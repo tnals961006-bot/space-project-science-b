@@ -334,8 +334,8 @@ export default function App(){
         {label:'발표 짝 근거 기록',done:!!personal.recommendReason?.trim()},
       ];
     }else{
-      next=!personal.reflection?.trim()?item('reflection','첫 생각과 지금 생각을 근거로 연결하세요.','자료나 검토한 질문 하나를 예로 들어 생각이 달라졌거나 구체화된 점을 씁니다.'):item('','3차시 탐사계획서 완성','기록을 보관하고, 마지막 2분에 다음 SPACE 미션을 확인하세요.');
-      parts=[{label:'개인 성찰',done:!!personal.reflection?.trim()},{label:'다음 미션 확인',done:!!personal.reflection?.trim()}];
+      next=!personal.reflection?.trim()?item('reflection','첫 생각과 지금 생각을 근거로 연결하세요.','자료나 검토한 질문 하나를 예로 들어 생각이 달라졌거나 구체화된 점을 씁니다.'):item('','3차시 탐사계획서 완성','기록을 보관하고 선생님의 안내를 기다리세요.');
+      parts=[{label:'개인 성찰',done:!!personal.reflection?.trim()}];
     }
     return {...next,parts};
   }
@@ -398,7 +398,7 @@ export default function App(){
       <button className="secondary" disabled={state?.published} onClick={()=>void publish()}>{state?.published?'학급 갤러리에 게시됨':'학급 갤러리에 게시'}</button></div>
       <details className="reading-card"><summary>우리 모둠 계획서 확인</summary><Proposal rows={state!.group}/></details></>;
     if(current.resource==='gallery')return galleryUI();
-    if(current.resource==='reflection')return <><Readback title="자료를 읽기 전 나의 첫 생각" value={personal.first}/><Readback title="2차시 나의 판단과 근거" value={personal.myVerdict}/><details className="next-story"><summary>마지막 2분, 다음 SPACE 미션 열기</summary><small>{storyTransition.badge}</small><h2>{storyTransition.title}</h2><p>{storyTransition.introduction}</p>{storyTransition.scenes.map(s=><p key={s.title}><b>{s.title}</b><br/>{s.text}</p>)}<blockquote>{storyTransition.openingQuestion}</blockquote><p className="notice">{storyTransition.environmentBoundary}</p><p>{storyTransition.nextLesson}</p></details></>;
+    if(current.resource==='reflection')return <><Readback title="자료를 읽기 전 나의 첫 생각" value={personal.first}/><Readback title="2차시 나의 판단과 근거" value={personal.myVerdict}/>{(mode!=='student'||!!personal.reflection?.trim())&&<details className="next-story"><summary>마지막 2분, 다음 SPACE 미션 열기</summary><small>{storyTransition.badge}</small><h2>{storyTransition.title}</h2><p>{storyTransition.introduction}</p>{storyTransition.scenes.map(s=><p key={s.title}><b>{s.title}</b><br/>{s.text}</p>)}<blockquote>{storyTransition.openingQuestion}</blockquote><p className="notice">{storyTransition.environmentBoundary}</p><p>{storyTransition.nextLesson}</p></details>}</>;
     return <div className="intro-resource"><span className="eyebrow">세 차시의 탐사 여정</span><h2>기록에서 질문을,<br/>질문에서 탐사를.</h2><p>과거의 탐사 자료를 읽고, 우리 모둠이 더 알아볼 질문을 정해요. 그 질문에 답할 탐사 방법을 설계하고 근거를 확인해요.</p>{mode==='demo'&&!studentPreview&&<p className="notice">체험 모드에서는 실제 반과 모둠 배정이 표시되지 않아요. 실제 수업에서는 반과 번호로 입장하면 상단에 자기 모둠이 표시됩니다.</p>}<ol className="intro-journey">{stages.map((s,i)=><li key={i}><b>{i+1}차시 / {s.short}</b><p>{s.subtitle}</p></li>)}</ol><div className="notice"><b>함께 기록하는 방법</b><p>모둠 기록은 같은 모둠이 함께 써요. 같은 칸을 한꺼번에 고치기보다 읽기, 자료 확인, 기록 역할을 나누세요. 나의 기록은 각자 작성해요.</p></div></div>;
   }
   function readiness(){
