@@ -6,7 +6,7 @@ import Teacher from './teacher';
 import DestinationGuide from './destination-guide';
 import {api,hasStudentSession,clearStudentSession,isLocalReviewOnly,setClassroomSessionScope} from '../lib/classroom-client';
 import {allFields,stages,lesson2Required,firstMissingLesson2,phaseNames,proposalKeys,FieldDef} from './course';
-import {aiCards,buildAiPrompt,peerFallback,storyTransition,comparisonComplete,comparisonSource,comparisonText,readComparison,writeComparison,ComparisonIds,comparisonMissingItems,recordValueText,readMissionEvidence,getReadingCard} from './teaching-content';
+import {aiCards,buildAiPrompt,storyTransition,comparisonComplete,comparisonSource,comparisonText,readComparison,writeComparison,ComparisonIds,comparisonMissingItems,recordValueText,readMissionEvidence,getReadingCard} from './teaching-content';
 import {ClassroomState,Row,Snapshot,Field,Proposal,PresentationBrief,RecordList,Readback,InquiryTrail,SaveField,recordMap,pendingDrafts,readDraft,finishDraft,download,clean,useFieldRecord} from './record-ui';
 import {ApolloReading,CriteriaCards,DataExplorer,DestinationCards,EvidenceCards,FullMaterials,PresentationGuide,ReviewGuide,VerificationGuide} from './resource-ui';
 
@@ -314,25 +314,24 @@ export default function App(){
       ];
     }else if(current.resource==='ai3'){
       const order=[
-        ['route3','질문을 받을 방법을 고르세요.','AI에게 계획을 보여 주거나 짝 모둠과 바꾸어 읽습니다.'],
-        ['critique','우리 계획에서 확인할 질문 하나를 적으세요.','받은 질문 중 계획을 유지하거나 고치는 데 도움이 되는 하나만 고릅니다.'],
+        ['critique','AI에게 받은 질문 하나를 적으세요.','AI 답에서 계획을 유지하거나 고치는 데 도움이 되는 질문 하나만 고릅니다.'],
         ['critiqueDecision','자료와 비교해 판단하세요.','수용·기각·보류 중 하나를 고릅니다.'],
         ['critiqueReason','판단 근거와 계획에 반영할 점을 쓰세요.','확인한 사실과 유지하거나 고칠 점을 한 문장으로 연결합니다.'],
       ];
       const missing=order.find(([key])=>!values[key]?.trim());
-      next=missing?item(missing[0],missing[1],missing[2]):item('','탐사계획 확정 완료','질문 하나를 근거로 검토했어요. 이제 완성한 계획서를 짝 모둠에 설명하세요.');
+      next=missing?item(missing[0],missing[1],missing[2]):item('','탐사계획 확정 완료','질문 하나를 근거로 검토했어요. 이제 정해진 발표 짝 모둠에 계획서를 설명하세요.');
       parts=[
-        {label:'질문 받기',done:!!values.route3?.trim()&&!!values.critique?.trim()},
+        {label:'AI 질문 받기',done:!!values.critique?.trim()},
         {label:'자료로 판단',done:!!values.critiqueDecision?.trim()},
         {label:'계획 확정',done:!!values.critiqueReason?.trim()},
       ];
     }else if(current.resource==='present'){
-      if(!state?.published) next=item('','짝 모둠과 계획서를 설명하고 대표가 게시하세요.','탐사 질문·조사 방법·환경에 대한 대비를 설명한 뒤, 모둠 대표 한 명만 ‘학급 갤러리에 게시’를 누릅니다.');
-      else if(!personal.recommendReason?.trim()) next=item('recommendReason','짝 모둠의 설득력 있는 근거를 한 줄로 쓰세요.','몇 조인지 밝히고, 발표에서 들은 구체적인 근거 하나를 남깁니다.');
+      if(!state?.published) next=item('','정해진 발표 짝과 설명하고 대표가 게시하세요.','발표 짝은 1조–2조, 3조–4조, 5조–6조예요. 홀수 조부터 설명한 뒤 역할을 바꾸고, 모둠 대표 한 명만 ‘학급 갤러리에 게시’를 누릅니다.');
+      else if(!personal.recommendReason?.trim()) next=item('recommendReason','발표 짝 모둠의 설득력 있는 근거를 한 줄로 쓰세요.','발표 짝 모둠의 번호와 발표에서 들은 구체적인 근거 하나를 남깁니다.');
       else next=item('','설명과 게시 완료','완성한 탐사계획서가 게시됐어요. 마지막 활동에서 내 생각을 돌아보세요.');
       parts=[
         {label:'계획서 설명·게시',done:!!state?.published},
-        {label:'짝 모둠 근거 기록',done:!!personal.recommendReason?.trim()},
+        {label:'발표 짝 근거 기록',done:!!personal.recommendReason?.trim()},
       ];
     }else{
       next=!personal.reflection?.trim()?item('reflection','첫 생각과 지금 생각을 근거로 연결하세요.','자료나 검토한 질문 하나를 예로 들어 생각이 달라졌거나 구체화된 점을 씁니다.'):item('','3차시 탐사계획서 완성','기록을 보관하고, 마지막 2분에 다음 SPACE 미션을 확인하세요.');
@@ -343,10 +342,10 @@ export default function App(){
   const lessonFlow=stage===0?lesson1Flow():stage===1?lesson2Flow():lesson3Flow();
 
   function aiBox(level:number){
-    const card=aiCards[level-1],peer=peerFallback.entries[level-1],missing=level===1?comparisonMissingItems(values):[];
+    const card=aiCards[level-1],missing=level===1?comparisonMissingItems(values):[];
     const ready=level===1?missing.length===0:['question','data','method'].every(k=>values[k]?.trim());
     return <div className="ai-box">
-      <span className="eyebrow">{level===1?'우리 생각과 AI 생각 비교':level===2?'AI에게 묻기':'AI 또는 동료 검토'}</span><h2>{level===2?'우리 초안을 AI에게 보내고, 확인할 문장 하나 고르기':card.title}</h2>
+      <span className="eyebrow">{level===1?'우리 생각과 AI 생각 비교':level===2?'AI에게 묻기':'AI와 계획 점검'}</span><h2>{level===2?'우리 초안을 AI에게 보내고, 확인할 문장 하나 고르기':card.title}</h2>
       <p>{level===1?'우리가 먼저 쓴 생각과 AI가 한 말을 비교한 뒤, 활동 3의 탐사 자료를 보고 우리 생각을 그대로 둘지 고칩니다.':level===2?'AI에게 우리 계획을 보여 주고, 다음 활동에서 자료로 확인할 문장 하나만 고릅니다.':'아래 질문을 복사해 AI에 보내세요. 받은 질문 하나를 우리 자료로 검토해요.'}</p>
       {level===1&&<p className="ai-purpose"><b>핵심</b> AI가 정답인지 맞히는 활동이 아니에요. <strong>우리 생각과 AI 생각을 같은 탐사 자료로 확인</strong>하는 활동입니다.</p>}
       {level===2&&<section className="ai-compare-focus"><p className="eyebrow">딱 세 가지만</p><ol className="ai-compare-steps"><li><b>1</b> 아래 버튼으로 우리 초안이 들어간 질문을 복사해 AI에 보내기</li><li><b>2</b> AI 답에서 자료로 확인할 수 있는 설명 한 문장 찾기</li><li><b>3</b> 그 설명을 아래 기록칸에 그대로 옮기기</li></ol>{/[?？]$/.test(values.claim2?.trim()||'')&&<p className="notice">지금 쓴 문장은 질문으로 끝나요. AI가 그 질문에 답한 부분에서 확인할 사실 한 문장을 골라 보세요.</p>}</section>}
@@ -379,7 +378,6 @@ export default function App(){
         <details><summary>보낼 질문 전체 확인</summary><pre className="prompt-preview">{buildAiPrompt(level,values)}</pre></details>
       </div>
       <p className="notice">{level===1?'AI 답을 받으면 아래 기록에서 우리 문장과 비슷한 AI 문장 하나만 옮기면 됩니다.':level===2?'AI 답을 받으면 아래 기록에서 자료로 확인할 문장 하나만 옮기면 됩니다.':'이곳에서 AI 답변을 자동 생성하지 않아요. 학교에서 허용한 AI를 사용하고 실제로 받은 내용을 기록하세요.'}</p>
-      {level===3&&<details className="reading-card"><summary>AI 연결이 어려우면 짝 모둠에 질문 받기</summary><ol>{peer.instructions.map(t=><li key={t}>{t}</li>)}</ol>{peer.questions.map(q=><blockquote key={q}>{q}</blockquote>)}</details>}
       {level===3&&<><Readback title="환경 조건과 출처" value={[values.envInfo1,values.envSource1].filter(Boolean).join(' · ')}/>
         <Readback title="우리 계획의 대비 방법" value={values.envResponse1}/>
         <details className="reading-card"><summary>조사 방법이나 대비 방법 고치기</summary>{fieldsByKeys(['method','envResponse1'])}</details></>}

@@ -63,7 +63,6 @@ const f = (key: string, label: string, hint = '', options?: string[], meta: Part
   options: options?.map(cleanDisplayText), ...meta,
 });
 const p = (key: string, label: string, hint = '', options?: string[], meta: Partial<FieldDef> = {}): FieldDef => f(key, label, hint, options, { ...meta, personal: true });
-const routes = ['직접 AI 대화', '동료와 검토'];
 const aiRoutes = ['직접 AI 대화'];
 const oneLine = { compact: true };
 const optional = { optional: true };
@@ -215,18 +214,18 @@ export const stages: StageDef[] = [
       }),
       step(3, 1, {
         resource: 'ai3',
-        prompt: '우리 계획에 대해 받은 질문 하나를 자료와 대조하고, 계획을 어떻게 할지 결정하세요.',
+        prompt: 'AI에게 받은 질문 하나를 자료와 대조하고, 계획을 어떻게 할지 결정하세요.',
         fields: [
-          f('route3', '누구에게 질문을 받았나요?', '', routes),
-          f('critique', '검토한 질문 하나', '', undefined, oneLine),
+          f('route3', '질문을 받은 방법', '', ['직접 AI 대화'], { hidden: true, optional: true }),
+          f('critique', 'AI에게 받은 질문 하나', '', undefined, oneLine),
           f('critiqueDecision', '우리 판단', '수용은 반영, 기각은 반영하지 않음, 보류는 더 확인한다는 뜻이에요.', ['수용', '기각', '보류']),
           f('critiqueReason', '판단한 근거와 계획에 반영할 점', '자료에서 확인한 사실과 유지하거나 바꿀 점을 한 문장에 담으세요.'),
         ],
       }),
       step(3, 2, {
         resource: 'present',
-        prompt: '짝 모둠과 계획서를 보며 번갈아 설명하세요. 대표 한 명이 모둠 계획서를 게시하고, 각자 짝 모둠의 근거를 한 줄 남기세요.',
-        fields: [p('recommendReason', '짝 모둠의 설득력 있는 근거', '몇 조인지 쓰고, 발표에서 들은 구체적인 근거 하나를 담으세요.', undefined, oneLine)],
+        prompt: '1조–2조, 3조–4조, 5조–6조가 짝이 되어 계획서를 번갈아 설명하세요. 대표 한 명은 계획서를 게시하고, 각자는 발표 짝 모둠의 근거를 한 줄 남기세요.',
+        fields: [p('recommendReason', '발표 짝 모둠의 설득력 있는 근거', '발표 짝 모둠의 번호와 발표에서 들은 구체적인 근거 하나를 담으세요.', undefined, oneLine)],
       }),
       step(3, 3, {
         resource: 'reflection',
