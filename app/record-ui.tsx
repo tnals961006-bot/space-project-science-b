@@ -160,12 +160,25 @@ export function InquiryTrail({rows}:{rows:Row[]}) {
 }
 export function EnvironmentTable({rows}:{rows:Row[]}) {
   const v=recordMap(rows);
-  return <section className="environment-table"><h3>탐사지 환경 조사표</h3><p className="hint">조사한 장소와 시기, 수치의 단위를 함께 확인해요.</p>{[1,2].map(i=><div className="environment-row" key={i}><h4>{v['env'+i]||`환경 ${i}`}</h4><dl><dt>확인한 정보와 조건</dt><dd>{v['envInfo'+i]||'미작성'}</dd><dt>자료 번호와 출처</dt><dd>{v['envSource'+i]||'미작성'}</dd><dt>예상 어려움과 대응</dt><dd>{v['envResponse'+i]||'미작성'}</dd>{v['envReview'+i]&&<><dt>3차시에서 보완한 점</dt><dd>{v['envReview'+i]}</dd></>}</dl></div>)}</section>;
+  return <section className="environment-table"><h3>탐사지 환경 조사표</h3><p className="hint">조사한 장소와 시기, 수치의 단위를 함께 확인해요.</p>{[1,2].filter(i=>i===1||['env','envInfo','envSource','envResponse','envReview'].some(key=>v[key+i]?.trim())).map(i=><div className="environment-row" key={i}><h4>{v['env'+i]||`환경 ${i}`}</h4><dl><dt>확인한 정보와 조건</dt><dd>{v['envInfo'+i]||'미작성'}</dd><dt>자료 번호와 출처</dt><dd>{v['envSource'+i]||'미작성'}</dd><dt>예상 어려움과 대응</dt><dd>{v['envResponse'+i]||'미작성'}</dd>{v['envReview'+i]&&<><dt>3차시에서 보완한 점</dt><dd>{v['envReview'+i]}</dd></>}</dl></div>)}</section>;
+}
+export function PresentationBrief({rows,label}:{rows:Row[];label:string}) {
+  const v=recordMap(rows);
+  const sections=[
+    ['질문을 세운 근거',[v.additionalFact,v.additionalRef].filter(Boolean).join(' · ')],
+    ['관찰 대상과 조사 방법',[v.data,v.method].filter(Boolean).join(' / ')],
+    ['탐사지 환경과 대비',[v.env1,v.envInfo1,v.envSource1,v.envResponse1].filter(Boolean).join(' · ')],
+    ['검토한 질문과 우리 판단',[v.critique,v.critiqueDecision,v.critiqueReason].filter(Boolean).join(' · ')],
+  ];
+  return <article className="proposal"><p className="eyebrow">{label} / {v.destination}</p>
+    <h2>{v.question||'우리 모둠의 탐사 질문'}</h2>
+    <div className="proposal-grid">{sections.map(([title,value])=><section key={title}><h3>{title}</h3><p>{value||'아직 기록이 없어요.'}</p></section>)}</div>
+  </article>;
 }
 export function Proposal({rows,label='우리 모둠 탐사계획서'}:{rows:Row[];label?:string}) {
   const v=recordMap(rows);
   const sections=[['탐사 목표',v.goal],['선택한 까닭',v.selectionReason],['관찰하거나 측정할 대상',v.target],['얻으려는 자료',v.data],['자료를 얻는 방법과 이유',v.method],['예상 어려움',v.difficulty],['필요한 기술과 대응',[v.technology,v.response].filter(Boolean).join('\n')],['검증 후 반영한 내용',v.revision],['탐사의 의의와 영향',[v.evidenceRef?evidenceLabel(v.evidenceRef):'',v.meaning].filter(Boolean).join('\n')],['우리 미션에서 기대하는 것',v.expectation],['남은 한계와 확인할 점',v.limitation]];
-  return <article className="proposal"><p className="eyebrow">{label}</p><h2>{v.missionName||'우리 탐사 미션'}</h2><p className="destination-pill">{v.destination==='다른 탐사지'?v.otherDestination||'탐사지 미작성':v.destination||'탐사지 선택 전'}</p><div className="proposal-question">{v.question||'우리 모둠의 질문을 작성해 주세요.'}</div><InquiryTrail rows={rows}/><div className="proposal-grid">{sections.map(([title,value])=><section key={title}><h4>{title}</h4><p>{value?.trim()||'아직 작성하지 않았어요.'}</p></section>)}</div><EnvironmentTable rows={rows}/></article>;
+  return <article className="proposal"><p className="eyebrow">{label}</p><h2>{v.missionName||'우리 탐사 미션'}</h2><p className="destination-pill">{v.destination==='다른 탐사지'?v.otherDestination||'탐사지 미작성':v.destination||'탐사지 선택 전'}</p><div className="proposal-question">{v.question||'우리 모둠의 질문을 작성해 주세요.'}</div><InquiryTrail rows={rows}/><div className="proposal-grid">{sections.filter(([,value])=>value?.trim()).map(([title,value])=><section key={title}><h4>{title}</h4><p>{value?.trim()||'아직 작성하지 않았어요.'}</p></section>)}</div><EnvironmentTable rows={rows}/></article>;
 }
 export function RecordList({rows,contextRows=rows}:{rows:Row[];contextRows?:Row[]}) {const context=recordMap(contextRows);return <>{rows.map(r=>{const selection=r.key==='comparison'?readComparison(r.value):null;return <React.Fragment key={r.key}><Readback title={clean(allFields.find(f=>f.key===r.key)?.label||r.key)} value={recordValueText(r.key,r.value,context)}/>{selection?.structured&&selection.legacy&&<Readback title="이전에 쓴 비교 기록" value={selection.legacy}/>}</React.Fragment>;})}</>;}
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {allFields, stages} from './course';
+import {allFields, stages, firstMissingLesson2, lesson2Required} from './course';
 import {recordMap, Row} from './record-ui';
 import {comparisonText, evidenceCards} from './teaching-content';
 import './class-board.css';
@@ -20,15 +20,15 @@ const activities: Record<string, Focus> = {
   ai1: focus('selectedClaim claim1', '우리가 고른 문장과 AI 문장이 같은 내용을 비교하고 있어?'),
   evidence: focus('meaning conclusion', '처음 생각에 어떤 자료의 사실을 더하고 싶어?'),
   previous: focus('gap selectionReason', '지난 질문을 알아보려면 무엇부터 조사할까?'),
-  ai2: focus('prompt2 claim2', '이 주장 중 탐사 방법을 정하기 전에 확인해야 할 부분은 뭐야?'),
+  ai2: focus('claim2 additionalFact', '이 주장 중 탐사 방법을 정하기 전에 확인해야 할 부분은 뭐야?'),
   summary2: focus('myEvidence myVerdict', '어떤 근거를 보고 그렇게 판단했어?'),
   environment3: focus('envInfo1 envSource1 envResponse1', '이 환경 조건 때문에 계획에서 무엇을 보완해야 할까?'),
   proposal: focus('question revision', '제안서에서 근거를 더 보태고 싶은 부분은 어디야?'),
   editProposal: focus('expectation limitation', '이 계획으로 알아낼 수 있는 것과 아직 어려운 것은 뭐야?'),
-  ai3: focus('critique critiqueReason', '이 질문을 반영하거나 보류할 근거가 있어?'),
-  present: focus('peerQuestion peerResponse', '짝 모둠의 질문을 듣고 어떤 부분을 다시 확인하고 싶어?'),
+  ai3: focus('critique critiqueDecision critiqueReason', '이 질문을 반영하거나 보류할 근거가 있어?'),
+  present: focus('recommendReason', '짝 모둠의 어떤 근거가 설득력 있었어?'),
   gallery: focus('recommend recommendReason', '추천한 모둠의 어떤 근거가 설득력 있었어?'),
-  reflection: focus('reflection judgmentMoment', '처음 생각을 바꾸거나 더 분명하게 해 준 자료가 뭐였어?'),
+  reflection: focus('reflection', '처음 생각을 바꾸거나 더 분명하게 해 준 자료가 뭐였어?'),
 };
 const labels: Record<string,string> = {selectedClaim:'우리 모둠이 고른 문장', claim1:'AI에서 가져온 말', gap:'더 알아볼 질문', change:'두 탐사에서 찾은 차이'};
 const fieldDefs = new Map(allFields.map(f => [f.key, f]));
@@ -71,6 +71,8 @@ export default function ClassBoard({data, classId, coaching, send, jump}: {data:
   const containsPersonal = step.fields.some(f => f.personal);
   const personalKeys = step.fields.filter(f => f.personal && !f.optional).map(f => f.key);
   const studentCount = data.students.filter(s => s.records.some(r => personalKeys.includes(r.key) && r.value.trim())).length;
+  const readyStudents = stage.number===2 ? groups.reduce((n,g) => n+g.members.filter(s => !firstMissingLesson2(g.values,recordMap(s.records))).length,0) : 0;
+  const readyGroups = stage.number===2 ? groups.filter(g => lesson2Required.every(f => f.personal || g.values[f.key]?.trim())).length : 0;
   const metrics = ai ? [
     ['AI 문장 입력',groups.filter(g => g.values.claim1?.trim()).length],
     ['원자료 확인 기록',groups.filter(g => g.values.check1?.trim()).length],
@@ -81,7 +83,8 @@ export default function ClassBoard({data, classId, coaching, send, jump}: {data:
       <label>차시<select value={stage.number} onChange={e => select(stages[Number(e.target.value)-1].steps[0].id)}>{stages.map(s => <option key={s.number} value={s.number}>{s.number}차시 · {s.short}</option>)}</select></label>
       <label>지금 볼 활동<select value={activity} onChange={e => select(e.target.value)}>{stage.steps.map((s,i) => <option key={s.id} value={s.id}>{i+1}. {s.resource === 'ai1' ? '내 생각과 AI 생각 비교하기' : s.name}</option>)}</select></label>
     </div>
-    <div className="board-metrics"><small className="board-sync">15초마다 갱신</small>{ai ? metrics.map(([name,n]) => <span key={name}>{name} <b>{n}/{total}조</b></span>) :
+    {stage.number===2&&<p className="hint">모둠 검증과 출석 학생의 개인 판단을 확인한 뒤 3차시 시작을 안내하세요. 3차시 네 활동은 모두 30분입니다.</p>}
+    <div className="board-metrics"><small className="board-sync">15초마다 갱신</small>{stage.number===2&&<><span>2차시 모둠 기록 완료 <b>{readyGroups}/{total}조</b></span><span>개인 판단까지 완료 <b>{readyStudents}/{data.students.length}명</b></span></>}{ai ? metrics.map(([name,n]) => <span key={name}>{name} <b>{n}/{total}조</b></span>) :
       <>{step.fields.some(f => !f.personal) && <span>모둠 입력 시작 <b>{groups.filter(g => step.fields.some(f => !f.personal && !f.hidden && display(f.key,g.values))).length}/{total}조</b></span>}
       {containsPersonal && <span>개인 입력 시작 <b>{studentCount}/{data.students.length}명</b></span>}
       {!step.fields.length && <span>앞 활동에서 이어 볼 기록</span>}</>}</div>

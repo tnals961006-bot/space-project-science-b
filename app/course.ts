@@ -169,7 +169,7 @@ export const stages: StageDef[] = [
         fields: [
           f('route2', '검토 방법', '', ['직접 AI 대화'], { hidden: true }),
           f('prompt2', '실제로 사용한 질문', '', undefined, { hidden: true }),
-          f('claim2', 'AI 답에서 확인할 문장 1개', '맞는지 확인하면 우리 계획이 달라질 수 있는 문장을 고르세요.', undefined, { ...oneLine, scaffold: 'AI 답에서 자료로 확인해 볼 문장 하나를 그대로 옮깁니다.' }),
+          f('claim2', 'AI 답에서 확인할 문장 1개', 'AI가 답한 내용에서 자료와 대조할 수 있는 설명 한 문장을 그대로 옮기세요.', undefined, { ...oneLine, scaffold: 'AI 답에서 자료로 확인해 볼 문장 하나를 그대로 옮깁니다.' }),
         ],
       }),
       step(2, 2, {
@@ -200,75 +200,60 @@ export const stages: StageDef[] = [
   },
   {
     number: 3, title: '탐사계획서 보완하고 발표하기', short: '보완과 공유',
-    subtitle: '환경 조사와 검토 결과를 반영해 탐사계획서를 완성하고 발표해요.',
-    goal: activityLessons[2].goal, totalMinutes: 45,
+    subtitle: '탐사지의 환경 한 가지를 확인하고, 근거를 들어 짝 모둠에 탐사계획서를 설명해요.',
+    goal: activityLessons[2].goal, totalMinutes: activityLessons[2].totalMinutes,
     steps: [
       step(3, 0, {
         resource: 'environment3',
-        prompt: '우리 탐사지의 중요한 환경 조건을 조사하고, 그 조건 때문에 계획에서 보완할 점을 찾으세요.',
+        prompt: '2차시 초안을 펼치고 우리 탐사에 영향을 줄 환경 조건 한 가지를 찾으세요.',
         fields: [
-          f('env1', '우리 미션에 중요한 환경 조건 1개', '중력, 온도, 대기, 방사선, 물, 햇빛 등을 생각해 보세요.', undefined, { section: '1 환경 조건 하나 조사하기', ...oneLine }),
-          f('envInfo1', '확인한 환경 정보', '수치가 있다면 단위와 장소도 함께 적으세요.'),
-          f('envSource1', '환경 정보의 출처', '기관명·자료명 또는 링크를 남기세요.', undefined, oneLine),
-          f('envResponse1', '예상되는 어려움과 대비', '', undefined, { ...oneLine, scaffold: '이 조건 때문에 ______이 어려울 수 있어 ______로 대비한다.' }),
-          f('env2', '환경 2 항목과 중요한 이유', '', undefined, { section: '환경 2', ...optionalLine }),
-          f('envInfo2', '환경 2 정보와 적용 조건', '', undefined, optionalLine),
-          f('envSource2', '환경 2 자료번호와 확인 상태', '', undefined, optionalLine),
-          f('envResponse2', '환경 2 예상 어려움과 대비 방법', '', undefined, optionalLine),
+          f('env1', '탐사에 중요한 환경 조건 하나', '햇빛, 온도, 대기, 물 등에서 고르세요.', undefined, oneLine),
+          f('envInfo1', '자료에서 확인한 환경 정보', '어느 장소의 정보인지 쓰고, 수치에는 단위를 붙이세요.', undefined, oneLine),
+          f('envSource1', '환경 정보의 출처', '자료 이름이나 기관명과 자료 번호를 적으세요.', undefined, oneLine),
+          f('envResponse1', '어떤 어려움이 생기고 어떻게 대비할까?', '', undefined, { ...oneLine, scaffold: '이곳은 ______해서, 우리는 ______할 계획이다.' }),
         ],
       }),
       step(3, 1, {
-        resource: 'editProposal',
-        prompt: '2차시 탐사계획서에 방금 조사한 환경 조건과 대비 방법을 반영하세요. 탐사지의 실제 환경과 장비나 기지 안에서 조절할 조건을 구분하세요.',
+        resource: 'ai3',
+        prompt: '우리 계획에 대해 받은 질문 하나를 자료와 대조하고, 계획을 어떻게 할지 결정하세요.',
         fields: [
-          f('expectation', '새로 얻고 싶은 지식과 기대하는 도움', '아직 기대하는 효과를 이미 얻은 성과처럼 쓰지 마세요.'),
-          f('limitation', '이 계획으로 확인할 수 없는 점', '더 필요한 자료나 남은 조건을 적으세요.'),
-          f('envReview1', '환경 1에서 보완한 내용과 이유', '정보나 출처를 고쳤다면 이유를 남기세요.', undefined, optionalLine),
-          f('envReview2', '환경 2에서 보완한 내용과 이유', '정보나 출처를 고쳤다면 이유를 남기세요.', undefined, optionalLine),
+          f('route3', '누구에게 질문을 받았나요?', '', routes),
+          f('critique', '검토한 질문 하나', '', undefined, oneLine),
+          f('critiqueDecision', '우리 판단', '수용은 반영, 기각은 반영하지 않음, 보류는 더 확인한다는 뜻이에요.', ['수용', '기각', '보류']),
+          f('critiqueReason', '판단한 근거와 계획에 반영할 점', '자료에서 확인한 사실과 유지하거나 바꿀 점을 한 문장에 담으세요.'),
         ],
       }),
       step(3, 2, {
-        resource: 'ai3',
-        prompt: 'AI나 동료에게 받은 질문 하나를 검토하세요. 근거를 보고 반영할지, 반영하지 않을지, 더 확인할지 결정하세요.',
-        fields: [
-          f('route3', '질문을 받은 방법', '', routes),
-          f('critique', '검토한 질문 하나', '', undefined, oneLine),
-          f('critiqueDecision', '우리 판단', '수용은 반영, 기각은 반영하지 않음, 보류는 추가 확인입니다.', ['수용', '기각', '보류']),
-          f('critiqueReason', '확인한 근거와 판단 이유'),
-          f('critiqueRevision', '유지하거나 고친 탐사계획서 내용', '실제 탐사계획서의 해당 칸도 함께 고치세요.'),
-        ],
+        resource: 'present',
+        prompt: '짝 모둠과 계획서를 보며 번갈아 설명하세요. 대표 한 명이 모둠 계획서를 게시하고, 각자 짝 모둠의 근거를 한 줄 남기세요.',
+        fields: [p('recommendReason', '짝 모둠의 설득력 있는 근거', '몇 조인지 쓰고, 발표에서 들은 구체적인 근거 하나를 담으세요.', undefined, oneLine)],
       }),
       step(3, 3, {
-        resource: 'present',
-        prompt: '모둠마다 3분 동안 탐사계획서와 환경표를 보여 주며 발표하세요. 서로 질문을 주고받고 받은 의견을 검토하세요. 전체 모둠이 읽을 수 있게 탐사계획서를 게시하세요.',
-        fields: [
-          f('peerStrength', '짝 모둠이 설득력 있다고 본 근거', '받은 의견을 한 줄로 남기세요.', undefined, oneLine),
-          f('peerQuestion', '짝 모둠이 더 확인하고 싶어 한 점', '', undefined, oneLine),
-          f('peerResponse', '피드백을 반영한 내용 또는 보류한 이유', '고칠 내용이 있다면 같은 탐사계획서에서 수정하세요.', undefined, optionalLine),
-        ],
-      }),
-      step(3, 4, {
-        resource: 'gallery',
-        prompt: '학급의 전체 탐사계획서를 둘러보세요. 우리 모둠을 제외한 미션 하나를 골라 실제 근거와 함께 추천하세요.',
-        fields: [
-          p('recommend', '추천하는 모둠과 탐사지', '', undefined, oneLine),
-          p('recommendReason', '추천 이유', '필요성, 근거, 환경에 대비하는 방법 중 어떤 내용이 설득력 있었나요?'),
-        ],
-      }),
-      step(3, 5, {
         resource: 'reflection',
-        prompt: '첫 생각과 지금 생각을 비교하고 근거를 남기세요. 기록을 보관한 뒤 마지막 1분에 미래 탐사의 새로운 상황을 읽으세요.',
-        fields: [
-          p('reflection', '내 생각이 달라지거나 구체화된 점', '1차시 첫 생각을 읽고 근거가 된 자료 번호와 함께 쓰세요.'),
-          p('judgmentMoment', 'AI나 동료의 의견을 판단한 장면', '무엇을 근거로 내 판단을 정했는지 한 줄로 쓰세요.', undefined, oneLine),
-          p('contribution3', '내가 기여한 일과 기록에 남은 결과', '앞에서 쓴 내용에 보탤 점이 있을 때 남기세요.', undefined, optionalLine),
-        ],
+        prompt: '첫 생각을 다시 읽고, 지금은 우주 탐사의 의미를 어떻게 설명할 수 있는지 적으세요.',
+        fields: [p('reflection', '지금 내가 생각하는 우주 탐사의 의미와 그 근거', '자료나 질문을 검토한 장면 하나를 들어 처음 생각이 달라졌거나 구체화된 점을 쓰세요.')],
       }),
     ],
   },
 ];
 
-export const allFields = stages.flatMap((stage) => stage.steps.flatMap((item) => item.fields));
+// Previous records and pending drafts keep their original keys and ownership.
+const previousLesson3Fields: FieldDef[] = [
+  f('env2','환경 2 항목과 중요한 이유'), f('envInfo2','환경 2 정보와 적용 조건'),
+  f('envSource2','환경 2 자료번호와 확인 상태'), f('envResponse2','환경 2 예상 어려움과 대비 방법'),
+  f('envReview1','환경 1에서 보완한 내용과 이유'), f('envReview2','환경 2에서 보완한 내용과 이유'),
+  f('expectation','새로 얻고 싶은 지식과 기대하는 도움'), f('limitation','이 계획으로 확인할 수 없는 점'),
+  f('critiqueRevision','유지하거나 고친 탐사계획서 내용'), f('peerStrength','짝 모둠이 설득력 있다고 본 근거'),
+  f('peerQuestion','짝 모둠이 더 확인하고 싶어 한 점'), f('peerResponse','피드백을 반영한 내용 또는 보류한 이유'),
+  p('recommend','추천하는 모둠과 탐사지'), p('judgmentMoment','AI나 동료의 의견을 판단한 장면'),
+  p('contribution3','내가 기여한 일과 기록에 남은 결과'),
+];
+
+export const allFields = [...stages.flatMap(stage => stage.steps.flatMap(item => item.fields)), ...previousLesson3Fields];
+export const lesson2Required = stages[1].steps.flatMap(item => item.fields.filter(field => !field.optional && !field.hidden));
+export function firstMissingLesson2(group: Record<string,string>, personal: Record<string,string>) {
+  return lesson2Required.find(field => !(field.personal ? personal : group)[field.key]?.trim());
+}
 export const groupKeys = allFields.filter((field) => !field.personal).map((field) => field.key);
 export const personalKeys = allFields.filter((field) => field.personal).map((field) => field.key);
 export const proposalKeys = [

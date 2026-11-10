@@ -194,7 +194,7 @@ export const readingGuidance = [
   '선택한 탐사지의 카드 하나를 읽으세요. 새로 확인한 사실과 더 조사할 내용을 나누어 적으세요.',
   '이 자료에 없다는 말은 인류가 아직 모른다는 뜻이 아닙니다. 필요한 내용은 다른 자료에서 더 확인하세요.',
   '읽기 질문에는 여러 답이 가능합니다. 자료 번호와 근거를 들어 생각을 설명하세요.',
-  '환경은 우리 계획에 중요한 두 항목부터 읽으세요. 세 번째는 필요할 때 고릅니다. 값이나 조건을 확인하지 못했다면 확인 필요로 남겨도 됩니다.',
+  '환경은 우리 계획에 중요한 한 항목을 골라 읽으세요. 값이나 조건을 확인하지 못했다면 확인 필요로 남겨도 됩니다.',
   '카드의 문장을 그대로 미션 질문으로 옮기지 마세요. 우리 모둠이 조사할 대상과 알아낼 내용을 정하세요.',
 ];
 
@@ -211,9 +211,6 @@ const stepCopy: Record<string, { title?: string; instructions?: string[]; doneWh
   'l1-explore': { instructions: ['서로 다른 시기의 탐사 두 개를 고르고 같은 항목을 비교하세요. 자료에서 찾은 근거를 탐사별로 한 줄씩 적으세요.', '두 기록에서 찾은 변화와 그렇게 판단한 이유를 쓰세요. 이어서 이 자료로 알 수 없는 점과 그 이유, 추가로 알아볼 질문을 적으세요.', '앞에서 쓴 두 설명을 읽고 AI의 설명과 비교해 보고 싶은 하나를 고르세요.'], doneWhen: ['같은 항목에서 찾은 두 탐사의 근거를 각각 썼다.', '변화와 자료의 한계를 근거로 설명하고 추가 질문을 만들었다.', 'AI와 비교할 우리 설명 하나를 골랐다.'] },
   'l2-consult': { instructions: ['현재 초안이 들어 있는 질문을 복사해 학교에서 허용한 AI에 직접 보냅니다.', 'AI 답 전체를 검토하지 말고, 맞는지 확인하면 우리 계획이 달라질 수 있는 문장 하나만 고릅니다.', '다음 활동에서 그 문장을 우리가 읽은 자료와 비교합니다.'] },
   'l2-verify': { instructions: ['고른 AI 문장을 우리가 읽은 자료와 직접 비교하세요.', '맞음·일부 맞음·수정 필요·확인 불가 중 하나를 고르고 이유를 씁니다.', '그 판단 때문에 우리 계획을 유지할지, 고칠지, 보류할지 정하고 실제 계획에 반영합니다.'] },
-  'l3-complete': { instructions: ['탐사가 왜 필요한지, 무엇을 어떻게 알아볼지, 어떤 도움을 기대하는지 다듬으세요.', '환경 정보와 출처를 보완하세요. 탐사지의 실제 환경과 기지 안에서 조절할 조건을 구분하세요.', '계획마다 근거를 붙이고 아직 확인되지 않은 기대 효과와 환경 조건을 표시하세요.'] },
-  'l3-critique': { instructions: ['탐사계획서와 환경표에 대해 AI나 동료에게 질문을 받고 중요한 질문 하나를 고르세요.', '그 질문이 우리 제안의 어느 부분을 짚는지 확인하세요. 반영할지, 반영하지 않을지, 더 확인할지 고르고 근거를 쓰세요.', '반영할 내용은 같은 탐사계획서에서 고치세요.'] },
-  'l3-recommend': { instructions: ['학급의 전체 탐사계획서를 둘러보세요.', '탐사의 필요성, 근거, 환경에 대비하는 방법을 비교하세요.', '우리 모둠을 제외하고 미션 하나를 추천하세요. 실제 탐사계획서의 내용과 추천 이유를 각자 적으세요.'] },
 };
 export const activityLessons: ActivityLesson[] = activity.lessons.map((lesson) => ({
   ...lesson,
@@ -241,14 +238,7 @@ export const criteria = {
     title: item.id === 'value' ? '탐사가 필요한 이유와 가치' : item.id === 'evidence' ? '근거가 주장을 뒷받침하는가' : '환경에 맞는 방법과 어려움에 대한 대비',
   })),
 };
-export const presentation = {
-  ...activity.presentation,
-  outline: activity.presentation.outline.map((item, index) => index === 1 ? {
-    ...item,
-    title: '질문의 출발점과 근거',
-    prompt: '어떤 사실에서 출발했고, 추가 자료를 읽은 뒤 무엇을 더 알아보기로 했나요?',
-  } : item),
-};
+export const presentation = activity.presentation;
 export const presentationRubric = criteria.studentReview;
 export const peerFallback = activity.peerFallback;
 export const storyTransition = activity.storyTransition;
