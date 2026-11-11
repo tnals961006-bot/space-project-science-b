@@ -26,7 +26,7 @@ const activities: Record<string, Focus> = {
   proposal: focus('question revision', '제안서에서 근거를 더 보태고 싶은 부분은 어디야?'),
   editProposal: focus('expectation limitation', '이 계획으로 알아낼 수 있는 것과 아직 어려운 것은 뭐야?'),
   ai3: focus('critique critiqueDecision critiqueReason', '이 질문을 자료와 비교했을 때 계획을 유지하거나 고칠 근거가 있어?'),
-  present: focus('recommendReason', '발표 짝 모둠의 어떤 근거가 설득력 있었어?'),
+  present: focus('recommendReason', '발표 짝 모둠이 어떤 자료에서 어떤 사실을 확인했다고 설명했어?'),
   gallery: focus('recommend recommendReason', '추천한 모둠의 어떤 근거가 설득력 있었어?'),
   reflection: focus('reflection', '처음 생각을 바꾸거나 더 분명하게 해 준 자료가 뭐였어?'),
 };

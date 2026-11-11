@@ -327,7 +327,7 @@ export default function App(){
       ];
     }else if(current.resource==='present'){
       if(!state?.published) next=item('','정해진 발표 짝과 설명하고 대표가 게시하세요.','발표 짝은 1조–2조, 3조–4조, 5조–6조예요. 홀수 조부터 설명한 뒤 역할을 바꾸고, 모둠 대표 한 명만 ‘학급 갤러리에 게시’를 누릅니다.');
-      else if(!personal.recommendReason?.trim()) next=item('recommendReason','발표 짝 모둠의 설득력 있는 근거를 한 줄로 쓰세요.','발표 짝 모둠의 번호와 발표에서 들은 구체적인 근거 하나를 남깁니다.');
+      else if(!personal.recommendReason?.trim()) next=item('recommendReason','짝 모둠 발표에서 들은 근거를 한 줄로 쓰세요.','짝 모둠이 말한 ‘자료 이름 + 확인한 사실’을 문장틀에 넣습니다.');
       else next=item('','설명과 게시 완료','완성한 탐사계획서가 게시됐어요. 마지막 활동에서 내 생각을 돌아보세요.');
       parts=[
         {label:'계획서 설명·게시',done:!!state?.published},
